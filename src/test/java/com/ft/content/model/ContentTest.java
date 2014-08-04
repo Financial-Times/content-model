@@ -7,9 +7,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Date;
 import java.util.UUID;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ public class ContentTest {
         content = Content.builder()
                 .withHeadline("a headline")
                 .withByline("By someone")
-                .withLastPublicationDate(new Date(300L))
+                .withLastPublicationDate(new DateTime(300L))
                 .withUuid(UUID.randomUUID())
                 .withXmlBody("The body")
                 .build();
@@ -76,7 +76,7 @@ public class ContentTest {
     @Test
     public void contentWithDifferentPublishDatesAreNotEqual() {
         final Content otherContent = Content.builder()
-                .withLastPublicationDate(new Date(content.getLastPublicationDate().getTime() + 100))
+                .withLastPublicationDate(new DateTime(content.getLastPublicationDate().plusMillis(100)))
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
