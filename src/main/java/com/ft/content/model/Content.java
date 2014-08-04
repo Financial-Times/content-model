@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.ft.ws.lib.serialization.datetime.JsonDateTimeWithMillisSerializer;
 import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -51,6 +53,7 @@ public class Content {
     }
 
     @NotNull
+    @JsonSerialize(using = JsonDateTimeWithMillisSerializer.class)
     public Date getLastPublicationDate() {
         return lastPublicationDate;
     }
