@@ -1,4 +1,4 @@
-package com.ft.contentstoreapi.model;
+package com.ft.content.model;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;

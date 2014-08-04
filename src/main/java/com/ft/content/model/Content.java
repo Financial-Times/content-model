@@ -1,8 +1,8 @@
-package com.ft.contentstoreapi.model;
+package com.ft.content.model;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.UUID;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
