@@ -52,7 +52,7 @@ public class Content {
     }
 
     @NotNull
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone="UTC")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="UTC")
     public Date getLastPublicationDate() {
         return lastPublicationDate;
     }
