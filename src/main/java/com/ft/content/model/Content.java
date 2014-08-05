@@ -1,14 +1,13 @@
 package com.ft.content.model;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.ft.ws.lib.serialization.datetime.JsonDateTimeWithMillisSerializer;
 import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.joda.time.DateTime;
 
 public class Content {
 
@@ -16,14 +15,14 @@ public class Content {
     private final String headline;
     private final String byline;
     private final String source;
-    private final DateTime lastPublicationDate;
+    private final Date lastPublicationDate;
     private final String xmlBody;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("headline") String headline,
                    @JsonProperty("byline") String byline,
                    @JsonProperty("source") String source,
-                   @JsonProperty("lastPublicationDate") DateTime lastPublicationDate,
+                   @JsonProperty("lastPublicationDate") Date lastPublicationDate,
                    @JsonProperty("body") String xmlBody) {
         this.xmlBody = xmlBody;
         this.uuid = uuid == null ? null : uuid.toString();
@@ -53,8 +52,8 @@ public class Content {
     }
 
     @NotNull
-    @JsonSerialize(using = JsonDateTimeWithMillisSerializer.class)
-    public DateTime getLastPublicationDate() {
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone="UTC")
+    public Date getLastPublicationDate() {
         return lastPublicationDate;
     }
 
@@ -104,7 +103,7 @@ public class Content {
         private String headline;
         private String byline;
         private String source;
-        private DateTime lastPublicationDate;
+        private Date lastPublicationDate;
         private String xmlBody;
 
         public Builder withUuid(UUID uuid) {
@@ -127,7 +126,7 @@ public class Content {
             return this;
         }
 
-        public Builder withLastPublicationDate(DateTime lastPublicationDate) {
+        public Builder withLastPublicationDate(Date lastPublicationDate) {
             this.lastPublicationDate = lastPublicationDate;
             return this;
         }
