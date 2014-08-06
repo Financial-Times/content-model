@@ -54,7 +54,7 @@ public class ContentTest {
     }
 
     @Test
-    public void contentWithDifferentHeadlinesAreNotEqual() {
+    public void contentWithDifferentTitlesAreNotEqual() {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withTitle("headline 2")
