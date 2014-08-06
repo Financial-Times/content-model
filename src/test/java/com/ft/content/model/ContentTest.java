@@ -20,9 +20,9 @@ public class ContentTest {
     @Before
     public void setUp() throws Exception {
         content = Content.builder()
-                .withHeadline("a headline")
+                .withTitle("a headline")
                 .withByline("By someone")
-                .withLastPublicationDate(new Date(300L))
+                .withPublicationDate(new Date(300L))
                 .withUuid(UUID.randomUUID())
                 .withXmlBody("The body")
                 .build();
@@ -57,7 +57,7 @@ public class ContentTest {
     public void contentWithDifferentHeadlinesAreNotEqual() {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
-                .withHeadline("headline 2")
+                .withTitle("headline 2")
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
@@ -76,7 +76,7 @@ public class ContentTest {
     @Test
     public void contentWithDifferentPublishDatesAreNotEqual() {
         final Content otherContent = Content.builder()
-                .withLastPublicationDate(new Date(content.getLastPublicationDate().getTime() + 100))
+                .withPublicationDate(new Date(content.getPublicationDate().getTime() + 100))
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
