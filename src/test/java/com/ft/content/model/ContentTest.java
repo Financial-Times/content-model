@@ -22,7 +22,7 @@ public class ContentTest {
         content = Content.builder()
                 .withTitle("a headline")
                 .withByline("By someone")
-                .withPublicationDate(new Date(300L))
+                .withPublishedDate(new Date(300L))
                 .withUuid(UUID.randomUUID())
                 .withXmlBody("The body")
                 .build();
@@ -76,7 +76,7 @@ public class ContentTest {
     @Test
     public void contentWithDifferentPublishDatesAreNotEqual() {
         final Content otherContent = Content.builder()
-                .withPublicationDate(new Date(content.getPublicationDate().getTime() + 100))
+                .withPublishedDate(new Date(content.getPublishedDate().getTime() + 100))
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));

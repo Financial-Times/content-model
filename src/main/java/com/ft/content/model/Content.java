@@ -15,21 +15,21 @@ public class Content {
     private final String title;
     private final String byline;
     private final String source;
-    private final Date publicationDate;
+    private final Date publishedDate;
     private final String xmlBody;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
                    @JsonProperty("byline") String byline,
                    @JsonProperty("source") String source,
-                   @JsonProperty("publicationDate") Date publicationDate,
+                   @JsonProperty("publishedDate") Date publishedDate,
                    @JsonProperty("body") String xmlBody) {
         this.xmlBody = xmlBody;
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
         this.byline = byline;
         this.source = source;
-        this.publicationDate = publicationDate;
+        this.publishedDate = publishedDate;
     }
 
     @NotNull
@@ -53,8 +53,8 @@ public class Content {
 
     @NotNull
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="UTC")
-    public Date getPublicationDate() {
-        return publicationDate;
+    public Date getPublishedDate() {
+        return publishedDate;
     }
 
     public String getBody() {
@@ -68,7 +68,7 @@ public class Content {
                 .add("title", title)
                 .add("byline", byline)
                 .add("source", source)
-                .add("publicationDate", publicationDate)
+                .add("publishedDate", publishedDate)
                 .add("body", xmlBody)
                 .toString();
     }
@@ -85,12 +85,12 @@ public class Content {
                 && Objects.equal(this.byline, that.byline)
                 && Objects.equal(this.source, that.source)
                 && Objects.equal(this.xmlBody, that.xmlBody) // TODO maybe this could be better. The strings could be equivalent as xml even though they are different strings
-                && Objects.equal(this.publicationDate, that.publicationDate);
+                && Objects.equal(this.publishedDate, that.publishedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, source, uuid, publicationDate, xmlBody);
+        return Objects.hashCode(title, byline, source, uuid, publishedDate, xmlBody);
     }
 
     public static Builder builder() {
@@ -103,7 +103,7 @@ public class Content {
         private String title;
         private String byline;
         private String source;
-        private Date publicationDate;
+        private Date publishedDate;
         private String xmlBody;
 
         public Builder withUuid(UUID uuid) {
@@ -126,8 +126,8 @@ public class Content {
             return this;
         }
 
-        public Builder withPublicationDate(Date lastPublicationDate) {
-            this.publicationDate = lastPublicationDate;
+        public Builder withPublishedDate(Date publishedDate) {
+            this.publishedDate = publishedDate;
             return this;
         }
 
@@ -141,12 +141,12 @@ public class Content {
             		.withByline(content.getByline())
             		.withSource(content.getSource())
                     .withUuid(UUID.fromString(content.getUuid()))
-                    .withPublicationDate(content.getPublicationDate())
+                    .withPublishedDate(content.getPublishedDate())
                     .withXmlBody(content.getBody());
         }
 
         public Content build() {
-            return new Content(uuid, title, byline, source, publicationDate, xmlBody);
+            return new Content(uuid, title, byline, source, publishedDate, xmlBody);
         }
     }
 
