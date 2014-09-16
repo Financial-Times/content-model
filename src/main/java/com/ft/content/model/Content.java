@@ -1,6 +1,7 @@
 package com.ft.content.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
 
@@ -14,6 +15,9 @@ public class Content {
     private final String uuid;
     private final String title;
     private final String byline;
+    private final List<String> brands;
+    private final String originatingSystem;
+    private final String originatingIdentifier;
     private final String source;
     private final Date publishedDate;
     private final String xmlBody;
@@ -21,6 +25,9 @@ public class Content {
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
                    @JsonProperty("byline") String byline,
+                   @JsonProperty("brands") List<String> brands,
+                   @JsonProperty("originatingSystem") String originatingSystem,
+                   @JsonProperty("originatingIdentifier") String originatingIdentifier,
                    @JsonProperty("source") String source,
                    @JsonProperty("publishedDate") Date publishedDate,
                    @JsonProperty("body") String xmlBody) {
@@ -28,6 +35,9 @@ public class Content {
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
         this.byline = byline;
+        this.brands = brands;
+        this.originatingSystem = originatingSystem;
+        this.originatingIdentifier = originatingIdentifier;
         this.source = source;
         this.publishedDate = publishedDate;
     }
@@ -46,7 +56,19 @@ public class Content {
     	return byline;
     }
 
-    @NotEmpty
+    public List<String> getBrands() {
+		return brands;
+	}
+
+	public String getOriginatingSystem() {
+		return originatingSystem;
+	}
+
+	public String getOriginatingIdentifier() {
+		return originatingIdentifier;
+	}
+
+	@NotEmpty
     public String getSource() {
         return source;
     }
@@ -67,6 +89,9 @@ public class Content {
                 .add("uuid", uuid)
                 .add("title", title)
                 .add("byline", byline)
+                .add("brands", brands)
+                .add("originatingSystem", originatingSystem)
+                .add("originatingIdentifier", originatingIdentifier)
                 .add("source", source)
                 .add("publishedDate", publishedDate)
                 .add("body", xmlBody)
@@ -83,6 +108,9 @@ public class Content {
         return Objects.equal(this.uuid, that.uuid)
                 && Objects.equal(this.title, that.title)
                 && Objects.equal(this.byline, that.byline)
+                && Objects.equal(this.brands, that.brands)
+                && Objects.equal(this.originatingSystem, that.originatingSystem)
+                && Objects.equal(this.originatingIdentifier, that.originatingIdentifier)
                 && Objects.equal(this.source, that.source)
                 && Objects.equal(this.xmlBody, that.xmlBody) // TODO maybe this could be better. The strings could be equivalent as xml even though they are different strings
                 && Objects.equal(this.publishedDate, that.publishedDate);
@@ -90,7 +118,7 @@ public class Content {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, source, uuid, publishedDate, xmlBody);
+        return Objects.hashCode(title, byline, brands, originatingSystem, originatingIdentifier, source, uuid, publishedDate, xmlBody);
     }
 
     public static Builder builder() {
@@ -102,6 +130,9 @@ public class Content {
         private UUID uuid;
         private String title;
         private String byline;
+        private List<String> brands;
+        private String originatingSystem;
+        private String originatingIdentifier;
         private String source;
         private Date publishedDate;
         private String xmlBody;
@@ -118,6 +149,21 @@ public class Content {
 
         public Builder withByline(String byline) {
             this.byline = byline;
+            return this;
+        }
+
+        public Builder withBrands(List<String> brands) {
+            this.brands = brands;
+            return this;
+        }
+
+        public Builder withOriginatingSystem(String originatingSystem) {
+            this.originatingSystem = originatingSystem;
+            return this;
+        }
+
+        public Builder withOriginatingIdentifier(String originatingIdentifier) {
+            this.originatingIdentifier = originatingIdentifier;
             return this;
         }
 
@@ -139,6 +185,9 @@ public class Content {
         public Builder withValuesFrom(Content content) {
             return withTitle(content.getTitle())
             		.withByline(content.getByline())
+            		.withBrands(content.getBrands())
+            		.withOriginatingSystem(content.getOriginatingSystem())
+            		.withOriginatingIdentifier(content.getOriginatingIdentifier())
             		.withSource(content.getSource())
                     .withUuid(UUID.fromString(content.getUuid()))
                     .withPublishedDate(content.getPublishedDate())
@@ -146,7 +195,7 @@ public class Content {
         }
 
         public Content build() {
-            return new Content(uuid, title, byline, source, publishedDate, xmlBody);
+            return new Content(uuid, title, byline, brands, originatingSystem, originatingIdentifier, source, publishedDate, xmlBody);
         }
     }
 
