@@ -14,7 +14,6 @@ public class Content {
     private final String uuid;
     private final String title;
     private final String byline;
-    private final String source;
     private final Date publishedDate;
     private final String xmlBody;
 
@@ -28,7 +27,6 @@ public class Content {
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
         this.byline = byline;
-        this.source = source;
         this.publishedDate = publishedDate;
     }
 
@@ -44,11 +42,6 @@ public class Content {
     
     public String getByline() {
     	return byline;
-    }
-
-    @NotEmpty
-    public String getSource() {
-        return source;
     }
 
     @NotNull
@@ -67,7 +60,6 @@ public class Content {
                 .add("uuid", uuid)
                 .add("title", title)
                 .add("byline", byline)
-                .add("source", source)
                 .add("publishedDate", publishedDate)
                 .add("body", xmlBody)
                 .toString();
@@ -83,14 +75,13 @@ public class Content {
         return Objects.equal(this.uuid, that.uuid)
                 && Objects.equal(this.title, that.title)
                 && Objects.equal(this.byline, that.byline)
-                && Objects.equal(this.source, that.source)
                 && Objects.equal(this.xmlBody, that.xmlBody) // TODO maybe this could be better. The strings could be equivalent as xml even though they are different strings
                 && Objects.equal(this.publishedDate, that.publishedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, source, uuid, publishedDate, xmlBody);
+        return Objects.hashCode(title, byline, uuid, publishedDate, xmlBody);
     }
 
     public static Builder builder() {
@@ -139,7 +130,6 @@ public class Content {
         public Builder withValuesFrom(Content content) {
             return withTitle(content.getTitle())
             		.withByline(content.getByline())
-            		.withSource(content.getSource())
                     .withUuid(UUID.fromString(content.getUuid()))
                     .withPublishedDate(content.getPublishedDate())
                     .withXmlBody(content.getBody());
