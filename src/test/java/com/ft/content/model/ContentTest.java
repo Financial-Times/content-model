@@ -10,10 +10,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.Date;
 import java.util.UUID;
 
+import com.google.common.collect.ImmutableSortedSet;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.google.common.collect.ImmutableList;
 
 public class ContentTest {
 
@@ -24,9 +23,8 @@ public class ContentTest {
         content = Content.builder()
                 .withTitle("a headline")
                 .withByline("By someone")
-                .withBrands(ImmutableList.of("Brand1", "Brand2"))
-                .withOriginatingSystem("OriginatingSystem")
-                .withOriginatingIdentifier("id")
+                .withBrands(ImmutableSortedSet.of("Brand1", "Brand2"))
+                .withContentOrigin("OriginatingSystem", "id")
                 .withPublishedDate(new Date(300L))
                 .withUuid(UUID.randomUUID())
                 .withXmlBody("The body")
@@ -80,9 +78,11 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentBrandsAreNotEqual() {
+        ImmutableSortedSet<String> brands = ImmutableSortedSet.of("Different Brand");
+
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
-                .withBrands(ImmutableList.of("Different Brand"))
+                .withBrands(brands)
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
@@ -92,7 +92,7 @@ public class ContentTest {
     public void contentWithDifferentOriginatingSystemsAreNotEqual() {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
-                .withOriginatingSystem("different OriginatingSystem")
+                .withContentOrigin("different OriginatingSystem", "id")
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
@@ -102,7 +102,7 @@ public class ContentTest {
     public void contentWithDifferentOriginatingIdentifiersAreNotEqual() {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
-                .withOriginatingIdentifier("different id")
+                .withContentOrigin("OriginatingSystem", "different id")
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));

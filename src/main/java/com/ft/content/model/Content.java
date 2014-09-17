@@ -1,7 +1,7 @@
 package com.ft.content.model;
 
 import java.util.Date;
-import java.util.List;
+import java.util.SortedSet;
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
 
@@ -15,18 +15,16 @@ public class Content {
     private final String uuid;
     private final String title;
     private final String byline;
-    private final List<String> brands;
-    private final String originatingSystem;
-    private final String originatingIdentifier;
+    private final SortedSet<String> brands;
     private final Date publishedDate;
     private final String xmlBody;
+    private final ContentOrigin contentOrigin;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
                    @JsonProperty("byline") String byline,
-                   @JsonProperty("brands") List<String> brands,
-                   @JsonProperty("originatingSystem") String originatingSystem,
-                   @JsonProperty("originatingIdentifier") String originatingIdentifier,
+                   @JsonProperty("brands") SortedSet<String> brands,
+                   @JsonProperty("contentOrigin") ContentOrigin contentOrigin,
                    @JsonProperty("publishedDate") Date publishedDate,
                    @JsonProperty("body") String xmlBody) {
         this.xmlBody = xmlBody;
@@ -34,9 +32,8 @@ public class Content {
         this.title = title;
         this.byline = byline;
         this.brands = brands;
-        this.originatingSystem = originatingSystem;
-        this.originatingIdentifier = originatingIdentifier;
         this.publishedDate = publishedDate;
+        this.contentOrigin = contentOrigin;
     }
 
     @NotNull
@@ -53,17 +50,10 @@ public class Content {
     	return byline;
     }
 
-    public List<String> getBrands() {
+    public SortedSet<String> getBrands() {
 		return brands;
 	}
 
-	public String getOriginatingSystem() {
-		return originatingSystem;
-	}
-
-	public String getOriginatingIdentifier() {
-		return originatingIdentifier;
-	}
 
     @NotNull
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="UTC")
@@ -75,6 +65,11 @@ public class Content {
         return xmlBody;
     }
 
+    @NotNull
+    public ContentOrigin getContentOrigin() {
+        return contentOrigin;
+    }
+
     @Override
     public String toString() {
         return Objects.toStringHelper(this.getClass())
@@ -82,8 +77,8 @@ public class Content {
                 .add("title", title)
                 .add("byline", byline)
                 .add("brands", brands)
-                .add("originatingSystem", originatingSystem)
-                .add("originatingIdentifier", originatingIdentifier)
+                .add("originatingSystem", contentOrigin.getOriginatingSystem())
+                .add("originatingIdentifier", contentOrigin.getOriginatingIdentifier())
                 .add("publishedDate", publishedDate)
                 .add("body", xmlBody)
                 .toString();
@@ -100,15 +95,14 @@ public class Content {
                 && Objects.equal(this.title, that.title)
                 && Objects.equal(this.byline, that.byline)
                 && Objects.equal(this.brands, that.brands)
-                && Objects.equal(this.originatingSystem, that.originatingSystem)
-                && Objects.equal(this.originatingIdentifier, that.originatingIdentifier)
+                && Objects.equal(this.contentOrigin, that.contentOrigin)
                 && Objects.equal(this.xmlBody, that.xmlBody) // TODO maybe this could be better. The strings could be equivalent as xml even though they are different strings
                 && Objects.equal(this.publishedDate, that.publishedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, originatingSystem, originatingIdentifier, uuid, publishedDate, xmlBody);
+        return Objects.hashCode(title, byline, brands, contentOrigin, uuid, publishedDate, xmlBody);
     }
 
     public static Builder builder() {
@@ -120,11 +114,10 @@ public class Content {
         private UUID uuid;
         private String title;
         private String byline;
-        private List<String> brands;
-        private String originatingSystem;
-        private String originatingIdentifier;
+        private SortedSet<String> brands;
         private Date publishedDate;
         private String xmlBody;
+        private ContentOrigin contentOrigin;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -141,18 +134,8 @@ public class Content {
             return this;
         }
 
-        public Builder withBrands(List<String> brands) {
+        public Builder withBrands(SortedSet<String> brands) {
             this.brands = brands;
-            return this;
-        }
-
-        public Builder withOriginatingSystem(String originatingSystem) {
-            this.originatingSystem = originatingSystem;
-            return this;
-        }
-
-        public Builder withOriginatingIdentifier(String originatingIdentifier) {
-            this.originatingIdentifier = originatingIdentifier;
             return this;
         }
 
@@ -166,19 +149,27 @@ public class Content {
             return this;
         }
 
+        public Builder withContentOrigin(String originatingSystem, String originatingIdentifier) {
+            this.contentOrigin = new ContentOrigin(originatingSystem, originatingIdentifier);
+            return this;
+        }
+
+
         public Builder withValuesFrom(Content content) {
+
             return withTitle(content.getTitle())
             		.withByline(content.getByline())
             		.withBrands(content.getBrands())
-            		.withOriginatingSystem(content.getOriginatingSystem())
-            		.withOriginatingIdentifier(content.getOriginatingIdentifier())
+            		.withContentOrigin(content.getContentOrigin().getOriginatingSystem(), content.getContentOrigin().getOriginatingIdentifier())
                     .withUuid(UUID.fromString(content.getUuid()))
                     .withPublishedDate(content.getPublishedDate())
                     .withXmlBody(content.getBody());
         }
 
+
         public Content build() {
-            return new Content(uuid, title, byline, brands, originatingSystem, originatingIdentifier, publishedDate, xmlBody);
+
+            return new Content(uuid, title, byline, brands, contentOrigin, publishedDate, xmlBody);
         }
     }
 
