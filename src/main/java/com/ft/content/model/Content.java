@@ -72,13 +72,15 @@ public class Content {
 
     @Override
     public String toString() {
+        String originatingSystem = (contentOrigin != null) ? contentOrigin.getOriginatingSystem() : null;
+        String originatingIdentifier = (contentOrigin != null) ? contentOrigin.getOriginatingIdentifier() : null;
         return Objects.toStringHelper(this.getClass())
                 .add("uuid", uuid)
                 .add("title", title)
                 .add("byline", byline)
                 .add("brands", brands)
-                .add("originatingSystem", contentOrigin.getOriginatingSystem())
-                .add("originatingIdentifier", contentOrigin.getOriginatingIdentifier())
+                .add("originatingSystem", originatingSystem)
+                .add("originatingIdentifier", originatingIdentifier)
                 .add("publishedDate", publishedDate)
                 .add("body", xmlBody)
                 .toString();
@@ -156,11 +158,13 @@ public class Content {
 
 
         public Builder withValuesFrom(Content content) {
+            String originatingSystem = (content.getContentOrigin() != null) ? content.getContentOrigin().getOriginatingSystem() : null;
+            String originatingIdentifier = (content.getContentOrigin() != null) ? content.getContentOrigin().getOriginatingIdentifier() : null;
 
             return withTitle(content.getTitle())
             		.withByline(content.getByline())
             		.withBrands(content.getBrands())
-            		.withContentOrigin(content.getContentOrigin().getOriginatingSystem(), content.getContentOrigin().getOriginatingIdentifier())
+            		.withContentOrigin(originatingSystem, originatingIdentifier)
                     .withUuid(UUID.fromString(content.getUuid()))
                     .withPublishedDate(content.getPublishedDate())
                     .withXmlBody(content.getBody());
