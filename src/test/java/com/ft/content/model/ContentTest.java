@@ -10,6 +10,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Date;
 import java.util.UUID;
 
+import com.google.common.collect.ImmutableSortedSet;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +23,8 @@ public class ContentTest {
         content = Content.builder()
                 .withTitle("a headline")
                 .withByline("By someone")
+                .withBrands(ImmutableSortedSet.of("Brand1", "Brand2"))
+                .withContentOrigin("OriginatingSystem", "id")
                 .withPublishedDate(new Date(300L))
                 .withUuid(UUID.randomUUID())
                 .withXmlBody("The body")
@@ -68,6 +71,38 @@ public class ContentTest {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withByline("By someone else")
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
+    public void contentWithDifferentBrandsAreNotEqual() {
+        ImmutableSortedSet<String> brands = ImmutableSortedSet.of("Different Brand");
+
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withBrands(brands)
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
+    public void contentWithDifferentOriginatingSystemsAreNotEqual() {
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withContentOrigin("different OriginatingSystem", "id")
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
+    public void contentWithDifferentOriginatingIdentifiersAreNotEqual() {
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withContentOrigin("OriginatingSystem", "different id")
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
