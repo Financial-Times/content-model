@@ -15,7 +15,7 @@ public class Content {
     private final String uuid;
     private final String title;
     private final String byline;
-    private final SortedSet<String> brands;
+    private final SortedSet<Brand> brands;
     private final Date publishedDate;
     private final String xmlBody;
     private final ContentOrigin contentOrigin;
@@ -23,7 +23,7 @@ public class Content {
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
                    @JsonProperty("byline") String byline,
-                   @JsonProperty("brands") SortedSet<String> brands,
+                   @JsonProperty("brands") SortedSet<Brand> brands,
                    @JsonProperty("contentOrigin") ContentOrigin contentOrigin,
                    @JsonProperty("publishedDate") Date publishedDate,
                    @JsonProperty("body") String xmlBody) {
@@ -50,7 +50,7 @@ public class Content {
     	return byline;
     }
 
-    public SortedSet<String> getBrands() {
+    public SortedSet<Brand> getBrands() {
 		return brands;
 	}
 
@@ -116,7 +116,7 @@ public class Content {
         private UUID uuid;
         private String title;
         private String byline;
-        private SortedSet<String> brands;
+        private SortedSet<Brand> brands;
         private Date publishedDate;
         private String xmlBody;
         private ContentOrigin contentOrigin;
@@ -136,7 +136,7 @@ public class Content {
             return this;
         }
 
-        public Builder withBrands(SortedSet<String> brands) {
+        public Builder withBrands(SortedSet<Brand> brands) {
             this.brands = brands;
             return this;
         }
