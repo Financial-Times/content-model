@@ -23,7 +23,7 @@ public class ContentTest {
         content = Content.builder()
                 .withTitle("a headline")
                 .withByline("By someone")
-                .withBrands(ImmutableSortedSet.of("Brand1", "Brand2"))
+                .withBrands(ImmutableSortedSet.of(new Brand("Brand1"), new Brand("Brand2")))
                 .withContentOrigin("OriginatingSystem", "id")
                 .withPublishedDate(new Date(300L))
                 .withUuid(UUID.randomUUID())
@@ -78,7 +78,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentBrandsAreNotEqual() {
-        ImmutableSortedSet<String> brands = ImmutableSortedSet.of("Different Brand");
+        ImmutableSortedSet<Brand> brands = ImmutableSortedSet.of(new Brand("Different Brand"));
 
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
