@@ -23,7 +23,7 @@ public class Content {
     private final String mediaType;
     private final Integer width;
     private final Integer height;
-    private final String externalDataUrl;
+    private final String internalDataUrl;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -36,7 +36,7 @@ public class Content {
                    @JsonProperty("mediaType") String mediaType,
                    @JsonProperty("width") Integer width,
                    @JsonProperty("height") Integer height,
-                   @JsonProperty("externalDataUrl") String externalDataUrl) {
+                   @JsonProperty("internalDataUrl") String internalDataUrl) {
         this.xmlBody = xmlBody;
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
@@ -48,7 +48,7 @@ public class Content {
         this.mediaType = mediaType;
         this.width = width;
         this.height = height;
-        this.externalDataUrl = externalDataUrl;
+        this.internalDataUrl = internalDataUrl;
     }
 
     @NotNull
@@ -101,8 +101,8 @@ public class Content {
         return height;
     }
 
-    public String getExternalDataUrl() {
-        return externalDataUrl;
+    public String getInternalDataUrl() {
+        return internalDataUrl;
     }
 
     @Override
@@ -122,7 +122,7 @@ public class Content {
                 .add("mediaType", mediaType)
                 .add("width", width)
                 .add("height", height)
-                .add("externalDataUrl", externalDataUrl)
+                .add("internalDataUrl", internalDataUrl)
                 .toString();
     }
 
@@ -144,12 +144,12 @@ public class Content {
                 && Objects.equal(this.mediaType, that.mediaType)
                 && Objects.equal(this.width, that.width)
                 && Objects.equal(this.height, that.height)
-                && Objects.equal(this.externalDataUrl, that.externalDataUrl);
+                && Objects.equal(this.internalDataUrl, that.internalDataUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, contentOrigin, uuid, publishedDate, xmlBody, altText, mediaType, width, height, externalDataUrl);
+        return Objects.hashCode(title, byline, brands, contentOrigin, uuid, publishedDate, xmlBody, altText, mediaType, width, height, internalDataUrl);
     }
 
     public static Builder builder() {
@@ -169,7 +169,7 @@ public class Content {
         private String mediaType;
         private Integer width;
         private Integer height;
-        private String externalDataUrl;
+        private String internalDataUrl;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -226,8 +226,8 @@ public class Content {
             return this;
         }
 
-        public Builder withExternalDataUrl(String externalDataUrl) {
-            this.externalDataUrl = externalDataUrl;
+        public Builder withInternalDataUrl(String internalDataUrl) {
+            this.internalDataUrl = internalDataUrl;
             return this;
         }
 
@@ -246,11 +246,11 @@ public class Content {
                     .withMediaType(content.getMediaType())
                     .withWidth(content.getWidth())
                     .withHeight(content.getHeight())
-                    .withExternalDataUrl(content.getExternalDataUrl());
+                    .withInternalDataUrl(content.getInternalDataUrl());
         }
 
         public Content build() {
-            return new Content(uuid, title, byline, brands, contentOrigin, publishedDate, xmlBody, altText, mediaType, width, height, externalDataUrl);
+            return new Content(uuid, title, byline, brands, contentOrigin, publishedDate, xmlBody, altText, mediaType, width, height, internalDataUrl);
         }
     }
 

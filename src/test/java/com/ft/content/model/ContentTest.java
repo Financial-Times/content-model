@@ -127,10 +127,11 @@ public class ContentTest {
         assertThat(content, is(not(equalTo(otherContent))));
     }
 
-    public void contentWithDifferentExternalUrlsAreNotEqual() {
+    @Test
+    public void contentWithDifferentInternalUrlsAreNotEqual() {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
-                .withExternalDataUrl("http://s3.amazonaws.com/bucketname/identifier")
+                .withInternalDataUrl("http://internal.ft.com/thing/etc")
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
