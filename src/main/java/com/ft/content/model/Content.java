@@ -19,6 +19,11 @@ public class Content {
     private final Date publishedDate;
     private final String xmlBody;
     private final ContentOrigin contentOrigin;
+    private final String altText;
+    private final String mediaType;
+    private final Integer width;
+    private final Integer height;
+    private final String externalDataUrl;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -26,7 +31,12 @@ public class Content {
                    @JsonProperty("brands") SortedSet<Brand> brands,
                    @JsonProperty("contentOrigin") ContentOrigin contentOrigin,
                    @JsonProperty("publishedDate") Date publishedDate,
-                   @JsonProperty("body") String xmlBody) {
+                   @JsonProperty("body") String xmlBody,
+                   @JsonProperty("altText") String altText,
+                   @JsonProperty("mediaType") String mediaType,
+                   @JsonProperty("width") Integer width,
+                   @JsonProperty("height") Integer height,
+                   @JsonProperty("externalDataUrl") String externalDataUrl) {
         this.xmlBody = xmlBody;
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
@@ -34,6 +44,11 @@ public class Content {
         this.brands = brands;
         this.publishedDate = publishedDate;
         this.contentOrigin = contentOrigin;
+        this.altText = altText;
+        this.mediaType = mediaType;
+        this.width = width;
+        this.height = height;
+        this.externalDataUrl = externalDataUrl;
     }
 
     @NotNull
@@ -70,6 +85,26 @@ public class Content {
         return contentOrigin;
     }
 
+    public String getAltText() {
+        return altText;
+    }
+
+    public String getMediaType() {
+        return mediaType;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public String getExternalDataUrl() {
+        return externalDataUrl;
+    }
+
     @Override
     public String toString() {
         String originatingSystem = (contentOrigin != null) ? contentOrigin.getOriginatingSystem() : null;
@@ -83,6 +118,11 @@ public class Content {
                 .add("originatingIdentifier", originatingIdentifier)
                 .add("publishedDate", publishedDate)
                 .add("body", xmlBody)
+                .add("altText", altText)
+                .add("mediaType", mediaType)
+                .add("width", width)
+                .add("height", height)
+                .add("externalDataUrl", externalDataUrl)
                 .toString();
     }
 
@@ -99,12 +139,17 @@ public class Content {
                 && Objects.equal(this.brands, that.brands)
                 && Objects.equal(this.contentOrigin, that.contentOrigin)
                 && Objects.equal(this.xmlBody, that.xmlBody) // TODO maybe this could be better. The strings could be equivalent as xml even though they are different strings
-                && Objects.equal(this.publishedDate, that.publishedDate);
+                && Objects.equal(this.publishedDate, that.publishedDate)
+                && Objects.equal(this.altText, that.altText)
+                && Objects.equal(this.mediaType, that.mediaType)
+                && Objects.equal(this.width, that.width)
+                && Objects.equal(this.height, that.height)
+                && Objects.equal(this.externalDataUrl, that.externalDataUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, contentOrigin, uuid, publishedDate, xmlBody);
+        return Objects.hashCode(title, byline, brands, contentOrigin, uuid, publishedDate, xmlBody, altText, mediaType, width, height, externalDataUrl);
     }
 
     public static Builder builder() {
@@ -120,6 +165,11 @@ public class Content {
         private Date publishedDate;
         private String xmlBody;
         private ContentOrigin contentOrigin;
+        private String altText;
+        private String mediaType;
+        private Integer width;
+        private Integer height;
+        private String externalDataUrl;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -156,6 +206,30 @@ public class Content {
             return this;
         }
 
+        public Builder withAltText(String altText) {
+            this.altText = altText;
+            return this;
+        }
+
+        public Builder withMediaType(String mediaType) {
+            this.mediaType = mediaType;
+            return this;
+        }
+
+        public Builder withWidth(Integer width) {
+            this.width = width;
+            return this;
+        }
+
+        public Builder withHeight(Integer height) {
+            this.height = height;
+            return this;
+        }
+
+        public Builder withExternalDataUrl(String externalDataUrl) {
+            this.externalDataUrl = externalDataUrl;
+            return this;
+        }
 
         public Builder withValuesFrom(Content content) {
             String originatingSystem = (content.getContentOrigin() != null) ? content.getContentOrigin().getOriginatingSystem() : null;
@@ -167,13 +241,16 @@ public class Content {
             		.withContentOrigin(originatingSystem, originatingIdentifier)
                     .withUuid(UUID.fromString(content.getUuid()))
                     .withPublishedDate(content.getPublishedDate())
-                    .withXmlBody(content.getBody());
+                    .withXmlBody(content.getBody())
+                    .withAltText(content.getAltText())
+                    .withMediaType(content.getMediaType())
+                    .withWidth(content.getWidth())
+                    .withHeight(content.getHeight())
+                    .withExternalDataUrl(content.getExternalDataUrl());
         }
 
-
         public Content build() {
-
-            return new Content(uuid, title, byline, brands, contentOrigin, publishedDate, xmlBody);
+            return new Content(uuid, title, byline, brands, contentOrigin, publishedDate, xmlBody, altText, mediaType, width, height, externalDataUrl);
         }
     }
 

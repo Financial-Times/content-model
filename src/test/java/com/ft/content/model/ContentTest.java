@@ -127,6 +127,15 @@ public class ContentTest {
         assertThat(content, is(not(equalTo(otherContent))));
     }
 
+    public void contentWithDifferentExternalUrlsAreNotEqual() {
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withExternalDataUrl("http://s3.amazonaws.com/bucketname/identifier")
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
     @Test
     public void contentWithSameFieldsAreEqual() {
 
