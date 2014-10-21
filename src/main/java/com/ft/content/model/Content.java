@@ -27,7 +27,7 @@ public class Content {
     private final String mediaType;
     private final Integer pixelWidth;
     private final Integer pixelHeight;
-    private final String internalDataUrl;
+    private final String internalBinaryUrl;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -52,7 +52,7 @@ public class Content {
         this.mediaType = mediaType;
         this.pixelWidth = pixelWidth;
         this.pixelHeight = pixelHeight;
-        this.internalDataUrl = internalBinaryUrl;
+        this.internalBinaryUrl = internalBinaryUrl;
     }
 
     @NotNull
@@ -105,8 +105,8 @@ public class Content {
         return pixelHeight;
     }
 
-    public String getInternalDataUrl() {
-        return internalDataUrl;
+    public String getInternalBinaryUrl() {
+        return internalBinaryUrl;
     }
 
     @Override
@@ -126,7 +126,7 @@ public class Content {
                 .add("mediaType", mediaType)
                 .add("pixelWidth", pixelWidth)
                 .add("pixelHeight", pixelHeight)
-                .add("internalBinaryUrl", internalDataUrl)
+                .add("internalBinaryUrl", internalBinaryUrl)
                 .toString();
     }
 
@@ -148,12 +148,12 @@ public class Content {
                 && Objects.equal(this.mediaType, that.mediaType)
                 && Objects.equal(this.pixelWidth, that.pixelWidth)
                 && Objects.equal(this.pixelHeight, that.pixelHeight)
-                && Objects.equal(this.internalDataUrl, that.internalDataUrl);
+                && Objects.equal(this.internalBinaryUrl, that.internalBinaryUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, contentOrigin, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalDataUrl);
+        return Objects.hashCode(title, byline, brands, contentOrigin, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl);
     }
 
     public static Builder builder() {
@@ -230,7 +230,7 @@ public class Content {
             return this;
         }
 
-        public Builder withInternalDataUrl(String internalDataUrl) {
+        public Builder withInternalBinaryUrl(String internalDataUrl) {
             this.internalBinaryUrl = internalDataUrl;
             return this;
         }
@@ -250,7 +250,7 @@ public class Content {
                     .withMediaType(content.getMediaType())
                     .withPixelWidth(content.getPixelWidth())
                     .withPixelHeight(content.getPixelHeight())
-                    .withInternalDataUrl(content.getInternalDataUrl());
+                    .withInternalBinaryUrl(content.getInternalBinaryUrl());
         }
 
         public Content build() {

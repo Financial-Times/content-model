@@ -131,7 +131,7 @@ public class ContentTest {
     public void contentWithDifferentInternalBinaryUrlsAreNotEqual() {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
-                .withInternalDataUrl("api.ft.com/thing/etc")
+                .withInternalBinaryUrl("api.ft.com/thing/etc")
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
