@@ -1,18 +1,15 @@
 package com.ft.content.model;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Date;
 import java.util.UUID;
 
-import com.google.common.collect.ImmutableSortedSet;
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 public class ContentTest {
 
@@ -28,6 +25,7 @@ public class ContentTest {
                 .withPublishedDate(new Date(300L))
                 .withUuid(UUID.randomUUID())
                 .withXmlBody("The body")
+                .withMembers(ImmutableSet.of(new Member("member1"), new Member("member2")))
                 .build();
     }
 
@@ -132,6 +130,18 @@ public class ContentTest {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withInternalBinaryUrl("api.ft.com/thing/etc")
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
+    public void contentWithDifferentMembersAreNotEqual() {
+        ImmutableSet<Member> members = ImmutableSet.of(new Member("Different member"));
+
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withMembers(members)
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));

@@ -1,0 +1,49 @@
+package com.ft.content.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Objects;
+
+import javax.validation.constraints.NotNull;
+
+public class Member {
+
+    private final String uuid;
+
+    public Member(@JsonProperty("uuid") String uuid) {
+        if (uuid == null) {
+            throw new IllegalArgumentException("Member uuid must not be null.");
+        }
+        this.uuid = uuid;
+    }
+
+    @NotNull
+    public String getUuid() {
+        return uuid;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final Member other = (Member) obj;
+
+        return uuid.equals(other.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return uuid.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this.getClass())
+                .add("uuid", uuid)
+                .toString();
+    }
+}
