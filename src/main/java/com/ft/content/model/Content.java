@@ -1,6 +1,7 @@
 package com.ft.content.model;
 
 import java.util.Date;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
@@ -28,6 +29,7 @@ public class Content {
     private final Integer pixelWidth;
     private final Integer pixelHeight;
     private final String internalBinaryUrl;
+    private final Set<Member> members;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -40,7 +42,8 @@ public class Content {
                    @JsonProperty("mediaType") String mediaType,
                    @JsonProperty("pixelWidth") Integer pixelWidth,
                    @JsonProperty("pixelHeight") Integer pixelHeight,
-                   @JsonProperty("internalBinaryUrl") String internalBinaryUrl) {
+                   @JsonProperty("internalBinaryUrl") String internalBinaryUrl,
+                   @JsonProperty("members") Set<Member> members) {
         this.body = body;
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
@@ -53,6 +56,7 @@ public class Content {
         this.pixelWidth = pixelWidth;
         this.pixelHeight = pixelHeight;
         this.internalBinaryUrl = internalBinaryUrl;
+        this.members = members;
     }
 
     @NotNull
@@ -109,6 +113,10 @@ public class Content {
         return internalBinaryUrl;
     }
 
+    public Set<Member> getMembers() {
+        return members;
+    }
+
     @Override
     public String toString() {
         String originatingSystem = (contentOrigin != null) ? contentOrigin.getOriginatingSystem() : null;
@@ -127,6 +135,7 @@ public class Content {
                 .add("pixelWidth", pixelWidth)
                 .add("pixelHeight", pixelHeight)
                 .add("internalBinaryUrl", internalBinaryUrl)
+                .add("members", members)
                 .toString();
     }
 
@@ -148,12 +157,13 @@ public class Content {
                 && Objects.equal(this.mediaType, that.mediaType)
                 && Objects.equal(this.pixelWidth, that.pixelWidth)
                 && Objects.equal(this.pixelHeight, that.pixelHeight)
-                && Objects.equal(this.internalBinaryUrl, that.internalBinaryUrl);
+                && Objects.equal(this.internalBinaryUrl, that.internalBinaryUrl)
+                && Objects.equal(this.members, that.members);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, contentOrigin, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl);
+        return Objects.hashCode(title, byline, brands, contentOrigin, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members);
     }
 
     public static Builder builder() {
@@ -174,6 +184,7 @@ public class Content {
         private Integer pixelWidth;
         private Integer pixelHeight;
         private String internalBinaryUrl;
+        private Set<Member> members;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -235,6 +246,11 @@ public class Content {
             return this;
         }
 
+        public Builder withMembers(Set<Member> members) {
+            this.members = members;
+            return this;
+        }
+
         public Builder withValuesFrom(Content content) {
             String originatingSystem = (content.getContentOrigin() != null) ? content.getContentOrigin().getOriginatingSystem() : null;
             String originatingIdentifier = (content.getContentOrigin() != null) ? content.getContentOrigin().getOriginatingIdentifier() : null;
@@ -250,11 +266,12 @@ public class Content {
                     .withMediaType(content.getMediaType())
                     .withPixelWidth(content.getPixelWidth())
                     .withPixelHeight(content.getPixelHeight())
-                    .withInternalBinaryUrl(content.getInternalBinaryUrl());
+                    .withInternalBinaryUrl(content.getInternalBinaryUrl())
+                    .withMembers(content.getMembers());
         }
 
         public Content build() {
-            return new Content(uuid, title, byline, brands, contentOrigin, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl);
+            return new Content(uuid, title, byline, brands, contentOrigin, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members);
         }
     }
 
