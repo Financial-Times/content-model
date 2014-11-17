@@ -7,18 +7,18 @@ import javax.validation.constraints.NotNull;
 
 public class Member {
 
-    private final String id;
+    private final String uri;
 
-    public Member(@JsonProperty("id") String id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Member id must not be null.");
+    public Member(@JsonProperty("uri") String uri) {
+        if (uri == null) {
+            throw new IllegalArgumentException("Member uri must not be null.");
         }
-        this.id = id;
+        this.uri = uri;
     }
 
     @NotNull
-    public String getId() {
-        return id;
+    public String getUri() {
+        return uri;
     }
 
     @Override
@@ -32,18 +32,18 @@ public class Member {
 
         final Member other = (Member) obj;
 
-        return id.equals(other.id);
+        return uri.equals(other.uri);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return uri.hashCode();
     }
 
     @Override
     public String toString() {
         return Objects.toStringHelper(this.getClass())
-                .add("id", id)
+                .add("uri", uri)
                 .toString();
     }
 }
