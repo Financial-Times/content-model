@@ -1,11 +1,11 @@
 package com.ft.content.model;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.SortedSet;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.*;
@@ -25,7 +25,7 @@ public class ContentTest {
                 .withPublishedDate(new Date(300L))
                 .withUuid(UUID.randomUUID())
                 .withXmlBody("The body")
-                .withMembers(ImmutableSet.of(new Member("member1"), new Member("member2")))
+                .withMembers(ImmutableSortedSet.of(new Member("member1"), new Member("member2")))
                 .build();
     }
 
@@ -76,7 +76,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentBrandsAreNotEqual() {
-        ImmutableSortedSet<Brand> brands = ImmutableSortedSet.of(new Brand("Different Brand"));
+        SortedSet<Brand> brands = ImmutableSortedSet.of(new Brand("Different Brand"));
 
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
@@ -137,7 +137,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentMembersAreNotEqual() {
-        ImmutableSet<Member> members = ImmutableSet.of(new Member("Different member"));
+        SortedSet<Member> members = ImmutableSortedSet.of(new Member("Different member"));
 
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)

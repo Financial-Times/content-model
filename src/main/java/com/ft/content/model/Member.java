@@ -5,7 +5,7 @@ import com.google.common.base.Objects;
 
 import javax.validation.constraints.NotNull;
 
-public class Member {
+public class Member implements Comparable<Member> {
 
     private final String uuid;
 
@@ -45,5 +45,10 @@ public class Member {
         return Objects.toStringHelper(this.getClass())
                 .add("uuid", uuid)
                 .toString();
+    }
+
+    @Override
+    public int compareTo(Member member) {
+        return uuid.compareTo(member.uuid);
     }
 }

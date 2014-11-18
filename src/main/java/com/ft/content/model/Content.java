@@ -1,7 +1,6 @@
 package com.ft.content.model;
 
 import java.util.Date;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
@@ -29,7 +28,7 @@ public class Content {
     private final Integer pixelWidth;
     private final Integer pixelHeight;
     private final String internalBinaryUrl;
-    private final Set<Member> members;
+    private final SortedSet<Member> members;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -43,7 +42,7 @@ public class Content {
                    @JsonProperty("pixelWidth") Integer pixelWidth,
                    @JsonProperty("pixelHeight") Integer pixelHeight,
                    @JsonProperty("internalBinaryUrl") String internalBinaryUrl,
-                   @JsonProperty("members") Set<Member> members) {
+                   @JsonProperty("members") SortedSet<Member> members) {
         this.body = body;
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
@@ -113,7 +112,7 @@ public class Content {
         return internalBinaryUrl;
     }
 
-    public Set<Member> getMembers() {
+    public SortedSet<Member> getMembers() {
         return members;
     }
 
@@ -184,7 +183,7 @@ public class Content {
         private Integer pixelWidth;
         private Integer pixelHeight;
         private String internalBinaryUrl;
-        private Set<Member> members;
+        private SortedSet<Member> members;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -246,7 +245,7 @@ public class Content {
             return this;
         }
 
-        public Builder withMembers(Set<Member> members) {
+        public Builder withMembers(SortedSet<Member> members) {
             this.members = members;
             return this;
         }
