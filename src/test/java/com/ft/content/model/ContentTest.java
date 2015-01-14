@@ -1,10 +1,13 @@
 package com.ft.content.model;
 
 import com.google.common.collect.ImmutableSortedSet;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.UUID;
 
@@ -155,6 +158,23 @@ public class ContentTest {
                 .build();
 
         assertThat(content, is(equalTo(otherContent)));
+    }
+    
+    @Test
+    public void shouldSortTitlesShortestFirst() {
+    	String shortest = "zzz";
+    	String middle = "aaaaaa";
+    	String longest = "mmmmmmmmmmmm";
+    	
+    	Content content = Content.builder().withTitles(Arrays.asList(middle, longest, shortest)).build();
+    	
+    	List<String> titles = content.getTitles();
+    	
+    	assertThat(titles.size(), is(3));
+    	assertThat(titles.get(0), is(equalTo(shortest)));
+    	assertThat(titles.get(1), is(equalTo(middle)));
+    	assertThat(titles.get(2), is(equalTo(longest)));
+
     }
 
 }
