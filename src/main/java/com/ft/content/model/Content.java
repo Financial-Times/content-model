@@ -1,14 +1,19 @@
 package com.ft.content.model;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.UUID;
+
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
@@ -18,6 +23,7 @@ public class Content {
 
     private final String uuid;
     private final String title;
+    private final List<String> titles;
     private final String byline;
     private final SortedSet<Brand> brands;
     private final Date publishedDate;
@@ -32,6 +38,7 @@ public class Content {
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
+                   @JsonProperty("titles") List<String> titles,
                    @JsonProperty("byline") String byline,
                    @JsonProperty("brands") SortedSet<Brand> brands,
                    @JsonProperty("contentOrigin") ContentOrigin contentOrigin,
@@ -46,6 +53,7 @@ public class Content {
         this.body = body;
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
+        this.titles = titles;
         this.byline = byline;
         this.brands = brands;
         this.publishedDate = publishedDate;
@@ -66,6 +74,10 @@ public class Content {
     @NotEmpty
     public String getTitle() {
         return title;
+    }
+    
+    public List<String> getTitles() {
+    	return titles;
     }
     
     public String getByline() {
@@ -173,6 +185,7 @@ public class Content {
 
         private UUID uuid;
         private String title;
+        private List<String> titles;
         private String byline;
         private SortedSet<Brand> brands;
         private Date publishedDate;
@@ -194,6 +207,12 @@ public class Content {
             this.title = title;
             return this;
         }
+
+        public Builder withTitles(List<String> titles) {
+        	this.titles = titles;
+        	Collections.sort(titles, new LengthComparator());
+        	return this;
+		}
 
         public Builder withByline(String byline) {
             this.byline = byline;
@@ -255,6 +274,7 @@ public class Content {
             String originatingIdentifier = (content.getContentOrigin() != null) ? content.getContentOrigin().getOriginatingIdentifier() : null;
 
             return withTitle(content.getTitle())
+            		.withTitles(content.getTitles())
             		.withByline(content.getByline())
             		.withBrands(content.getBrands())
             		.withContentOrigin(originatingSystem, originatingIdentifier)
@@ -269,9 +289,16 @@ public class Content {
                     .withMembers(content.getMembers());
         }
 
-        public Content build() {
-            return new Content(uuid, title, byline, brands, contentOrigin, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members);
+		public Content build() {
+            return new Content(uuid, title, titles, byline, brands, contentOrigin, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members);
         }
     }
 
+    private static final class LengthComparator implements Comparator<String>{
+		@Override
+		public int compare(String o1, String o2) {
+			return o1.length() - o2.length();
+		}
+    }
+    
 }
