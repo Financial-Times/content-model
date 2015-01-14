@@ -210,7 +210,9 @@ public class Content {
 
         public Builder withTitles(List<String> titles) {
         	this.titles = titles;
-        	Collections.sort(titles, new LengthComparator());
+        	if(titles != null) {
+        		Collections.sort(titles, new LengthComparator());
+        	}
         	return this;
 		}
 
