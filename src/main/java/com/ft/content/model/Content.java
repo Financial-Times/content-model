@@ -18,7 +18,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
-@JsonInclude(NON_NULL)
 public class Content {
 
     private final String uuid;
