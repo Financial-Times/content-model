@@ -29,6 +29,7 @@ public class ContentTest {
                 .withUuid(UUID.randomUUID())
                 .withXmlBody("The body")
                 .withMembers(ImmutableSortedSet.of(new Member("member1"), new Member("member2")))
+                .withAssociatedContent(UUID.randomUUID().toString())
                 .build();
     }
 
@@ -145,6 +146,16 @@ public class ContentTest {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withMembers(members)
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
+    public void contentWithDifferentAssociatedContentAreNotEqual() {
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withAssociatedContent(UUID.randomUUID().toString())
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
