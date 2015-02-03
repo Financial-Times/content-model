@@ -29,7 +29,7 @@ public class ContentTest {
                 .withUuid(UUID.randomUUID())
                 .withXmlBody("The body")
                 .withMembers(ImmutableSortedSet.of(new Member("member1"), new Member("member2")))
-                .withAssociatedContent(UUID.randomUUID().toString())
+                .withMainImage(UUID.randomUUID().toString())
                 .build();
     }
 
@@ -152,10 +152,10 @@ public class ContentTest {
     }
 
     @Test
-    public void contentWithDifferentAssociatedContentAreNotEqual() {
+    public void contentWithDifferentMainImageAreNotEqual() {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
-                .withAssociatedContent(UUID.randomUUID().toString())
+                .withMainImage(UUID.randomUUID().toString())
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));

@@ -10,13 +10,10 @@ import java.util.UUID;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 
 import org.hibernate.validator.constraints.NotEmpty;
-
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 public class Content {
 
@@ -34,7 +31,7 @@ public class Content {
     private final Integer pixelHeight;
     private final String internalBinaryUrl;
     private final SortedSet<Member> members;
-    private final String associatedContent;
+    private final String mainImage;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -50,7 +47,7 @@ public class Content {
                    @JsonProperty("pixelHeight") Integer pixelHeight,
                    @JsonProperty("internalBinaryUrl") String internalBinaryUrl,
                    @JsonProperty("members") SortedSet<Member> members,
-                   @JsonProperty("associatedContent") String associatedContent) {
+                   @JsonProperty("mainImage") String mainImage) {
         this.body = body;
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
@@ -65,7 +62,7 @@ public class Content {
         this.pixelHeight = pixelHeight;
         this.internalBinaryUrl = internalBinaryUrl;
         this.members = members;
-        this.associatedContent = associatedContent;
+        this.mainImage = mainImage;
     }
 
     @NotNull
@@ -130,8 +127,8 @@ public class Content {
         return members;
     }
 
-    public String getAssociatedContent() {
-        return associatedContent;
+    public String getMainImage() {
+        return mainImage;
     }
 
     @Override
@@ -153,7 +150,7 @@ public class Content {
                 .add("pixelHeight", pixelHeight)
                 .add("internalBinaryUrl", internalBinaryUrl)
                 .add("members", members)
-                .add("associatedContent", associatedContent)
+                .add("mainImage", mainImage)
                 .toString();
     }
 
@@ -177,12 +174,12 @@ public class Content {
                 && Objects.equal(this.pixelHeight, that.pixelHeight)
                 && Objects.equal(this.internalBinaryUrl, that.internalBinaryUrl)
                 && Objects.equal(this.members, that.members)
-                && Objects.equal(this.associatedContent, that.associatedContent);
+                && Objects.equal(this.mainImage, that.mainImage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, contentOrigin, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, associatedContent);
+        return Objects.hashCode(title, byline, brands, contentOrigin, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage);
     }
 
     public static Builder builder() {
@@ -205,7 +202,7 @@ public class Content {
         private Integer pixelHeight;
         private String internalBinaryUrl;
         private SortedSet<Member> members;
-        private String associatedContent;
+        private String mainImage;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -280,8 +277,8 @@ public class Content {
             return this;
         }
 
-        public Builder withAssociatedContent(String associatedContent) {
-            this.associatedContent = associatedContent;
+        public Builder withMainImage(String mainImage) {
+            this.mainImage = mainImage;
             return this;
         }
 
@@ -303,11 +300,11 @@ public class Content {
                     .withPixelHeight(content.getPixelHeight())
                     .withInternalBinaryUrl(content.getInternalBinaryUrl())
                     .withMembers(content.getMembers())
-                    .withAssociatedContent(content.getAssociatedContent());
+                    .withMainImage(content.getMainImage());
         }
 
 		public Content build() {
-            return new Content(uuid, title, titles, byline, brands, contentOrigin, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, associatedContent);
+            return new Content(uuid, title, titles, byline, brands, contentOrigin, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage);
         }
     }
 
