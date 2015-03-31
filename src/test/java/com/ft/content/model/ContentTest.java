@@ -24,7 +24,6 @@ public class ContentTest {
                 .withTitle("a headline")
                 .withByline("By someone")
                 .withBrands(ImmutableSortedSet.of(new Brand("Brand1"), new Brand("Brand2")))
-                .withContentOrigin("OriginatingSystem", "id")
                 .withIdentifiers(ImmutableSortedSet.of(new Identifier("IdentifierAuthority1", "IdentifierValue1"), new Identifier("IdentifierAuthority2", "IdentifierValue2")))
                 .withPublishedDate(new Date(300L))
                 .withUuid(UUID.randomUUID())
@@ -92,16 +91,6 @@ public class ContentTest {
     }
 
     @Test
-    public void contentWithDifferentOriginatingSystemsAreNotEqual() {
-        final Content otherContent = Content.builder()
-                .withValuesFrom(content)
-                .withContentOrigin("different OriginatingSystem", "id")
-                .build();
-
-        assertThat(content, is(not(equalTo(otherContent))));
-    }
-
-    @Test
     public void contentWithDifferentIdentifierAuthoritiesAreNotEqual() {
         SortedSet<Identifier> identifiers = ImmutableSortedSet.of(new Identifier("Different authority", "IdentifierValue1"), new Identifier("IdentifierAuthority2", "IdentifierValue2"));
 
@@ -120,16 +109,6 @@ public class ContentTest {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withIdentifiers(identifiers)
-                .build();
-
-        assertThat(content, is(not(equalTo(otherContent))));
-    }
-
-    @Test
-    public void contentWithDifferentOriginatingIdentifiersAreNotEqual() {
-        final Content otherContent = Content.builder()
-                .withValuesFrom(content)
-                .withContentOrigin("OriginatingSystem", "different id")
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
