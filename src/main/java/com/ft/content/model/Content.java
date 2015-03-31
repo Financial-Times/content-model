@@ -24,7 +24,6 @@ public class Content {
     private final SortedSet<Brand> brands;
     private final Date publishedDate;
     private final String body;
-    private final ContentOrigin contentOrigin;
     private final SortedSet<Identifier> identifiers;
     private final String description;
     private final String mediaType;
@@ -39,7 +38,6 @@ public class Content {
                    @JsonProperty("titles") List<String> titles,
                    @JsonProperty("byline") String byline,
                    @JsonProperty("brands") SortedSet<Brand> brands,
-                   @JsonProperty("contentOrigin") ContentOrigin contentOrigin,
                    @JsonProperty("identifiers") SortedSet<Identifier> identifiers,
                    @JsonProperty("publishedDate") Date publishedDate,
                    @JsonProperty("body") String body,
@@ -58,7 +56,6 @@ public class Content {
         this.byline = byline;
         this.brands = brands;
         this.publishedDate = publishedDate;
-        this.contentOrigin = contentOrigin;
         this.description = description;
         this.mediaType = mediaType;
         this.pixelWidth = pixelWidth;
@@ -101,10 +98,6 @@ public class Content {
         return body;
     }
 
-    public ContentOrigin getContentOrigin() {
-        return contentOrigin;
-    }
-
     public SortedSet<Identifier> getIdentifiers() {
         return identifiers;
     }
@@ -139,15 +132,11 @@ public class Content {
 
     @Override
     public String toString() {
-        String originatingSystem = (contentOrigin != null) ? contentOrigin.getOriginatingSystem() : null;
-        String originatingIdentifier = (contentOrigin != null) ? contentOrigin.getOriginatingIdentifier() : null;
         return Objects.toStringHelper(this.getClass())
                 .add("uuid", uuid)
                 .add("title", title)
                 .add("byline", byline)
                 .add("brands", brands)
-                .add("originatingSystem", originatingSystem)
-                .add("originatingIdentifier", originatingIdentifier)
                 .add("identifiers", identifiers)
                 .add("publishedDate", publishedDate)
                 .add("body", body)
@@ -172,7 +161,6 @@ public class Content {
                 && Objects.equal(this.title, that.title)
                 && Objects.equal(this.byline, that.byline)
                 && Objects.equal(this.brands, that.brands)
-                && Objects.equal(this.contentOrigin, that.contentOrigin)
                 && Objects.equal(this.identifiers, that.identifiers)
                 && Objects.equal(this.body, that.body) // TODO maybe this could be better. The strings could be equivalent as xml even though they are different strings
                 && Objects.equal(this.publishedDate, that.publishedDate)
@@ -187,7 +175,7 @@ public class Content {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, contentOrigin, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage);
+        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage);
     }
 
     public static Builder builder() {
@@ -203,7 +191,6 @@ public class Content {
         private SortedSet<Brand> brands;
         private Date publishedDate;
         private String body;
-        private ContentOrigin contentOrigin;
         private SortedSet<Identifier> identifiers;
         private String description;
         private String mediaType;
@@ -251,11 +238,6 @@ public class Content {
             return this;
         }
 
-        public Builder withContentOrigin(String originatingSystem, String originatingIdentifier) {
-            this.contentOrigin = new ContentOrigin(originatingSystem, originatingIdentifier);
-            return this;
-        }
-
         public Builder withIdentifiers(SortedSet<Identifier> identifiers) {
             this.identifiers = identifiers;
             return this;
@@ -297,18 +279,10 @@ public class Content {
         }
 
         public Builder withValuesFrom(Content content) {
-            String originatingSystem = null;
-            String originatingIdentifier = null;
-            if (content.getContentOrigin() != null) {
-                originatingSystem = (content.getContentOrigin() != null) ? content.getContentOrigin().getOriginatingSystem() : null;
-                originatingIdentifier = (content.getContentOrigin() != null) ? content.getContentOrigin().getOriginatingIdentifier() : null;
-            }
-
             return withTitle(content.getTitle())
             		.withTitles(content.getTitles())
             		.withByline(content.getByline())
             		.withBrands(content.getBrands())
-            		.withContentOrigin(originatingSystem, originatingIdentifier)
                     .withIdentifiers(content.getIdentifiers())
                     .withUuid(UUID.fromString(content.getUuid()))
                     .withPublishedDate(content.getPublishedDate())
@@ -323,7 +297,7 @@ public class Content {
         }
 
 		public Content build() {
-            return new Content(uuid, title, titles, byline, brands, contentOrigin, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage);
+            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage);
         }
     }
 
