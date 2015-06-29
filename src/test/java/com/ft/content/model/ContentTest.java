@@ -30,6 +30,7 @@ public class ContentTest {
                 .withXmlBody("The body")
                 .withMembers(ImmutableSortedSet.of(new Member("member1"), new Member("member2")))
                 .withMainImage(UUID.randomUUID().toString())
+                .withComments(new Comments(true))
                 .build();
     }
 
@@ -160,6 +161,16 @@ public class ContentTest {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withMainImage(UUID.randomUUID().toString())
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
+    public void contentWithDifferentCommentsAreNotEqual() {
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withComments(new Comments(false))
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
