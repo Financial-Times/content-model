@@ -32,6 +32,7 @@ public class Content {
     private final String internalBinaryUrl;
     private final SortedSet<Member> members;
     private final String mainImage;
+    private final Comments comments;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -47,9 +48,11 @@ public class Content {
                    @JsonProperty("pixelHeight") Integer pixelHeight,
                    @JsonProperty("internalBinaryUrl") String internalBinaryUrl,
                    @JsonProperty("members") SortedSet<Member> members,
-                   @JsonProperty("mainImage") String mainImage) {
+                   @JsonProperty("mainImage") String mainImage,
+                   @JsonProperty("comments") Comments comments) {
         this.identifiers = identifiers;
         this.body = body;
+        this.comments = comments;
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
         this.titles = titles;
@@ -130,6 +133,10 @@ public class Content {
         return mainImage;
     }
 
+    public Comments getComments() {
+        return comments;
+    }
+
     @Override
     public String toString() {
         return Objects.toStringHelper(this.getClass())
@@ -147,6 +154,7 @@ public class Content {
                 .add("internalBinaryUrl", internalBinaryUrl)
                 .add("members", members)
                 .add("mainImage", mainImage)
+                .add("comments", comments)
                 .toString();
     }
 
@@ -170,12 +178,13 @@ public class Content {
                 && Objects.equal(this.pixelHeight, that.pixelHeight)
                 && Objects.equal(this.internalBinaryUrl, that.internalBinaryUrl)
                 && Objects.equal(this.members, that.members)
-                && Objects.equal(this.mainImage, that.mainImage);
+                && Objects.equal(this.mainImage, that.mainImage)
+                && Objects.equal(this.comments, that.comments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage);
+        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage, comments);
     }
 
     public static Builder builder() {
@@ -199,6 +208,7 @@ public class Content {
         private String internalBinaryUrl;
         private SortedSet<Member> members;
         private String mainImage;
+        private Comments comments;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -278,6 +288,11 @@ public class Content {
             return this;
         }
 
+        public Builder withComments(Comments comments) {
+            this.comments = comments;
+            return this;
+        }
+
         public Builder withValuesFrom(Content content) {
             return withTitle(content.getTitle())
             		.withTitles(content.getTitles())
@@ -293,11 +308,12 @@ public class Content {
                     .withPixelHeight(content.getPixelHeight())
                     .withInternalBinaryUrl(content.getInternalBinaryUrl())
                     .withMembers(content.getMembers())
-                    .withMainImage(content.getMainImage());
+                    .withMainImage(content.getMainImage())
+                    .withComments(content.getComments());
         }
 
 		public Content build() {
-            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage);
+            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage, comments);
         }
     }
 
