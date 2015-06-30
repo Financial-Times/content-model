@@ -29,4 +29,21 @@ public class Comments {
         return Objects.hashCode(enabled);
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+
+        boolean enabled;
+
+        public Builder withEnabled(boolean enabled) {
+            this.enabled = enabled;
+            return this;
+        }
+
+        public Comments build() {
+            return new Comments(enabled);
+        }
+    }
 }
