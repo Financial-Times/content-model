@@ -10,7 +10,7 @@ public class Comments {
         this.enabled = enabled;
     }
 
-    public boolean getEnabled() {
+    public boolean isEnabled() {
         return enabled;
     }
 
