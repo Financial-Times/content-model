@@ -31,6 +31,7 @@ public class ContentTest {
                 .withMembers(ImmutableSortedSet.of(new Member("member1"), new Member("member2")))
                 .withMainImage(UUID.randomUUID().toString())
                 .withComments(new Comments(true))
+                .withTransactionId("test")
                 .build();
     }
 
@@ -201,6 +202,21 @@ public class ContentTest {
     	assertThat(titles.get(1), is(equalTo(middle)));
     	assertThat(titles.get(2), is(equalTo(longest)));
 
+    }
+
+    @Test
+    public void shouldStoreTransactionId() {
+        assertThat(content.getTransactionId(),is("test"));
+    }
+
+    @Test
+    public void shouldDifferentiateBasedOnTransactionId() {
+
+        Content clone = Content.builder().withValuesFrom(content).withTransactionId("test2").build();
+
+        assertNotEquals(content,clone);
+        assertNotEquals(content.hashCode(),clone.hashCode());
+        assertNotEquals(content.toString(), clone.toString());
     }
 
 }
