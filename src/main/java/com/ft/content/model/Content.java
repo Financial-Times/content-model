@@ -33,7 +33,7 @@ public class Content {
     private final SortedSet<Member> members;
     private final String mainImage;
     private final Comments comments;
-    private final String transactionId;
+    private final String publishReference;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -51,7 +51,7 @@ public class Content {
                    @JsonProperty("members") SortedSet<Member> members,
                    @JsonProperty("mainImage") String mainImage,
                    @JsonProperty("comments") Comments comments,
-                   @JsonProperty("transactionId") String transactionId) {
+                   @JsonProperty("publishReference") String publishReference) {
         this.identifiers = identifiers;
         this.body = body;
         this.comments = comments;
@@ -68,7 +68,7 @@ public class Content {
         this.internalBinaryUrl = internalBinaryUrl;
         this.members = members;
         this.mainImage = mainImage;
-        this.transactionId = transactionId;
+        this.publishReference = publishReference;
     }
 
     @NotNull
@@ -140,8 +140,8 @@ public class Content {
         return comments;
     }
 
-    public String getTransactionId() {
-        return transactionId;
+    public String getPublishReference() {
+        return publishReference;
     }
 
     @Override
@@ -162,7 +162,7 @@ public class Content {
                 .add("members", members)
                 .add("mainImage", mainImage)
                 .add("comments", comments)
-                .add("transactionId", transactionId)
+                .add("publishReference", publishReference)
                 .toString();
     }
 
@@ -188,12 +188,12 @@ public class Content {
                 && Objects.equal(this.members, that.members)
                 && Objects.equal(this.mainImage, that.mainImage)
                 && Objects.equal(this.comments, that.comments)
-                && Objects.equal(this.transactionId, that.transactionId);
+                && Objects.equal(this.publishReference, that.publishReference);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage, comments, transactionId);
+        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage, comments, publishReference);
     }
 
     public static Builder builder() {
@@ -303,7 +303,7 @@ public class Content {
             return this;
         }
 
-        public Builder withTransactionId(String transactionId) {
+        public Builder withPublishReference(String transactionId) {
             this.transactionId = transactionId;
             return this;
         }
@@ -325,7 +325,7 @@ public class Content {
                     .withMembers(content.getMembers())
                     .withMainImage(content.getMainImage())
                     .withComments(content.getComments())
-                    .withTransactionId(content.getTransactionId());
+                    .withPublishReference(content.getPublishReference());
         }
 
 		public Content build() {

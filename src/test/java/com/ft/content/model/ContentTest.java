@@ -31,7 +31,7 @@ public class ContentTest {
                 .withMembers(ImmutableSortedSet.of(new Member("member1"), new Member("member2")))
                 .withMainImage(UUID.randomUUID().toString())
                 .withComments(new Comments(true))
-                .withTransactionId("test")
+                .withPublishReference("test")
                 .build();
     }
 
@@ -205,14 +205,14 @@ public class ContentTest {
     }
 
     @Test
-    public void shouldStoreTransactionId() {
-        assertThat(content.getTransactionId(),is("test"));
+    public void shouldStorePublishReference() {
+        assertThat(content.getPublishReference(),is("test"));
     }
 
     @Test
-    public void shouldDifferentiateBasedOnTransactionId() {
+    public void shouldDifferentiateBasedOnPublishReference() {
 
-        Content clone = Content.builder().withValuesFrom(content).withTransactionId("test2").build();
+        Content clone = Content.builder().withValuesFrom(content).withPublishReference("test2").build();
 
         assertNotEquals(content,clone);
         assertNotEquals(content.hashCode(),clone.hashCode());
@@ -220,9 +220,9 @@ public class ContentTest {
     }
 
     @Test
-    public void shouldCloneTransactionId() {
+    public void shouldClonePublishReference() {
         Content clone = Content.builder().withValuesFrom(content).build();
-        assertThat(clone.getTransactionId(),is("test"));
+        assertThat(clone.getPublishReference(),is("test"));
     }
 
 }
