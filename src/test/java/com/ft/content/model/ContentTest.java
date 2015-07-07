@@ -219,4 +219,10 @@ public class ContentTest {
         assertNotEquals(content.toString(), clone.toString());
     }
 
+    @Test
+    public void shouldCloneTransactionId() {
+        Content clone = Content.builder().withValuesFrom(content).build();
+        assertThat(clone.getTransactionId(),is("test"));
+    }
+
 }
