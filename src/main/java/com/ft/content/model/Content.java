@@ -33,6 +33,7 @@ public class Content {
     private final SortedSet<Member> members;
     private final String mainImage;
     private final Comments comments;
+    private final String publishReference;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -49,7 +50,8 @@ public class Content {
                    @JsonProperty("internalBinaryUrl") String internalBinaryUrl,
                    @JsonProperty("members") SortedSet<Member> members,
                    @JsonProperty("mainImage") String mainImage,
-                   @JsonProperty("comments") Comments comments) {
+                   @JsonProperty("comments") Comments comments,
+                   @JsonProperty("publishReference") String publishReference) {
         this.identifiers = identifiers;
         this.body = body;
         this.comments = comments;
@@ -66,6 +68,7 @@ public class Content {
         this.internalBinaryUrl = internalBinaryUrl;
         this.members = members;
         this.mainImage = mainImage;
+        this.publishReference = publishReference;
     }
 
     @NotNull
@@ -137,6 +140,10 @@ public class Content {
         return comments;
     }
 
+    public String getPublishReference() {
+        return publishReference;
+    }
+
     @Override
     public String toString() {
         return Objects.toStringHelper(this.getClass())
@@ -155,6 +162,7 @@ public class Content {
                 .add("members", members)
                 .add("mainImage", mainImage)
                 .add("comments", comments)
+                .add("publishReference", publishReference)
                 .toString();
     }
 
@@ -179,12 +187,13 @@ public class Content {
                 && Objects.equal(this.internalBinaryUrl, that.internalBinaryUrl)
                 && Objects.equal(this.members, that.members)
                 && Objects.equal(this.mainImage, that.mainImage)
-                && Objects.equal(this.comments, that.comments);
+                && Objects.equal(this.comments, that.comments)
+                && Objects.equal(this.publishReference, that.publishReference);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage, comments);
+        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage, comments, publishReference);
     }
 
     public static Builder builder() {
@@ -209,6 +218,7 @@ public class Content {
         private SortedSet<Member> members;
         private String mainImage;
         private Comments comments;
+        private String transactionId;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -293,6 +303,11 @@ public class Content {
             return this;
         }
 
+        public Builder withPublishReference(String transactionId) {
+            this.transactionId = transactionId;
+            return this;
+        }
+
         public Builder withValuesFrom(Content content) {
             return withTitle(content.getTitle())
             		.withTitles(content.getTitles())
@@ -309,11 +324,12 @@ public class Content {
                     .withInternalBinaryUrl(content.getInternalBinaryUrl())
                     .withMembers(content.getMembers())
                     .withMainImage(content.getMainImage())
-                    .withComments(content.getComments());
+                    .withComments(content.getComments())
+                    .withPublishReference(content.getPublishReference());
         }
 
 		public Content build() {
-            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage, comments);
+            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage, comments, transactionId);
         }
     }
 

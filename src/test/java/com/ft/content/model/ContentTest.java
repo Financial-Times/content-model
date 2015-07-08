@@ -31,6 +31,7 @@ public class ContentTest {
                 .withMembers(ImmutableSortedSet.of(new Member("member1"), new Member("member2")))
                 .withMainImage(UUID.randomUUID().toString())
                 .withComments(new Comments(true))
+                .withPublishReference("test")
                 .build();
     }
 
@@ -201,6 +202,27 @@ public class ContentTest {
     	assertThat(titles.get(1), is(equalTo(middle)));
     	assertThat(titles.get(2), is(equalTo(longest)));
 
+    }
+
+    @Test
+    public void shouldStorePublishReference() {
+        assertThat(content.getPublishReference(),is("test"));
+    }
+
+    @Test
+    public void shouldDifferentiateBasedOnPublishReference() {
+
+        Content clone = Content.builder().withValuesFrom(content).withPublishReference("test2").build();
+
+        assertNotEquals(content,clone);
+        assertNotEquals(content.hashCode(),clone.hashCode());
+        assertNotEquals(content.toString(), clone.toString());
+    }
+
+    @Test
+    public void shouldClonePublishReference() {
+        Content clone = Content.builder().withValuesFrom(content).build();
+        assertThat(clone.getPublishReference(),is("test"));
     }
 
 }
