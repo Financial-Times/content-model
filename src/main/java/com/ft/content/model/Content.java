@@ -30,6 +30,7 @@ public class Content {
     private final Integer pixelWidth;
     private final Integer pixelHeight;
     private final String internalBinaryUrl;
+    private final String externalBinaryUrl;
     private final SortedSet<Member> members;
     private final String mainImage;
     private final Comments comments;
@@ -48,6 +49,7 @@ public class Content {
                    @JsonProperty("pixelWidth") Integer pixelWidth,
                    @JsonProperty("pixelHeight") Integer pixelHeight,
                    @JsonProperty("internalBinaryUrl") String internalBinaryUrl,
+                   @JsonProperty("externalBinaryUrl") String externalBinaryUrl,
                    @JsonProperty("members") SortedSet<Member> members,
                    @JsonProperty("mainImage") String mainImage,
                    @JsonProperty("comments") Comments comments,
@@ -66,6 +68,7 @@ public class Content {
         this.pixelWidth = pixelWidth;
         this.pixelHeight = pixelHeight;
         this.internalBinaryUrl = internalBinaryUrl;
+        this.externalBinaryUrl = externalBinaryUrl;
         this.members = members;
         this.mainImage = mainImage;
         this.publishReference = publishReference;
@@ -128,6 +131,10 @@ public class Content {
         return internalBinaryUrl;
     }
 
+    public String getExternalBinaryUrl() {
+        return externalBinaryUrl;
+    }
+
     public SortedSet<Member> getMembers() {
         return members;
     }
@@ -159,6 +166,7 @@ public class Content {
                 .add("pixelWidth", pixelWidth)
                 .add("pixelHeight", pixelHeight)
                 .add("internalBinaryUrl", internalBinaryUrl)
+                .add("externalBinaryUrl", externalBinaryUrl)
                 .add("members", members)
                 .add("mainImage", mainImage)
                 .add("comments", comments)
@@ -185,6 +193,7 @@ public class Content {
                 && Objects.equal(this.pixelWidth, that.pixelWidth)
                 && Objects.equal(this.pixelHeight, that.pixelHeight)
                 && Objects.equal(this.internalBinaryUrl, that.internalBinaryUrl)
+                && Objects.equal(this.externalBinaryUrl, that.externalBinaryUrl)
                 && Objects.equal(this.members, that.members)
                 && Objects.equal(this.mainImage, that.mainImage)
                 && Objects.equal(this.comments, that.comments)
@@ -193,7 +202,7 @@ public class Content {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage, comments, publishReference);
+        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, publishReference);
     }
 
     public static Builder builder() {
@@ -215,6 +224,7 @@ public class Content {
         private Integer pixelWidth;
         private Integer pixelHeight;
         private String internalBinaryUrl;
+        private String externalBinaryUrl;
         private SortedSet<Member> members;
         private String mainImage;
         private Comments comments;
@@ -288,6 +298,11 @@ public class Content {
             return this;
         }
 
+        public Builder withExternalBinaryUrl(String externalBinaryUrl) {
+            this.externalBinaryUrl = externalBinaryUrl;
+            return this;
+        }
+
         public Builder withMembers(SortedSet<Member> members) {
             this.members = members;
             return this;
@@ -322,6 +337,7 @@ public class Content {
                     .withPixelWidth(content.getPixelWidth())
                     .withPixelHeight(content.getPixelHeight())
                     .withInternalBinaryUrl(content.getInternalBinaryUrl())
+                    .withExternalBinaryUrl(content.getExternalBinaryUrl())
                     .withMembers(content.getMembers())
                     .withMainImage(content.getMainImage())
                     .withComments(content.getComments())
@@ -329,7 +345,7 @@ public class Content {
         }
 
 		public Content build() {
-            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, members, mainImage, comments, transactionId);
+            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, transactionId);
         }
     }
 
