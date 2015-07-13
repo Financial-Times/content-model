@@ -32,6 +32,7 @@ public class ContentTest {
                 .withMainImage(UUID.randomUUID().toString())
                 .withComments(new Comments(true))
                 .withPublishReference("test")
+                .withExternalBinaryUrl("http://com.ft.imagepublish.prod.s3.amazonaws.com/12a9a540-8124-11e4-896c-00144feabdc0")
                 .build();
     }
 
@@ -140,6 +141,16 @@ public class ContentTest {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withInternalBinaryUrl("api.ft.com/thing/etc")
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
+    public void contentWithDifferentExternalBinaryUrlsAreNotEqual() {
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withExternalBinaryUrl("someExternalBinaryUrl")
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
