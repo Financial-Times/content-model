@@ -27,9 +27,9 @@ public class ContentTest {
                 .withIdentifiers(ImmutableSortedSet.of(new Identifier("IdentifierAuthority1", "IdentifierValue1"), new Identifier("IdentifierAuthority2", "IdentifierValue2")))
                 .withPublishedDate(new Date(300L))
                 .withUuid(UUID.randomUUID())
-                .withXmlBody("The body")
+                .withBodyXML("The body")
                 .withMembers(ImmutableSortedSet.of(new Member("member1"), new Member("member2")))
-                .withMainImage(UUID.randomUUID().toString())
+                .withMainImage(new MainImage(UUID.randomUUID().toString()))
                 .withComments(new Comments(true))
                 .withPublishReference("test")
                 .withExternalBinaryUrl("http://com.ft.imagepublish.prod.s3.amazonaws.com/12a9a540-8124-11e4-896c-00144feabdc0")
@@ -130,7 +130,7 @@ public class ContentTest {
     public void contentWithDifferentBodiesAreNotEqual() {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
-                .withXmlBody("a different body")
+                .withBodyXML("a different body")
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
@@ -172,7 +172,7 @@ public class ContentTest {
     public void contentWithDifferentMainImageAreNotEqual() {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
-                .withMainImage(UUID.randomUUID().toString())
+                .withMainImage(new MainImage(UUID.randomUUID().toString()))
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
@@ -235,5 +235,4 @@ public class ContentTest {
         Content clone = Content.builder().withValuesFrom(content).build();
         assertThat(clone.getPublishReference(),is("test"));
     }
-
 }

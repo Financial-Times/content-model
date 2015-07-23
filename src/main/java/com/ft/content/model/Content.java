@@ -23,7 +23,7 @@ public class Content {
     private final String byline;
     private final SortedSet<Brand> brands;
     private final Date publishedDate;
-    private final String body;
+    private final String bodyXML;
     private final SortedSet<Identifier> identifiers;
     private final String description;
     private final String mediaType;
@@ -32,7 +32,7 @@ public class Content {
     private final String internalBinaryUrl;
     private final String externalBinaryUrl;
     private final SortedSet<Member> members;
-    private final String mainImage;
+    private final MainImage mainImage;
     private final Comments comments;
     private final String publishReference;
 
@@ -43,7 +43,7 @@ public class Content {
                    @JsonProperty("brands") SortedSet<Brand> brands,
                    @JsonProperty("identifiers") SortedSet<Identifier> identifiers,
                    @JsonProperty("publishedDate") Date publishedDate,
-                   @JsonProperty("body") String body,
+                   @JsonProperty("bodyXML") String bodyXML,
                    @JsonProperty("description") String description,
                    @JsonProperty("mediaType") String mediaType,
                    @JsonProperty("pixelWidth") Integer pixelWidth,
@@ -51,11 +51,11 @@ public class Content {
                    @JsonProperty("internalBinaryUrl") String internalBinaryUrl,
                    @JsonProperty("externalBinaryUrl") String externalBinaryUrl,
                    @JsonProperty("members") SortedSet<Member> members,
-                   @JsonProperty("mainImage") String mainImage,
+                   @JsonProperty("mainImage") MainImage mainImage,
                    @JsonProperty("comments") Comments comments,
                    @JsonProperty("publishReference") String publishReference) {
         this.identifiers = identifiers;
-        this.body = body;
+        this.bodyXML = bodyXML;
         this.comments = comments;
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
@@ -103,8 +103,8 @@ public class Content {
         return publishedDate;
     }
 
-    public String getBody() {
-        return body;
+    public String getBodyXML() {
+        return bodyXML;
     }
 
     public SortedSet<Identifier> getIdentifiers() {
@@ -139,7 +139,7 @@ public class Content {
         return members;
     }
 
-    public String getMainImage() {
+    public MainImage getMainImage() {
         return mainImage;
     }
 
@@ -160,7 +160,7 @@ public class Content {
                 .add("brands", brands)
                 .add("identifiers", identifiers)
                 .add("publishedDate", publishedDate)
-                .add("body", body)
+                .add("bodyXML", bodyXML)
                 .add("description", description)
                 .add("mediaType", mediaType)
                 .add("pixelWidth", pixelWidth)
@@ -186,7 +186,7 @@ public class Content {
                 && Objects.equal(this.byline, that.byline)
                 && Objects.equal(this.brands, that.brands)
                 && Objects.equal(this.identifiers, that.identifiers)
-                && Objects.equal(this.body, that.body) // TODO maybe this could be better. The strings could be equivalent as xml even though they are different strings
+                && Objects.equal(this.bodyXML, that.bodyXML) // TODO maybe this could be better. The strings could be equivalent as xml even though they are different strings
                 && Objects.equal(this.publishedDate, that.publishedDate)
                 && Objects.equal(this.description, that.description)
                 && Objects.equal(this.mediaType, that.mediaType)
@@ -202,7 +202,7 @@ public class Content {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, publishReference);
+        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, bodyXML, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, publishReference);
     }
 
     public static Builder builder() {
@@ -217,7 +217,7 @@ public class Content {
         private String byline;
         private SortedSet<Brand> brands;
         private Date publishedDate;
-        private String body;
+        private String bodyXML;
         private SortedSet<Identifier> identifiers;
         private String description;
         private String mediaType;
@@ -226,7 +226,7 @@ public class Content {
         private String internalBinaryUrl;
         private String externalBinaryUrl;
         private SortedSet<Member> members;
-        private String mainImage;
+        private MainImage mainImage;
         private Comments comments;
         private String transactionId;
 
@@ -263,8 +263,8 @@ public class Content {
             return this;
         }
 
-        public Builder withXmlBody(String body) {
-            this.body = body;
+        public Builder withBodyXML(String bodyXML) {
+            this.bodyXML = bodyXML;
             return this;
         }
 
@@ -308,7 +308,7 @@ public class Content {
             return this;
         }
 
-        public Builder withMainImage(String mainImage) {
+        public Builder withMainImage(MainImage mainImage) {
             this.mainImage = mainImage;
             return this;
         }
@@ -331,7 +331,7 @@ public class Content {
                     .withIdentifiers(content.getIdentifiers())
                     .withUuid(UUID.fromString(content.getUuid()))
                     .withPublishedDate(content.getPublishedDate())
-                    .withXmlBody(content.getBody())
+                    .withBodyXML(content.getBodyXML())
                     .withDescription(content.getDescription())
                     .withMediaType(content.getMediaType())
                     .withPixelWidth(content.getPixelWidth())
@@ -345,15 +345,14 @@ public class Content {
         }
 
 		public Content build() {
-            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, transactionId);
+            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, bodyXML, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, transactionId);
         }
     }
 
-    private static final class LengthComparator implements Comparator<String>{
-		@Override
-		public int compare(String o1, String o2) {
-			return o1.length() - o2.length();
-		}
+    private static final class LengthComparator implements Comparator<String> {
+        @Override
+        public int compare(String o1, String o2) {
+            return o1.length() - o2.length();
+        }
     }
-    
 }
