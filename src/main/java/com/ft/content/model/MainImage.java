@@ -7,15 +7,15 @@ import javax.validation.constraints.NotNull;
 
 public class MainImage {
 
-    private final String id;
+    private final String uuid;
 
-    public MainImage(@JsonProperty("id") final String id) {
-        this.id = id;
+    public MainImage(@JsonProperty("uuid") final String uuid) {
+        this.uuid = uuid;
     }
 
     @NotNull
-    public String getId() {
-        return id;
+    public String getUuid() {
+        return uuid;
     }
 
     @Override
@@ -23,11 +23,11 @@ public class MainImage {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MainImage that = (MainImage) o;
-        return Objects.equal(this.id, that.id);
+        return Objects.equal(this.uuid, that.uuid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(uuid);
     }
 }

@@ -14,7 +14,7 @@
 
     <repositories>
         <repository>
-            <id>ft-pipeline-sandbox</id>
+            <uuid>ft-pipeline-sandbox</uuid>
             <url>http://anthill.svc.ft.com:8081/nexus/content/repositories/pipeline-sandbox/</url>
             <snapshots>
                 <enabled>false</enabled>
@@ -24,7 +24,7 @@
             </releases>
         </repository>
         <repository>
-            <id>ft-snapshots</id>
+            <uuid>ft-snapshots</uuid>
             <url>http://anthill.svc.ft.com:8081/nexus/content/groups/public-snapshots</url>
             <snapshots>
                 <enabled>true</enabled>
@@ -35,7 +35,7 @@
             </releases>
         </repository>
         <repository>
-            <id>ft-releases</id>
+            <uuid>ft-releases</uuid>
             <url>http://anthill.svc.ft.com:8081/nexus/content/groups/public</url>
             <snapshots>
                 <enabled>false</enabled>
@@ -48,7 +48,7 @@
 
     <pluginRepositories>
         <pluginRepository>
-            <id>ft-releases</id>
+            <uuid>ft-releases</uuid>
             <url>http://anthill.svc.ft.com:8081/nexus/content/groups/public</url>
             <snapshots>
                 <enabled>false</enabled>
