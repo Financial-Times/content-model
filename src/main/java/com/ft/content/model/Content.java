@@ -35,8 +35,9 @@ public class Content {
     private final String mainImage;
     private final Comments comments;
     private final String publishReference;
+	private final Copyright copyright;
 
-    public Content(@JsonProperty("uuid") UUID uuid,
+	public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
                    @JsonProperty("titles") List<String> titles,
                    @JsonProperty("byline") String byline,
@@ -53,6 +54,7 @@ public class Content {
                    @JsonProperty("members") SortedSet<Member> members,
                    @JsonProperty("mainImage") String mainImage,
                    @JsonProperty("comments") Comments comments,
+				   @JsonProperty("copyright") Copyright copyright,
                    @JsonProperty("publishReference") String publishReference) {
         this.identifiers = identifiers;
         this.body = body;
@@ -71,6 +73,7 @@ public class Content {
         this.externalBinaryUrl = externalBinaryUrl;
         this.members = members;
         this.mainImage = mainImage;
+		this.copyright = copyright;
         this.publishReference = publishReference;
     }
 
@@ -147,6 +150,10 @@ public class Content {
         return comments;
     }
 
+	public Copyright getCopyright() {
+		return copyright;
+	}
+
     public String getPublishReference() {
         return publishReference;
     }
@@ -197,6 +204,7 @@ public class Content {
                 && Objects.equal(this.members, that.members)
                 && Objects.equal(this.mainImage, that.mainImage)
                 && Objects.equal(this.comments, that.comments)
+				&& Objects.equal(this.copyright, that.copyright)
                 && Objects.equal(this.publishReference, that.publishReference);
     }
 
@@ -209,7 +217,7 @@ public class Content {
         return new Builder();
     }
 
-    public static class Builder {
+	public static class Builder {
 
         private UUID uuid;
         private String title;
@@ -229,8 +237,9 @@ public class Content {
         private String mainImage;
         private Comments comments;
         private String transactionId;
+		private Copyright copyright;
 
-        public Builder withUuid(UUID uuid) {
+		public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
             return this;
         }
@@ -318,34 +327,40 @@ public class Content {
             return this;
         }
 
+		public Builder withCopyright(Copyright copyright) {
+			this.copyright = copyright;
+			return this;
+		}
+
         public Builder withPublishReference(String transactionId) {
             this.transactionId = transactionId;
             return this;
         }
 
-        public Builder withValuesFrom(Content content) {
-            return withTitle(content.getTitle())
-            		.withTitles(content.getTitles())
-            		.withByline(content.getByline())
-            		.withBrands(content.getBrands())
-                    .withIdentifiers(content.getIdentifiers())
-                    .withUuid(UUID.fromString(content.getUuid()))
-                    .withPublishedDate(content.getPublishedDate())
-                    .withXmlBody(content.getBody())
-                    .withDescription(content.getDescription())
-                    .withMediaType(content.getMediaType())
-                    .withPixelWidth(content.getPixelWidth())
-                    .withPixelHeight(content.getPixelHeight())
-                    .withInternalBinaryUrl(content.getInternalBinaryUrl())
-                    .withExternalBinaryUrl(content.getExternalBinaryUrl())
-                    .withMembers(content.getMembers())
-                    .withMainImage(content.getMainImage())
-                    .withComments(content.getComments())
-                    .withPublishReference(content.getPublishReference());
-        }
+		public Builder withValuesFrom(Content content) {
+			return withTitle(content.getTitle())
+					.withTitles(content.getTitles())
+					.withByline(content.getByline())
+					.withBrands(content.getBrands())
+					.withIdentifiers(content.getIdentifiers())
+					.withUuid(UUID.fromString(content.getUuid()))
+					.withPublishedDate(content.getPublishedDate())
+					.withXmlBody(content.getBody())
+					.withDescription(content.getDescription())
+					.withMediaType(content.getMediaType())
+					.withPixelWidth(content.getPixelWidth())
+					.withPixelHeight(content.getPixelHeight())
+					.withInternalBinaryUrl(content.getInternalBinaryUrl())
+					.withExternalBinaryUrl(content.getExternalBinaryUrl())
+					.withMembers(content.getMembers())
+					.withMainImage(content.getMainImage())
+					.withComments(content.getComments())
+					.withCopyright(content.getCopyright())
+					.withPublishReference(content.getPublishReference());
+		}
 
 		public Content build() {
-            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, transactionId);
+            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, copyright, transactionId);
         }
     }
 

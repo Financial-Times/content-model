@@ -188,6 +188,16 @@ public class ContentTest {
         assertThat(content, is(not(equalTo(otherContent))));
     }
 
+	@Test
+	public void contentWithDifferentCopyrightsAreNotEqual() {
+		final Content otherContent = Content.builder()
+				.withValuesFrom(content)
+				.withCopyright(Copyright.notice("Simon").build())
+				.build();
+
+		assertThat(content, is(not(equalTo(otherContent))));
+	}
+
     @Test
     public void contentWithSameFieldsAreEqual() {
 
