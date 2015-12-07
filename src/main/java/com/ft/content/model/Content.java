@@ -35,6 +35,7 @@ public class Content {
     private final String mainImage;
     private final Comments comments;
     private final String publishReference;
+    private final Date lastModified;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -53,7 +54,8 @@ public class Content {
                    @JsonProperty("members") SortedSet<Member> members,
                    @JsonProperty("mainImage") String mainImage,
                    @JsonProperty("comments") Comments comments,
-                   @JsonProperty("publishReference") String publishReference) {
+                   @JsonProperty("publishReference") String publishReference,
+                   @JsonProperty("lastModified") Date lastModified) {
         this.identifiers = identifiers;
         this.body = body;
         this.comments = comments;
@@ -72,6 +74,7 @@ public class Content {
         this.members = members;
         this.mainImage = mainImage;
         this.publishReference = publishReference;
+        this.lastModified = lastModified;
     }
 
     @NotNull
@@ -83,22 +86,22 @@ public class Content {
     public String getTitle() {
         return title;
     }
-    
+
     public List<String> getTitles() {
-    	return titles;
+        return titles;
     }
-    
+
     public String getByline() {
-    	return byline;
+        return byline;
     }
 
     public SortedSet<Brand> getBrands() {
-		return brands;
-	}
+        return brands;
+    }
 
 
     @NotNull
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="UTC")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     public Date getPublishedDate() {
         return publishedDate;
     }
@@ -151,6 +154,11 @@ public class Content {
         return publishReference;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+    public Date getLastModified() {
+        return lastModified;
+    }
+
     @Override
     public String toString() {
         return Objects.toStringHelper(this.getClass())
@@ -171,6 +179,7 @@ public class Content {
                 .add("mainImage", mainImage)
                 .add("comments", comments)
                 .add("publishReference", publishReference)
+                .add("lastModified", lastModified)
                 .toString();
     }
 
@@ -197,12 +206,13 @@ public class Content {
                 && Objects.equal(this.members, that.members)
                 && Objects.equal(this.mainImage, that.mainImage)
                 && Objects.equal(this.comments, that.comments)
-                && Objects.equal(this.publishReference, that.publishReference);
+                && Objects.equal(this.publishReference, that.publishReference)
+                && Objects.equal(this.lastModified, that.lastModified);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, publishReference);
+        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, publishReference, lastModified);
     }
 
     public static Builder builder() {
@@ -229,6 +239,7 @@ public class Content {
         private String mainImage;
         private Comments comments;
         private String transactionId;
+        private Date lastModified;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -241,12 +252,12 @@ public class Content {
         }
 
         public Builder withTitles(List<String> titles) {
-        	this.titles = titles;
-        	if(titles != null) {
-        		Collections.sort(titles, new LengthComparator());
-        	}
-        	return this;
-		}
+            this.titles = titles;
+            if (titles != null) {
+                Collections.sort(titles, new LengthComparator());
+            }
+            return this;
+        }
 
         public Builder withByline(String byline) {
             this.byline = byline;
@@ -323,11 +334,16 @@ public class Content {
             return this;
         }
 
+        public Builder withLastModified(Date lastModified) {
+            this.lastModified = lastModified;
+            return this;
+        }
+
         public Builder withValuesFrom(Content content) {
             return withTitle(content.getTitle())
-            		.withTitles(content.getTitles())
-            		.withByline(content.getByline())
-            		.withBrands(content.getBrands())
+                    .withTitles(content.getTitles())
+                    .withByline(content.getByline())
+                    .withBrands(content.getBrands())
                     .withIdentifiers(content.getIdentifiers())
                     .withUuid(UUID.fromString(content.getUuid()))
                     .withPublishedDate(content.getPublishedDate())
@@ -341,19 +357,20 @@ public class Content {
                     .withMembers(content.getMembers())
                     .withMainImage(content.getMainImage())
                     .withComments(content.getComments())
-                    .withPublishReference(content.getPublishReference());
+                    .withPublishReference(content.getPublishReference())
+                    .withLastModified(content.getLastModified());
         }
 
-		public Content build() {
-            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, transactionId);
+        public Content build() {
+            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, transactionId, lastModified);
         }
     }
 
-    private static final class LengthComparator implements Comparator<String>{
-		@Override
-		public int compare(String o1, String o2) {
-			return o1.length() - o2.length();
-		}
+    private static final class LengthComparator implements Comparator<String> {
+        @Override
+        public int compare(String o1, String o2) {
+            return o1.length() - o2.length();
+        }
     }
-    
+
 }
