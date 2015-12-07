@@ -192,7 +192,7 @@ public class ContentTest {
 	public void contentWithDifferentCopyrightsAreNotEqual() {
 		final Content otherContent = Content.builder()
 				.withValuesFrom(content)
-				.withCopyright(Copyright.notice("Simon").build())
+				.withCopyright(Copyright.noticeOnly("Simon"))
 				.build();
 
 		assertThat(content, is(not(equalTo(otherContent))));

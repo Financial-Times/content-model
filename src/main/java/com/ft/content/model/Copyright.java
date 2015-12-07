@@ -2,6 +2,7 @@ package com.ft.content.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 
 /**
  * Wrapper for future legal stakeholder rights information and the agreed attribution statement / notice.
@@ -39,8 +40,11 @@ public class Copyright {
 		return new Builder();
 	}
 
-	public static Builder notice(String notice) {
-		return (new Builder()).withNotice(notice);
+	public static Copyright noticeOnly(String notice) {
+        if(Strings.isNullOrEmpty(notice)) {
+            return null;
+        }
+		return (new Builder()).withNotice(notice).build();
 	}
 
 	public static class Builder {
