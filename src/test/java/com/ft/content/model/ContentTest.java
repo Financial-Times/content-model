@@ -32,6 +32,7 @@ public class ContentTest {
                 .withMainImage(UUID.randomUUID().toString())
                 .withComments(new Comments(true))
                 .withPublishReference("test")
+                .withLastModified(new Date(290L))
                 .withExternalBinaryUrl("http://com.ft.imagepublish.prod.s3.amazonaws.com/12a9a540-8124-11e4-896c-00144feabdc0")
                 .build();
     }
@@ -121,6 +122,15 @@ public class ContentTest {
     public void contentWithDifferentPublishDatesAreNotEqual() {
         final Content otherContent = Content.builder()
                 .withPublishedDate(new Date(content.getPublishedDate().getTime() + 100))
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
+    public void contentWithDifferentLastModifiedDatesAreNotEqual() {
+        final Content otherContent = Content.builder()
+                .withLastModified(new Date(content.getPublishedDate().getTime() + 100))
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
