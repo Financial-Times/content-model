@@ -33,6 +33,7 @@ public class Content {
     private final String externalBinaryUrl;
     private final SortedSet<Member> members;
     private final String mainImage;
+    private final Standout standout;
     private final Comments comments;
     private final Copyright copyright;
     private final String publishReference;
@@ -54,12 +55,14 @@ public class Content {
                    @JsonProperty("externalBinaryUrl") String externalBinaryUrl,
                    @JsonProperty("members") SortedSet<Member> members,
                    @JsonProperty("mainImage") String mainImage,
-                   @JsonProperty("comments") Comments comments,                 
-				   @JsonProperty("copyright") Copyright copyright,
+                   @JsonProperty("standout") Standout standout,
+                   @JsonProperty("comments") Comments comments,
+                   @JsonProperty("copyright") Copyright copyright,
                    @JsonProperty("publishReference") String publishReference,
                    @JsonProperty("lastModified") Date lastModified) {
         this.identifiers = identifiers;
         this.body = body;
+        this.standout = standout;
         this.comments = comments;
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
@@ -153,6 +156,10 @@ public class Content {
         return comments;
     }
 
+    public Standout getStandout() {
+        return standout;
+    }
+
 	public Copyright getCopyright() {
 		return copyright;
 	}
@@ -185,6 +192,7 @@ public class Content {
                 .add("members", members)
                 .add("mainImage", mainImage)
                 .add("comments", comments)
+                .add("standout", standout)
                 .add("publishReference", publishReference)
                 .add("lastModified", lastModified)
                 .toString();
@@ -213,6 +221,7 @@ public class Content {
                 && Objects.equal(this.members, that.members)
                 && Objects.equal(this.mainImage, that.mainImage)
                 && Objects.equal(this.comments, that.comments)
+                && Objects.equal(this.standout, that.standout)
                 && Objects.equal(this.copyright, that.copyright)
                 && Objects.equal(this.publishReference, that.publishReference)
                 && Objects.equal(this.lastModified, that.lastModified);
@@ -220,14 +229,14 @@ public class Content {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, publishReference, lastModified);
+        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, standout, publishReference, lastModified);
     }
 
     public static Builder builder() {
         return new Builder();
     }
 
-	public static class Builder {
+    public static class Builder {
 
         private UUID uuid;
         private String title;
@@ -246,6 +255,7 @@ public class Content {
         private SortedSet<Member> members;
         private String mainImage;
         private Comments comments;
+        private Standout standout;
         private Copyright copyright;
         private String transactionId;
         private Date lastModified;
@@ -338,6 +348,11 @@ public class Content {
             return this;
         }
 
+        public Builder withStandout(Standout standout) {
+            this.standout = standout;
+            return this;
+        }
+
 		public Builder withCopyright(Copyright copyright) {
 			this.copyright = copyright;
 			return this;
@@ -371,13 +386,14 @@ public class Content {
                     .withMembers(content.getMembers())
                     .withMainImage(content.getMainImage())
                     .withComments(content.getComments())
+                    .withStandout(content.getStandout())
                     .withCopyright(content.getCopyright())
                     .withPublishReference(content.getPublishReference())
                     .withLastModified(content.getLastModified());
         }
 
 		public Content build() {
-            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, copyright, transactionId, lastModified);
+            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, standout, comments, copyright, transactionId, lastModified);
         }
     }
 
