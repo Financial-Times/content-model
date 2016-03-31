@@ -31,6 +31,7 @@ public class ContentTest {
                 .withMembers(ImmutableSortedSet.of(new Member("member1"), new Member("member2")))
                 .withMainImage(UUID.randomUUID().toString())
                 .withComments(new Comments(true))
+                .withStandout(new Standout(true, true, true))
                 .withPublishReference("test")
                 .withLastModified(new Date(290L))
                 .withExternalBinaryUrl("http://com.ft.imagepublish.prod.s3.amazonaws.com/12a9a540-8124-11e4-896c-00144feabdc0")
@@ -256,4 +257,8 @@ public class ContentTest {
         assertThat(clone.getPublishReference(),is("test"));
     }
 
+    @Test
+    public void shouldStoreStandoutSection() {
+        assertThat(content.getStandout(), is(new Standout(true, true, true)));
+    }
 }
