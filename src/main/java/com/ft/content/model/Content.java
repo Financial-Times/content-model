@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.SortedSet;
 import java.util.UUID;
 
@@ -11,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -20,9 +21,11 @@ public class Content {
     private final String uuid;
     private final String title;
     private final List<String> titles;
+    private final AlternativeTitles alternativeTitles;
     private final String byline;
     private final SortedSet<Brand> brands;
     private final Date publishedDate;
+    private final String standfirst;
     private final String body;
     private final SortedSet<Identifier> identifiers;
     private final String description;
@@ -42,10 +45,12 @@ public class Content {
 	public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
                    @JsonProperty("titles") List<String> titles,
+                   @JsonProperty("alternativeTitles") AlternativeTitles alternativeTitles,
                    @JsonProperty("byline") String byline,
                    @JsonProperty("brands") SortedSet<Brand> brands,
                    @JsonProperty("identifiers") SortedSet<Identifier> identifiers,
                    @JsonProperty("publishedDate") Date publishedDate,
+                   @JsonProperty("standfirst") String standfirst,
                    @JsonProperty("body") String body,
                    @JsonProperty("description") String description,
                    @JsonProperty("mediaType") String mediaType,
@@ -67,7 +72,9 @@ public class Content {
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
         this.titles = titles;
+        this.alternativeTitles = alternativeTitles;
         this.byline = byline;
+        this.standfirst = standfirst;
         this.brands = brands;
         this.publishedDate = publishedDate;
         this.description = description;
@@ -96,7 +103,11 @@ public class Content {
     public List<String> getTitles() {
         return titles;
     }
-
+    
+    public AlternativeTitles getAlternativeTitles() {
+        return alternativeTitles;
+    }
+    
     public String getByline() {
         return byline;
     }
@@ -111,7 +122,11 @@ public class Content {
     public Date getPublishedDate() {
         return publishedDate;
     }
-
+    
+    public String getStandfirst() {
+        return standfirst;
+    }
+    
     public String getBody() {
         return body;
     }
@@ -175,13 +190,15 @@ public class Content {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this.getClass())
+        return MoreObjects.toStringHelper(this.getClass())
                 .add("uuid", uuid)
                 .add("title", title)
+                .add("alternativeTitles", alternativeTitles)
                 .add("byline", byline)
                 .add("brands", brands)
                 .add("identifiers", identifiers)
                 .add("publishedDate", publishedDate)
+                .add("standfirst", standfirst)
                 .add("body", body)
                 .add("description", description)
                 .add("mediaType", mediaType)
@@ -205,31 +222,33 @@ public class Content {
 
         Content that = (Content) o;
 
-        return Objects.equal(this.uuid, that.uuid)
-                && Objects.equal(this.title, that.title)
-                && Objects.equal(this.byline, that.byline)
-                && Objects.equal(this.brands, that.brands)
-                && Objects.equal(this.identifiers, that.identifiers)
-                && Objects.equal(this.body, that.body) // TODO maybe this could be better. The strings could be equivalent as xml even though they are different strings
-                && Objects.equal(this.publishedDate, that.publishedDate)
-                && Objects.equal(this.description, that.description)
-                && Objects.equal(this.mediaType, that.mediaType)
-                && Objects.equal(this.pixelWidth, that.pixelWidth)
-                && Objects.equal(this.pixelHeight, that.pixelHeight)
-                && Objects.equal(this.internalBinaryUrl, that.internalBinaryUrl)
-                && Objects.equal(this.externalBinaryUrl, that.externalBinaryUrl)
-                && Objects.equal(this.members, that.members)
-                && Objects.equal(this.mainImage, that.mainImage)
-                && Objects.equal(this.comments, that.comments)
-                && Objects.equal(this.standout, that.standout)
-                && Objects.equal(this.copyright, that.copyright)
-                && Objects.equal(this.publishReference, that.publishReference)
-                && Objects.equal(this.lastModified, that.lastModified);
+        return Objects.equals(this.uuid, that.uuid)
+                && Objects.equals(this.title, that.title)
+                && Objects.equals(this.alternativeTitles, that.alternativeTitles)
+                && Objects.equals(this.byline, that.byline)
+                && Objects.equals(this.brands, that.brands)
+                && Objects.equals(this.identifiers, that.identifiers)
+                && Objects.equals(this.standfirst,  that.standfirst)
+                && Objects.equals(this.body, that.body) // TODO maybe this could be better. The strings could be equivalent as xml even though they are different strings
+                && Objects.equals(this.publishedDate, that.publishedDate)
+                && Objects.equals(this.description, that.description)
+                && Objects.equals(this.mediaType, that.mediaType)
+                && Objects.equals(this.pixelWidth, that.pixelWidth)
+                && Objects.equals(this.pixelHeight, that.pixelHeight)
+                && Objects.equals(this.internalBinaryUrl, that.internalBinaryUrl)
+                && Objects.equals(this.externalBinaryUrl, that.externalBinaryUrl)
+                && Objects.equals(this.members, that.members)
+                && Objects.equals(this.mainImage, that.mainImage)
+                && Objects.equals(this.comments, that.comments)
+                && Objects.equals(this.standout, that.standout)
+                && Objects.equals(this.copyright, that.copyright)
+                && Objects.equals(this.publishReference, that.publishReference)
+                && Objects.equals(this.lastModified, that.lastModified);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(title, byline, brands, identifiers, uuid, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, standout, publishReference, lastModified);
+        return Objects.hash(title, alternativeTitles, byline, brands, identifiers, uuid, publishedDate, standfirst, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, standout, publishReference, lastModified);
     }
 
     public static Builder builder() {
@@ -241,9 +260,11 @@ public class Content {
         private UUID uuid;
         private String title;
         private List<String> titles;
+        private AlternativeTitles alternativeTitles;
         private String byline;
         private SortedSet<Brand> brands;
         private Date publishedDate;
+        private String standfirst;
         private String body;
         private SortedSet<Identifier> identifiers;
         private String description;
@@ -277,7 +298,12 @@ public class Content {
             }
             return this;
         }
-
+        
+        public Builder withAlternativeTitles(AlternativeTitles titles) {
+          this.alternativeTitles = titles;
+          return this;
+        }
+        
         public Builder withByline(String byline) {
             this.byline = byline;
             return this;
@@ -292,7 +318,12 @@ public class Content {
             this.publishedDate = publishedDate;
             return this;
         }
-
+        
+        public Builder withStandfirst(String standfirst) {
+            this.standfirst = standfirst;
+            return this;
+        }
+        
         public Builder withXmlBody(String body) {
             this.body = body;
             return this;
@@ -371,7 +402,9 @@ public class Content {
         public Builder withValuesFrom(Content content) {
             return withTitle(content.getTitle())
             		.withTitles(content.getTitles())
+            		.withAlternativeTitles(content.getAlternativeTitles())
             		.withByline(content.getByline())
+            		.withStandfirst(content.getStandfirst())
             		.withBrands(content.getBrands())
                     .withIdentifiers(content.getIdentifiers())
                     .withUuid(UUID.fromString(content.getUuid()))
@@ -393,7 +426,18 @@ public class Content {
         }
 
 		public Content build() {
-            return new Content(uuid, title, titles, byline, brands, identifiers, publishedDate, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, standout, comments, copyright, transactionId, lastModified);
+		  if (alternativeTitles == null) {
+		    alternativeTitles = AlternativeTitles.builder().build();
+		  }
+		  
+          return new Content(uuid,
+              title, titles, AlternativeTitles.builder().withValuesFrom(alternativeTitles).build(),
+              byline, brands, identifiers, publishedDate,
+              standfirst, body, description,
+              mediaType,
+              pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl,
+              members, mainImage,
+              standout, comments, copyright, transactionId, lastModified);
         }
     }
 

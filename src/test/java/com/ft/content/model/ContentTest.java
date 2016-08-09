@@ -11,8 +11,15 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.sameInstance;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class ContentTest {
 
@@ -260,5 +267,25 @@ public class ContentTest {
     @Test
     public void shouldStoreStandoutSection() {
         assertThat(content.getStandout(), is(new Standout(true, true, true)));
+    }
+    
+    @Test
+    public void thatAlternativeTitlesIsStored() {
+      assertThat(content.getAlternativeTitles(), is(not(nullValue())));
+      assertThat(content.getAlternativeTitles().getPromotionalTitle(), is(nullValue()));
+      
+      String promoTitle = "Promotional Title";
+      AlternativeTitles titles = AlternativeTitles.builder()
+          .withPromotionalTitle(promoTitle)
+          .build();
+      
+      Content contentWithAltTitles = Content.builder().withValuesFrom(content)
+          .withAlternativeTitles(titles)
+          .build();
+      
+      AlternativeTitles actual = contentWithAltTitles.getAlternativeTitles();
+      assertThat(actual.getPromotionalTitle(), is(equalTo(promoTitle)));
+      assertThat(actual, is(equalTo(titles)));
+      assertThat(actual, is(not(sameInstance(titles))));
     }
 }
