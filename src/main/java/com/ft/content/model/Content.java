@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -320,7 +321,7 @@ public class Content {
         }
         
         public Builder withStandfirst(String standfirst) {
-            this.standfirst = standfirst;
+            this.standfirst = Strings.emptyToNull(standfirst);
             return this;
         }
         

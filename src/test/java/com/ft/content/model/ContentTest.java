@@ -288,4 +288,27 @@ public class ContentTest {
       assertThat(actual, is(equalTo(titles)));
       assertThat(actual, is(not(sameInstance(titles))));
     }
+    
+    @Test
+    public void thatStandfirstIsStored() {
+      assertThat(content.getStandfirst(), is(nullValue()));
+      
+      String standfirst = "Standfirst";
+      Content contentWithStandfirst = Content.builder().withValuesFrom(content)
+          .withStandfirst(standfirst)
+          .build();
+      
+      String actual = contentWithStandfirst.getStandfirst();
+      assertThat(actual, is(equalTo(standfirst)));
+    }
+    
+    @Test
+    public void thatEmptyStandfirstIsTreatedAsNull() {
+      String standfirst = "";
+      Content contentWithEmptyStandfirst = Content.builder().withValuesFrom(content)
+          .withStandfirst(standfirst)
+          .build();
+      
+      assertThat(contentWithEmptyStandfirst.getStandfirst(), is(nullValue()));
+    }
 }
