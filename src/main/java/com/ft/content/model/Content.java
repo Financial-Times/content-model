@@ -41,9 +41,9 @@ public class Content {
     private final Standout standout;
     private final Comments comments;
     private final Copyright copyright;
+    private final URI webUrl;
     private final String publishReference;
     private final Date lastModified;
-    private final URI webUrl;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
