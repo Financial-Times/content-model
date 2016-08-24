@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSortedSet;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +40,7 @@ public class ContentTest {
                 .withMainImage(UUID.randomUUID().toString())
                 .withComments(new Comments(true))
                 .withStandout(new Standout(true, true, true))
+                .withWebUrl(URI.create("http://www.ft.com/a-url"))
                 .withPublishReference("test")
                 .withLastModified(new Date(290L))
                 .withExternalBinaryUrl("http://com.ft.imagepublish.prod.s3.amazonaws.com/12a9a540-8124-11e4-896c-00144feabdc0")
@@ -215,6 +217,16 @@ public class ContentTest {
 
 		assertThat(content, is(not(equalTo(otherContent))));
 	}
+
+    @Test
+    public void contentWithDifferentWebUrlAreNotEqual() {
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withWebUrl(URI.create("http://www.ft.com/another-url"))
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
 
     @Test
     public void contentWithSameFieldsAreEqual() {
