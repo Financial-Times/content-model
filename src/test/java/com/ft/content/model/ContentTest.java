@@ -237,23 +237,6 @@ public class ContentTest {
 
         assertThat(content, is(equalTo(otherContent)));
     }
-    
-    @Test
-    public void shouldSortTitlesShortestFirst() {
-    	String shortest = "zzz";
-    	String middle = "aaaaaa";
-    	String longest = "mmmmmmmmmmmm";
-    	
-    	Content content = Content.builder().withTitles(Arrays.asList(middle, longest, shortest)).build();
-    	
-    	List<String> titles = content.getTitles();
-    	
-    	assertThat(titles.size(), is(3));
-    	assertThat(titles.get(0), is(equalTo(shortest)));
-    	assertThat(titles.get(1), is(equalTo(middle)));
-    	assertThat(titles.get(2), is(equalTo(longest)));
-
-    }
 
     @Test
     public void shouldStorePublishReference() {
