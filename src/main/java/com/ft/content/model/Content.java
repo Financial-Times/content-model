@@ -1,5 +1,6 @@
 package com.ft.content.model;
 
+import java.net.URI;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -40,10 +41,11 @@ public class Content {
     private final Standout standout;
     private final Comments comments;
     private final Copyright copyright;
+    private final URI webUrl;
     private final String publishReference;
     private final Date lastModified;
 
-	public Content(@JsonProperty("uuid") UUID uuid,
+    public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
                    @JsonProperty("titles") List<String> titles,
                    @JsonProperty("alternativeTitles") AlternativeTitles alternativeTitles,
@@ -64,6 +66,7 @@ public class Content {
                    @JsonProperty("standout") Standout standout,
                    @JsonProperty("comments") Comments comments,
                    @JsonProperty("copyright") Copyright copyright,
+                   @JsonProperty("webUrl") URI webUrl,
                    @JsonProperty("publishReference") String publishReference,
                    @JsonProperty("lastModified") Date lastModified) {
         this.identifiers = identifiers;
@@ -87,6 +90,7 @@ public class Content {
         this.members = members;
         this.mainImage = mainImage;
 		this.copyright = copyright;
+        this.webUrl = webUrl;
         this.publishReference = publishReference;
         this.lastModified = lastModified;
     }
@@ -180,6 +184,10 @@ public class Content {
 		return copyright;
 	}
 
+    public URI getWebUrl() {
+        return webUrl;
+    }
+
     public String getPublishReference() {
         return publishReference;
     }
@@ -211,6 +219,7 @@ public class Content {
                 .add("mainImage", mainImage)
                 .add("comments", comments)
                 .add("standout", standout)
+                .add("webUrl", webUrl)
                 .add("publishReference", publishReference)
                 .add("lastModified", lastModified)
                 .toString();
@@ -244,7 +253,8 @@ public class Content {
                 && Objects.equals(this.standout, that.standout)
                 && Objects.equals(this.copyright, that.copyright)
                 && Objects.equals(this.publishReference, that.publishReference)
-                && Objects.equals(this.lastModified, that.lastModified);
+                && Objects.equals(this.lastModified, that.lastModified)
+                && Objects.equals(this.webUrl, that.webUrl);
     }
 
     @Override
@@ -279,6 +289,7 @@ public class Content {
         private Comments comments;
         private Standout standout;
         private Copyright copyright;
+        private URI webUrl;
         private String transactionId;
         private Date lastModified;
 
@@ -395,6 +406,11 @@ public class Content {
             return this;
         }
 
+        public Builder withWebUrl(URI webUrl){
+            this.webUrl = webUrl;
+            return this;
+        }
+
         public Builder withLastModified(Date lastModified) {
             this.lastModified = lastModified;
             return this;
@@ -422,6 +438,7 @@ public class Content {
                     .withComments(content.getComments())
                     .withStandout(content.getStandout())
                     .withCopyright(content.getCopyright())
+                    .withWebUrl(content.getWebUrl())
                     .withPublishReference(content.getPublishReference())
                     .withLastModified(content.getLastModified());
         }
@@ -438,7 +455,7 @@ public class Content {
               mediaType,
               pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl,
               members, mainImage,
-              standout, comments, copyright, transactionId, lastModified);
+              standout, comments, copyright, webUrl, transactionId, lastModified);
         }
     }
 
