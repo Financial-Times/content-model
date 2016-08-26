@@ -1,10 +1,7 @@
 package com.ft.content.model;
 
 import java.net.URI;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.UUID;
@@ -22,7 +19,6 @@ public class Content {
 
     private final String uuid;
     private final String title;
-    private final List<String> titles;
     private final AlternativeTitles alternativeTitles;
     private final String byline;
     private final SortedSet<Brand> brands;
@@ -47,7 +43,6 @@ public class Content {
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
-                   @JsonProperty("titles") List<String> titles,
                    @JsonProperty("alternativeTitles") AlternativeTitles alternativeTitles,
                    @JsonProperty("byline") String byline,
                    @JsonProperty("brands") SortedSet<Brand> brands,
@@ -75,7 +70,6 @@ public class Content {
         this.comments = comments;
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
-        this.titles = titles;
         this.alternativeTitles = alternativeTitles;
         this.byline = byline;
         this.standfirst = standfirst;
@@ -103,10 +97,6 @@ public class Content {
     @NotEmpty
     public String getTitle() {
         return title;
-    }
-
-    public List<String> getTitles() {
-        return titles;
     }
     
     public AlternativeTitles getAlternativeTitles() {
@@ -270,7 +260,6 @@ public class Content {
 
         private UUID uuid;
         private String title;
-        private List<String> titles;
         private AlternativeTitles alternativeTitles;
         private String byline;
         private SortedSet<Brand> brands;
@@ -300,14 +289,6 @@ public class Content {
 
         public Builder withTitle(String title) {
             this.title = title;
-            return this;
-        }
-
-        public Builder withTitles(List<String> titles) {
-            this.titles = titles;
-            if (titles != null) {
-                Collections.sort(titles, new LengthComparator());
-            }
             return this;
         }
         
@@ -418,7 +399,6 @@ public class Content {
 
         public Builder withValuesFrom(Content content) {
             return withTitle(content.getTitle())
-            		.withTitles(content.getTitles())
             		.withAlternativeTitles(content.getAlternativeTitles())
             		.withByline(content.getByline())
             		.withStandfirst(content.getStandfirst())
@@ -449,7 +429,7 @@ public class Content {
 		  }
 		  
           return new Content(uuid,
-              title, titles, AlternativeTitles.builder().withValuesFrom(alternativeTitles).build(),
+              title, AlternativeTitles.builder().withValuesFrom(alternativeTitles).build(),
               byline, brands, identifiers, publishedDate,
               standfirst, body, description,
               mediaType,
@@ -458,12 +438,4 @@ public class Content {
               standout, comments, copyright, webUrl, transactionId, lastModified);
         }
     }
-
-    private static final class LengthComparator implements Comparator<String> {
-        @Override
-        public int compare(String o1, String o2) {
-            return o1.length() - o2.length();
-        }
-    }
-
 }
