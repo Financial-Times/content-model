@@ -6,9 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.SortedSet;
 import java.util.UUID;
 
@@ -44,6 +42,7 @@ public class ContentTest {
                 .withPublishReference("test")
                 .withLastModified(new Date(290L))
                 .withExternalBinaryUrl("http://com.ft.imagepublish.prod.s3.amazonaws.com/12a9a540-8124-11e4-896c-00144feabdc0")
+                .withCanBeSyndicated(Syndication.YES)
                 .build();
     }
 
@@ -208,21 +207,31 @@ public class ContentTest {
         assertThat(content, is(not(equalTo(otherContent))));
     }
 
-	@Test
-	public void contentWithDifferentCopyrightsAreNotEqual() {
-		final Content otherContent = Content.builder()
-				.withValuesFrom(content)
-				.withCopyright(Copyright.noticeOnly("Simon"))
-				.build();
+    @Test
+    public void contentWithDifferentCopyrightsAreNotEqual() {
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withCopyright(Copyright.noticeOnly("Simon"))
+                .build();
 
-		assertThat(content, is(not(equalTo(otherContent))));
-	}
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
 
     @Test
     public void contentWithDifferentWebUrlAreNotEqual() {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withWebUrl(URI.create("http://www.ft.com/another-url"))
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
+    public void contentWithDifferentCanBeSyndicatedAreNotEqual() {
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withCanBeSyndicated(Syndication.NO)
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
@@ -240,7 +249,7 @@ public class ContentTest {
 
     @Test
     public void shouldStorePublishReference() {
-        assertThat(content.getPublishReference(),is("test"));
+        assertThat(content.getPublishReference(), is("test"));
     }
 
     @Test
@@ -248,62 +257,62 @@ public class ContentTest {
 
         Content clone = Content.builder().withValuesFrom(content).withPublishReference("test2").build();
 
-        assertNotEquals(content,clone);
-        assertNotEquals(content.hashCode(),clone.hashCode());
+        assertNotEquals(content, clone);
+        assertNotEquals(content.hashCode(), clone.hashCode());
         assertNotEquals(content.toString(), clone.toString());
     }
 
     @Test
     public void shouldClonePublishReference() {
         Content clone = Content.builder().withValuesFrom(content).build();
-        assertThat(clone.getPublishReference(),is("test"));
+        assertThat(clone.getPublishReference(), is("test"));
     }
 
     @Test
     public void shouldStoreStandoutSection() {
         assertThat(content.getStandout(), is(new Standout(true, true, true)));
     }
-    
+
     @Test
     public void thatAlternativeTitlesIsStored() {
-      assertThat(content.getAlternativeTitles(), is(not(nullValue())));
-      assertThat(content.getAlternativeTitles().getPromotionalTitle(), is(nullValue()));
-      
-      String promoTitle = "Promotional Title";
-      AlternativeTitles titles = AlternativeTitles.builder()
-          .withPromotionalTitle(promoTitle)
-          .build();
-      
-      Content contentWithAltTitles = Content.builder().withValuesFrom(content)
-          .withAlternativeTitles(titles)
-          .build();
-      
-      AlternativeTitles actual = contentWithAltTitles.getAlternativeTitles();
-      assertThat(actual.getPromotionalTitle(), is(equalTo(promoTitle)));
-      assertThat(actual, is(equalTo(titles)));
-      assertThat(actual, is(not(sameInstance(titles))));
+        assertThat(content.getAlternativeTitles(), is(not(nullValue())));
+        assertThat(content.getAlternativeTitles().getPromotionalTitle(), is(nullValue()));
+
+        String promoTitle = "Promotional Title";
+        AlternativeTitles titles = AlternativeTitles.builder()
+                .withPromotionalTitle(promoTitle)
+                .build();
+
+        Content contentWithAltTitles = Content.builder().withValuesFrom(content)
+                .withAlternativeTitles(titles)
+                .build();
+
+        AlternativeTitles actual = contentWithAltTitles.getAlternativeTitles();
+        assertThat(actual.getPromotionalTitle(), is(equalTo(promoTitle)));
+        assertThat(actual, is(equalTo(titles)));
+        assertThat(actual, is(not(sameInstance(titles))));
     }
-    
+
     @Test
     public void thatStandfirstIsStored() {
-      assertThat(content.getStandfirst(), is(nullValue()));
-      
-      String standfirst = "Standfirst";
-      Content contentWithStandfirst = Content.builder().withValuesFrom(content)
-          .withStandfirst(standfirst)
-          .build();
-      
-      String actual = contentWithStandfirst.getStandfirst();
-      assertThat(actual, is(equalTo(standfirst)));
+        assertThat(content.getStandfirst(), is(nullValue()));
+
+        String standfirst = "Standfirst";
+        Content contentWithStandfirst = Content.builder().withValuesFrom(content)
+                .withStandfirst(standfirst)
+                .build();
+
+        String actual = contentWithStandfirst.getStandfirst();
+        assertThat(actual, is(equalTo(standfirst)));
     }
-    
+
     @Test
     public void thatEmptyStandfirstIsTreatedAsNull() {
-      String standfirst = "";
-      Content contentWithEmptyStandfirst = Content.builder().withValuesFrom(content)
-          .withStandfirst(standfirst)
-          .build();
-      
-      assertThat(contentWithEmptyStandfirst.getStandfirst(), is(nullValue()));
+        String standfirst = "";
+        Content contentWithEmptyStandfirst = Content.builder().withValuesFrom(content)
+                .withStandfirst(standfirst)
+                .build();
+
+        assertThat(contentWithEmptyStandfirst.getStandfirst(), is(nullValue()));
     }
 }

@@ -40,6 +40,7 @@ public class Content {
     private final URI webUrl;
     private final String publishReference;
     private final Date lastModified;
+    private final Syndication canBeSyndicated;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -63,7 +64,8 @@ public class Content {
                    @JsonProperty("copyright") Copyright copyright,
                    @JsonProperty("webUrl") URI webUrl,
                    @JsonProperty("publishReference") String publishReference,
-                   @JsonProperty("lastModified") Date lastModified) {
+                   @JsonProperty("lastModified") Date lastModified,
+                   @JsonProperty("canBeSyndicated") Syndication canBeSyndicated) {
         this.identifiers = identifiers;
         this.body = body;
         this.standout = standout;
@@ -83,10 +85,11 @@ public class Content {
         this.externalBinaryUrl = externalBinaryUrl;
         this.members = members;
         this.mainImage = mainImage;
-		this.copyright = copyright;
+        this.copyright = copyright;
         this.webUrl = webUrl;
         this.publishReference = publishReference;
         this.lastModified = lastModified;
+        this.canBeSyndicated = canBeSyndicated;
     }
 
     @NotNull
@@ -98,11 +101,11 @@ public class Content {
     public String getTitle() {
         return title;
     }
-    
+
     public AlternativeTitles getAlternativeTitles() {
         return alternativeTitles;
     }
-    
+
     public String getByline() {
         return byline;
     }
@@ -117,11 +120,11 @@ public class Content {
     public Date getPublishedDate() {
         return publishedDate;
     }
-    
+
     public String getStandfirst() {
         return standfirst;
     }
-    
+
     public String getBody() {
         return body;
     }
@@ -170,9 +173,9 @@ public class Content {
         return standout;
     }
 
-	public Copyright getCopyright() {
-		return copyright;
-	}
+    public Copyright getCopyright() {
+        return copyright;
+    }
 
     public URI getWebUrl() {
         return webUrl;
@@ -185,6 +188,10 @@ public class Content {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     public Date getLastModified() {
         return lastModified;
+    }
+
+    public Syndication getCanBeSyndicated() {
+        return canBeSyndicated;
     }
 
     @Override
@@ -212,6 +219,7 @@ public class Content {
                 .add("webUrl", webUrl)
                 .add("publishReference", publishReference)
                 .add("lastModified", lastModified)
+                .add("canBeSyndicated", canBeSyndicated)
                 .toString();
     }
 
@@ -228,7 +236,7 @@ public class Content {
                 && Objects.equals(this.byline, that.byline)
                 && Objects.equals(this.brands, that.brands)
                 && Objects.equals(this.identifiers, that.identifiers)
-                && Objects.equals(this.standfirst,  that.standfirst)
+                && Objects.equals(this.standfirst, that.standfirst)
                 && Objects.equals(this.body, that.body) // TODO maybe this could be better. The strings could be equivalent as xml even though they are different strings
                 && Objects.equals(this.publishedDate, that.publishedDate)
                 && Objects.equals(this.description, that.description)
@@ -244,12 +252,13 @@ public class Content {
                 && Objects.equals(this.copyright, that.copyright)
                 && Objects.equals(this.publishReference, that.publishReference)
                 && Objects.equals(this.lastModified, that.lastModified)
-                && Objects.equals(this.webUrl, that.webUrl);
+                && Objects.equals(this.webUrl, that.webUrl)
+                && Objects.equals(this.canBeSyndicated, that.canBeSyndicated);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, alternativeTitles, byline, brands, identifiers, uuid, publishedDate, standfirst, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, standout, publishReference, lastModified);
+        return Objects.hash(title, alternativeTitles, byline, brands, identifiers, uuid, publishedDate, standfirst, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, standout, publishReference, lastModified, canBeSyndicated);
     }
 
     public static Builder builder() {
@@ -281,8 +290,9 @@ public class Content {
         private URI webUrl;
         private String transactionId;
         private Date lastModified;
+        private Syndication canBeSyndicated;
 
-		public Builder withUuid(UUID uuid) {
+        public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
             return this;
         }
@@ -291,12 +301,12 @@ public class Content {
             this.title = title;
             return this;
         }
-        
+
         public Builder withAlternativeTitles(AlternativeTitles titles) {
-          this.alternativeTitles = titles;
-          return this;
+            this.alternativeTitles = titles;
+            return this;
         }
-        
+
         public Builder withByline(String byline) {
             this.byline = byline;
             return this;
@@ -311,12 +321,12 @@ public class Content {
             this.publishedDate = publishedDate;
             return this;
         }
-        
+
         public Builder withStandfirst(String standfirst) {
             this.standfirst = Strings.emptyToNull(standfirst);
             return this;
         }
-        
+
         public Builder withXmlBody(String body) {
             this.body = body;
             return this;
@@ -377,17 +387,17 @@ public class Content {
             return this;
         }
 
-		public Builder withCopyright(Copyright copyright) {
-			this.copyright = copyright;
-			return this;
-		}
+        public Builder withCopyright(Copyright copyright) {
+            this.copyright = copyright;
+            return this;
+        }
 
         public Builder withPublishReference(String transactionId) {
             this.transactionId = transactionId;
             return this;
         }
 
-        public Builder withWebUrl(URI webUrl){
+        public Builder withWebUrl(URI webUrl) {
             this.webUrl = webUrl;
             return this;
         }
@@ -397,12 +407,17 @@ public class Content {
             return this;
         }
 
+        public Builder withCanBeSyndicated(Syndication canBeSyndicated) {
+            this.canBeSyndicated = canBeSyndicated;
+            return this;
+        }
+
         public Builder withValuesFrom(Content content) {
             return withTitle(content.getTitle())
-            		.withAlternativeTitles(content.getAlternativeTitles())
-            		.withByline(content.getByline())
-            		.withStandfirst(content.getStandfirst())
-            		.withBrands(content.getBrands())
+                    .withAlternativeTitles(content.getAlternativeTitles())
+                    .withByline(content.getByline())
+                    .withStandfirst(content.getStandfirst())
+                    .withBrands(content.getBrands())
                     .withIdentifiers(content.getIdentifiers())
                     .withUuid(UUID.fromString(content.getUuid()))
                     .withPublishedDate(content.getPublishedDate())
@@ -420,22 +435,23 @@ public class Content {
                     .withCopyright(content.getCopyright())
                     .withWebUrl(content.getWebUrl())
                     .withPublishReference(content.getPublishReference())
-                    .withLastModified(content.getLastModified());
+                    .withLastModified(content.getLastModified())
+                    .withCanBeSyndicated(content.getCanBeSyndicated());
         }
 
-		public Content build() {
-		  if (alternativeTitles == null) {
-		    alternativeTitles = AlternativeTitles.builder().build();
-		  }
-		  
-          return new Content(uuid,
-              title, AlternativeTitles.builder().withValuesFrom(alternativeTitles).build(),
-              byline, brands, identifiers, publishedDate,
-              standfirst, body, description,
-              mediaType,
-              pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl,
-              members, mainImage,
-              standout, comments, copyright, webUrl, transactionId, lastModified);
+        public Content build() {
+            if (alternativeTitles == null) {
+                alternativeTitles = AlternativeTitles.builder().build();
+            }
+
+            return new Content(uuid,
+                    title, AlternativeTitles.builder().withValuesFrom(alternativeTitles).build(),
+                    byline, brands, identifiers, publishedDate,
+                    standfirst, body, description,
+                    mediaType,
+                    pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl,
+                    members, mainImage,
+                    standout, comments, copyright, webUrl, transactionId, lastModified, canBeSyndicated);
         }
     }
 }
