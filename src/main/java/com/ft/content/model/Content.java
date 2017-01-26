@@ -41,6 +41,7 @@ public class Content {
     private final String publishReference;
     private final Date lastModified;
     private final Syndication canBeSyndicated;
+    private final Date firstPublishedDate;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -65,7 +66,8 @@ public class Content {
                    @JsonProperty("webUrl") URI webUrl,
                    @JsonProperty("publishReference") String publishReference,
                    @JsonProperty("lastModified") Date lastModified,
-                   @JsonProperty("canBeSyndicated") Syndication canBeSyndicated) {
+                   @JsonProperty("canBeSyndicated") Syndication canBeSyndicated,
+                   @JsonProperty("firstPublishedDate") Date firstPublishedDate) {
         this.identifiers = identifiers;
         this.body = body;
         this.standout = standout;
@@ -90,6 +92,7 @@ public class Content {
         this.publishReference = publishReference;
         this.lastModified = lastModified;
         this.canBeSyndicated = canBeSyndicated;
+        this.firstPublishedDate = firstPublishedDate;
     }
 
     @NotNull
@@ -194,6 +197,11 @@ public class Content {
         return canBeSyndicated;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+    public Date getFirstPublishedDate() {
+        return firstPublishedDate;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this.getClass())
@@ -220,6 +228,7 @@ public class Content {
                 .add("publishReference", publishReference)
                 .add("lastModified", lastModified)
                 .add("canBeSyndicated", canBeSyndicated)
+                .add("firstPublishedDate", firstPublishedDate)
                 .toString();
     }
 
@@ -253,12 +262,13 @@ public class Content {
                 && Objects.equals(this.publishReference, that.publishReference)
                 && Objects.equals(this.lastModified, that.lastModified)
                 && Objects.equals(this.webUrl, that.webUrl)
-                && Objects.equals(this.canBeSyndicated, that.canBeSyndicated);
+                && Objects.equals(this.canBeSyndicated, that.canBeSyndicated)
+                && Objects.equals(this.firstPublishedDate, that.firstPublishedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, alternativeTitles, byline, brands, identifiers, uuid, publishedDate, standfirst, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, standout, publishReference, lastModified, canBeSyndicated);
+        return Objects.hash(title, alternativeTitles, byline, brands, identifiers, uuid, publishedDate, standfirst, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, standout, publishReference, lastModified, canBeSyndicated, firstPublishedDate);
     }
 
     public static Builder builder() {
@@ -291,6 +301,7 @@ public class Content {
         private String transactionId;
         private Date lastModified;
         private Syndication canBeSyndicated;
+        private Date firstPublishedDate;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -412,6 +423,11 @@ public class Content {
             return this;
         }
 
+        public Builder withFirstPublishedDate(Date firstPublishedDate) {
+            this.firstPublishedDate = firstPublishedDate;
+            return this;
+        }
+
         public Builder withValuesFrom(Content content) {
             return withTitle(content.getTitle())
                     .withAlternativeTitles(content.getAlternativeTitles())
@@ -436,7 +452,8 @@ public class Content {
                     .withWebUrl(content.getWebUrl())
                     .withPublishReference(content.getPublishReference())
                     .withLastModified(content.getLastModified())
-                    .withCanBeSyndicated(content.getCanBeSyndicated());
+                    .withCanBeSyndicated(content.getCanBeSyndicated())
+                    .withFirstPublishedDate(content.getFirstPublishedDate());
         }
 
         public Content build() {
@@ -451,7 +468,7 @@ public class Content {
                     mediaType,
                     pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl,
                     members, mainImage,
-                    standout, comments, copyright, webUrl, transactionId, lastModified, canBeSyndicated);
+                    standout, comments, copyright, webUrl, transactionId, lastModified, canBeSyndicated, firstPublishedDate);
         }
     }
 }

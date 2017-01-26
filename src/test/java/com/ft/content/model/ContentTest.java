@@ -43,6 +43,7 @@ public class ContentTest {
                 .withLastModified(new Date(290L))
                 .withExternalBinaryUrl("http://com.ft.imagepublish.prod.s3.amazonaws.com/12a9a540-8124-11e4-896c-00144feabdc0")
                 .withCanBeSyndicated(Syndication.YES)
+                .withFirstPublishedDate(new Date(280L))
                 .build();
     }
 
@@ -232,6 +233,16 @@ public class ContentTest {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withCanBeSyndicated(Syndication.NO)
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
+    public void contentWithDifferentFirstPublishDateAreNotEqual() {
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withFirstPublishedDate(new Date(content.getFirstPublishedDate().getTime() + 100))
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
