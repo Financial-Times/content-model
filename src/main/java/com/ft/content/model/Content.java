@@ -34,6 +34,7 @@ public class Content {
     private final String externalBinaryUrl;
     private final SortedSet<Member> members;
     private final String mainImage;
+    private final String storyPackageUuid;
     private final Standout standout;
     private final Comments comments;
     private final Copyright copyright;
@@ -60,6 +61,7 @@ public class Content {
                    @JsonProperty("externalBinaryUrl") String externalBinaryUrl,
                    @JsonProperty("members") SortedSet<Member> members,
                    @JsonProperty("mainImage") String mainImage,
+                   @JsonProperty("storyPackageUuid") String storyPackageUuid,
                    @JsonProperty("standout") Standout standout,
                    @JsonProperty("comments") Comments comments,
                    @JsonProperty("copyright") Copyright copyright,
@@ -87,6 +89,7 @@ public class Content {
         this.externalBinaryUrl = externalBinaryUrl;
         this.members = members;
         this.mainImage = mainImage;
+        this.storyPackageUuid = storyPackageUuid;
         this.copyright = copyright;
         this.webUrl = webUrl;
         this.publishReference = publishReference;
@@ -168,6 +171,10 @@ public class Content {
         return mainImage;
     }
 
+    public String getStoryPackageUuid() {
+        return storyPackageUuid;
+    }
+
     public Comments getComments() {
         return comments;
     }
@@ -222,6 +229,7 @@ public class Content {
                 .add("externalBinaryUrl", externalBinaryUrl)
                 .add("members", members)
                 .add("mainImage", mainImage)
+                .add("storyPackageUuid", storyPackageUuid)
                 .add("comments", comments)
                 .add("standout", standout)
                 .add("webUrl", webUrl)
@@ -256,6 +264,7 @@ public class Content {
                 && Objects.equals(this.externalBinaryUrl, that.externalBinaryUrl)
                 && Objects.equals(this.members, that.members)
                 && Objects.equals(this.mainImage, that.mainImage)
+                && Objects.equals(this.storyPackageUuid, that.storyPackageUuid)
                 && Objects.equals(this.comments, that.comments)
                 && Objects.equals(this.standout, that.standout)
                 && Objects.equals(this.copyright, that.copyright)
@@ -268,7 +277,30 @@ public class Content {
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, alternativeTitles, byline, brands, identifiers, uuid, publishedDate, standfirst, body, description, mediaType, pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl, members, mainImage, comments, standout, publishReference, lastModified, canBeSyndicated, firstPublishedDate);
+        return Objects.hash(title,
+                alternativeTitles,
+                byline,
+                brands,
+                identifiers,
+                uuid,
+                publishedDate,
+                standfirst,
+                body,
+                description,
+                mediaType,
+                pixelWidth,
+                pixelHeight,
+                internalBinaryUrl,
+                externalBinaryUrl,
+                members,
+                mainImage,
+                storyPackageUuid,
+                comments,
+                standout,
+                publishReference,
+                lastModified,
+                canBeSyndicated,
+                firstPublishedDate);
     }
 
     public static Builder builder() {
@@ -294,6 +326,7 @@ public class Content {
         private String externalBinaryUrl;
         private SortedSet<Member> members;
         private String mainImage;
+        private String storyPackageUuid;
         private Comments comments;
         private Standout standout;
         private Copyright copyright;
@@ -388,6 +421,11 @@ public class Content {
             return this;
         }
 
+        public Builder withStoryPackageUuid(String storyPackageUuid) {
+            this.storyPackageUuid = storyPackageUuid;
+            return this;
+        }
+
         public Builder withComments(Comments comments) {
             this.comments = comments;
             return this;
@@ -446,6 +484,7 @@ public class Content {
                     .withExternalBinaryUrl(content.getExternalBinaryUrl())
                     .withMembers(content.getMembers())
                     .withMainImage(content.getMainImage())
+                    .withStoryPackageUuid(content.getStoryPackageUuid())
                     .withComments(content.getComments())
                     .withStandout(content.getStandout())
                     .withCopyright(content.getCopyright())
@@ -467,7 +506,7 @@ public class Content {
                     standfirst, body, description,
                     mediaType,
                     pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl,
-                    members, mainImage,
+                    members, mainImage, storyPackageUuid,
                     standout, comments, copyright, webUrl, transactionId, lastModified, canBeSyndicated, firstPublishedDate);
         }
     }
