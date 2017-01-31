@@ -36,7 +36,7 @@ public class ContentTest {
                 .withXmlBody("The body")
                 .withMembers(ImmutableSortedSet.of(new Member("member1"), new Member("member2")))
                 .withMainImage(UUID.randomUUID().toString())
-                .withStoryPackageUuid(UUID.randomUUID().toString())
+                .withStoryPackage(UUID.randomUUID().toString())
                 .withComments(new Comments(true))
                 .withStandout(new Standout(true, true, true))
                 .withWebUrl(URI.create("http://www.ft.com/a-url"))
@@ -200,10 +200,10 @@ public class ContentTest {
     }
 
     @Test
-    public void contentWithDifferentStoryPackageUuidsAreNotEqual() {
+    public void contentWithDifferentStoryPackagesAreNotEqual() {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
-                .withStoryPackageUuid(UUID.randomUUID().toString())
+                .withStoryPackage(UUID.randomUUID().toString())
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));

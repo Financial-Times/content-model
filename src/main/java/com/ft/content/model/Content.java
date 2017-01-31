@@ -34,7 +34,7 @@ public class Content {
     private final String externalBinaryUrl;
     private final SortedSet<Member> members;
     private final String mainImage;
-    private final String storyPackageUuid;
+    private final String storyPackage;
     private final Standout standout;
     private final Comments comments;
     private final Copyright copyright;
@@ -61,7 +61,7 @@ public class Content {
                    @JsonProperty("externalBinaryUrl") String externalBinaryUrl,
                    @JsonProperty("members") SortedSet<Member> members,
                    @JsonProperty("mainImage") String mainImage,
-                   @JsonProperty("storyPackageUuid") String storyPackageUuid,
+                   @JsonProperty("storyPackage") String storyPackage,
                    @JsonProperty("standout") Standout standout,
                    @JsonProperty("comments") Comments comments,
                    @JsonProperty("copyright") Copyright copyright,
@@ -89,7 +89,7 @@ public class Content {
         this.externalBinaryUrl = externalBinaryUrl;
         this.members = members;
         this.mainImage = mainImage;
-        this.storyPackageUuid = storyPackageUuid;
+        this.storyPackage = storyPackage;
         this.copyright = copyright;
         this.webUrl = webUrl;
         this.publishReference = publishReference;
@@ -171,8 +171,8 @@ public class Content {
         return mainImage;
     }
 
-    public String getStoryPackageUuid() {
-        return storyPackageUuid;
+    public String getStoryPackage() {
+        return storyPackage;
     }
 
     public Comments getComments() {
@@ -229,7 +229,7 @@ public class Content {
                 .add("externalBinaryUrl", externalBinaryUrl)
                 .add("members", members)
                 .add("mainImage", mainImage)
-                .add("storyPackageUuid", storyPackageUuid)
+                .add("storyPackage", storyPackage)
                 .add("comments", comments)
                 .add("standout", standout)
                 .add("webUrl", webUrl)
@@ -264,7 +264,7 @@ public class Content {
                 && Objects.equals(this.externalBinaryUrl, that.externalBinaryUrl)
                 && Objects.equals(this.members, that.members)
                 && Objects.equals(this.mainImage, that.mainImage)
-                && Objects.equals(this.storyPackageUuid, that.storyPackageUuid)
+                && Objects.equals(this.storyPackage, that.storyPackage)
                 && Objects.equals(this.comments, that.comments)
                 && Objects.equals(this.standout, that.standout)
                 && Objects.equals(this.copyright, that.copyright)
@@ -294,7 +294,7 @@ public class Content {
                 externalBinaryUrl,
                 members,
                 mainImage,
-                storyPackageUuid,
+                storyPackage,
                 comments,
                 standout,
                 publishReference,
@@ -326,7 +326,7 @@ public class Content {
         private String externalBinaryUrl;
         private SortedSet<Member> members;
         private String mainImage;
-        private String storyPackageUuid;
+        private String storyPackage;
         private Comments comments;
         private Standout standout;
         private Copyright copyright;
@@ -421,8 +421,8 @@ public class Content {
             return this;
         }
 
-        public Builder withStoryPackageUuid(String storyPackageUuid) {
-            this.storyPackageUuid = storyPackageUuid;
+        public Builder withStoryPackage(String storyPackage) {
+            this.storyPackage = storyPackage;
             return this;
         }
 
@@ -484,7 +484,7 @@ public class Content {
                     .withExternalBinaryUrl(content.getExternalBinaryUrl())
                     .withMembers(content.getMembers())
                     .withMainImage(content.getMainImage())
-                    .withStoryPackageUuid(content.getStoryPackageUuid())
+                    .withStoryPackage(content.getStoryPackage())
                     .withComments(content.getComments())
                     .withStandout(content.getStandout())
                     .withCopyright(content.getCopyright())
@@ -506,7 +506,7 @@ public class Content {
                     standfirst, body, description,
                     mediaType,
                     pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl,
-                    members, mainImage, storyPackageUuid,
+                    members, mainImage, storyPackage,
                     standout, comments, copyright, webUrl, transactionId, lastModified, canBeSyndicated, firstPublishedDate);
         }
     }
