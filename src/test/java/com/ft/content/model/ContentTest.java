@@ -45,6 +45,7 @@ public class ContentTest {
                 .withExternalBinaryUrl("http://com.ft.imagepublish.prod.s3.amazonaws.com/12a9a540-8124-11e4-896c-00144feabdc0")
                 .withCanBeSyndicated(Syndication.YES)
                 .withFirstPublishedDate(new Date(280L))
+                .withAccessLevel(AccessLevel.SUBSCRIBED)
                 .build();
     }
 
@@ -257,6 +258,16 @@ public class ContentTest {
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
+    public void contentsWithDifferentAccessLevelAreNotEqual() {
+        final Content premiumContent = Content.builder().
+                withValuesFrom(content)
+                .withAccessLevel(AccessLevel.PREMIUM)
+                .build();
+
+        assertThat(content, is(not(equalTo(premiumContent))));
     }
 
     @Test

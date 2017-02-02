@@ -1,19 +1,17 @@
 package com.ft.content.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.Date;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.UUID;
-
-import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class Content {
 
@@ -43,6 +41,7 @@ public class Content {
     private final Date lastModified;
     private final Syndication canBeSyndicated;
     private final Date firstPublishedDate;
+    private final AccessLevel accessLevel;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -69,7 +68,8 @@ public class Content {
                    @JsonProperty("publishReference") String publishReference,
                    @JsonProperty("lastModified") Date lastModified,
                    @JsonProperty("canBeSyndicated") Syndication canBeSyndicated,
-                   @JsonProperty("firstPublishedDate") Date firstPublishedDate) {
+                   @JsonProperty("firstPublishedDate") Date firstPublishedDate,
+                   @JsonProperty("accessLevel") AccessLevel accessLevel) {
         this.identifiers = identifiers;
         this.body = body;
         this.standout = standout;
@@ -96,6 +96,11 @@ public class Content {
         this.lastModified = lastModified;
         this.canBeSyndicated = canBeSyndicated;
         this.firstPublishedDate = firstPublishedDate;
+        this.accessLevel = accessLevel;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     @NotNull
@@ -119,7 +124,6 @@ public class Content {
     public SortedSet<Brand> getBrands() {
         return brands;
     }
-
 
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
@@ -209,6 +213,10 @@ public class Content {
         return firstPublishedDate;
     }
 
+    public AccessLevel getAccessLevel() {
+        return accessLevel;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this.getClass())
@@ -237,6 +245,7 @@ public class Content {
                 .add("lastModified", lastModified)
                 .add("canBeSyndicated", canBeSyndicated)
                 .add("firstPublishedDate", firstPublishedDate)
+                .add("accessLevel", accessLevel)
                 .toString();
     }
 
@@ -272,7 +281,8 @@ public class Content {
                 && Objects.equals(this.lastModified, that.lastModified)
                 && Objects.equals(this.webUrl, that.webUrl)
                 && Objects.equals(this.canBeSyndicated, that.canBeSyndicated)
-                && Objects.equals(this.firstPublishedDate, that.firstPublishedDate);
+                && Objects.equals(this.firstPublishedDate, that.firstPublishedDate)
+                && Objects.equals(this.accessLevel, that.accessLevel);
     }
 
     @Override
@@ -300,11 +310,8 @@ public class Content {
                 publishReference,
                 lastModified,
                 canBeSyndicated,
-                firstPublishedDate);
-    }
-
-    public static Builder builder() {
-        return new Builder();
+                firstPublishedDate,
+                accessLevel);
     }
 
     public static class Builder {
@@ -335,6 +342,7 @@ public class Content {
         private Date lastModified;
         private Syndication canBeSyndicated;
         private Date firstPublishedDate;
+        private AccessLevel accessLevel;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -466,6 +474,11 @@ public class Content {
             return this;
         }
 
+        public Builder withAccessLevel(AccessLevel accessLevel) {
+            this.accessLevel = accessLevel;
+            return this;
+        }
+
         public Builder withValuesFrom(Content content) {
             return withTitle(content.getTitle())
                     .withAlternativeTitles(content.getAlternativeTitles())
@@ -492,7 +505,8 @@ public class Content {
                     .withPublishReference(content.getPublishReference())
                     .withLastModified(content.getLastModified())
                     .withCanBeSyndicated(content.getCanBeSyndicated())
-                    .withFirstPublishedDate(content.getFirstPublishedDate());
+                    .withFirstPublishedDate(content.getFirstPublishedDate())
+                    .withAccessLevel(content.getAccessLevel());
         }
 
         public Content build() {
@@ -507,7 +521,8 @@ public class Content {
                     mediaType,
                     pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl,
                     members, mainImage, storyPackage,
-                    standout, comments, copyright, webUrl, transactionId, lastModified, canBeSyndicated, firstPublishedDate);
+                    standout, comments, copyright, webUrl, transactionId, lastModified, canBeSyndicated,
+                    firstPublishedDate, accessLevel);
         }
     }
 }
