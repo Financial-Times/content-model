@@ -9,20 +9,20 @@ public class ContentPackage {
 
     private final String description;
 
-    private final String listLink;
+    private final String listId;
 
     public ContentPackage(@JsonProperty("description") String description,
-                          @JsonProperty("listLink") String listLink) {
+                          @JsonProperty("listId") String listId) {
         this.description = description;
-        this.listLink = listLink;
+        this.listId = listId;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public String getListLink() {
-        return listLink;
+    public String getListId() {
+        return listId;
     }
 
     @Override
@@ -34,19 +34,19 @@ public class ContentPackage {
 
         if (description != null ? !description.equals(that.description) : that.description != null)
             return false;
-        return listLink != null ? listLink.equals(that.listLink) : that.listLink == null;
+        return listId != null ? listId.equals(that.listId) : that.listId == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(description, listLink);
+        return Objects.hashCode(description, listId);
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("description", description)
-                .add("listLink", listLink)
+                .add("listId", listId)
                 .toString();
     }
 }
