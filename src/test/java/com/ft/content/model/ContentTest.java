@@ -211,6 +211,17 @@ public class ContentTest {
     }
 
     @Test
+    public void contentWithDifferentContentPackagesAreNotEqual() {
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withContentPackage(
+                        new ContentPackage("<p>Description", UUID.randomUUID().toString()))
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
     public void contentWithDifferentCommentsAreNotEqual() {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)

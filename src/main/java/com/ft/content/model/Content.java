@@ -1,17 +1,20 @@
 package com.ft.content.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.Date;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.UUID;
+
+import javax.validation.constraints.NotNull;
 
 public class Content {
 
@@ -33,6 +36,7 @@ public class Content {
     private final SortedSet<Member> members;
     private final String mainImage;
     private final String storyPackage;
+    private final ContentPackage contentPackage;
     private final Standout standout;
     private final Comments comments;
     private final Copyright copyright;
@@ -61,6 +65,7 @@ public class Content {
                    @JsonProperty("members") SortedSet<Member> members,
                    @JsonProperty("mainImage") String mainImage,
                    @JsonProperty("storyPackage") String storyPackage,
+                   @JsonProperty("contentPackage") ContentPackage contentPackage,
                    @JsonProperty("standout") Standout standout,
                    @JsonProperty("comments") Comments comments,
                    @JsonProperty("copyright") Copyright copyright,
@@ -90,6 +95,7 @@ public class Content {
         this.members = members;
         this.mainImage = mainImage;
         this.storyPackage = storyPackage;
+        this.contentPackage = contentPackage;
         this.copyright = copyright;
         this.webUrl = webUrl;
         this.publishReference = publishReference;
@@ -179,6 +185,10 @@ public class Content {
         return storyPackage;
     }
 
+    public ContentPackage getContentPackage() {
+        return contentPackage;
+    }
+
     public Comments getComments() {
         return comments;
     }
@@ -238,6 +248,7 @@ public class Content {
                 .add("members", members)
                 .add("mainImage", mainImage)
                 .add("storyPackage", storyPackage)
+                .add("contentPackage", contentPackage)
                 .add("comments", comments)
                 .add("standout", standout)
                 .add("webUrl", webUrl)
@@ -274,6 +285,7 @@ public class Content {
                 && Objects.equals(this.members, that.members)
                 && Objects.equals(this.mainImage, that.mainImage)
                 && Objects.equals(this.storyPackage, that.storyPackage)
+                && Objects.equals(this.contentPackage, that.contentPackage)
                 && Objects.equals(this.comments, that.comments)
                 && Objects.equals(this.standout, that.standout)
                 && Objects.equals(this.copyright, that.copyright)
@@ -305,6 +317,7 @@ public class Content {
                 members,
                 mainImage,
                 storyPackage,
+                contentPackage,
                 comments,
                 standout,
                 publishReference,
@@ -334,6 +347,7 @@ public class Content {
         private SortedSet<Member> members;
         private String mainImage;
         private String storyPackage;
+        private ContentPackage contentPackage;
         private Comments comments;
         private Standout standout;
         private Copyright copyright;
@@ -434,6 +448,11 @@ public class Content {
             return this;
         }
 
+        public Builder withContentPackage(ContentPackage contentPackage) {
+            this.contentPackage = contentPackage;
+            return this;
+        }
+
         public Builder withComments(Comments comments) {
             this.comments = comments;
             return this;
@@ -498,6 +517,7 @@ public class Content {
                     .withMembers(content.getMembers())
                     .withMainImage(content.getMainImage())
                     .withStoryPackage(content.getStoryPackage())
+                    .withContentPackage(content.getContentPackage())
                     .withComments(content.getComments())
                     .withStandout(content.getStandout())
                     .withCopyright(content.getCopyright())
@@ -520,7 +540,7 @@ public class Content {
                     standfirst, body, description,
                     mediaType,
                     pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl,
-                    members, mainImage, storyPackage,
+                    members, mainImage, storyPackage, contentPackage,
                     standout, comments, copyright, webUrl, transactionId, lastModified, canBeSyndicated,
                     firstPublishedDate, accessLevel);
         }
