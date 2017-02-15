@@ -6,7 +6,7 @@
 
     <groupId>com.github.Financial-Times</groupId>
     <artifactId>content-model</artifactId>
-    <version>0.1.44</version>
+    <version>0.1.45</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
