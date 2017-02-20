@@ -214,8 +214,9 @@ public class ContentTest {
     public void contentWithDifferentContentPackagesAreNotEqual() {
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
-                .withContentPackage(
-                        new ContentPackage("<p>Description", UUID.randomUUID().toString()))
+                .withType("contentPackage")
+                .withDescription("<p>Description")
+                .withContentPackage(UUID.randomUUID().toString())
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));

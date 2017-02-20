@@ -21,6 +21,7 @@ public class Content {
     private final String uuid;
     private final String title;
     private final AlternativeTitles alternativeTitles;
+    private final String type;
     private final String byline;
     private final SortedSet<Brand> brands;
     private final Date publishedDate;
@@ -36,7 +37,7 @@ public class Content {
     private final SortedSet<Member> members;
     private final String mainImage;
     private final String storyPackage;
-    private final ContentPackage contentPackage;
+    private final String contentPackage;
     private final Standout standout;
     private final Comments comments;
     private final Copyright copyright;
@@ -50,6 +51,7 @@ public class Content {
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
                    @JsonProperty("alternativeTitles") AlternativeTitles alternativeTitles,
+                   @JsonProperty("type") String type,
                    @JsonProperty("byline") String byline,
                    @JsonProperty("brands") SortedSet<Brand> brands,
                    @JsonProperty("identifiers") SortedSet<Identifier> identifiers,
@@ -65,7 +67,7 @@ public class Content {
                    @JsonProperty("members") SortedSet<Member> members,
                    @JsonProperty("mainImage") String mainImage,
                    @JsonProperty("storyPackage") String storyPackage,
-                   @JsonProperty("contentPackage") ContentPackage contentPackage,
+                   @JsonProperty("contentPackage") String contentPackage,
                    @JsonProperty("standout") Standout standout,
                    @JsonProperty("comments") Comments comments,
                    @JsonProperty("copyright") Copyright copyright,
@@ -82,6 +84,7 @@ public class Content {
         this.uuid = uuid == null ? null : uuid.toString();
         this.title = title;
         this.alternativeTitles = alternativeTitles;
+        this.type = type;
         this.byline = byline;
         this.standfirst = standfirst;
         this.brands = brands;
@@ -121,6 +124,10 @@ public class Content {
 
     public AlternativeTitles getAlternativeTitles() {
         return alternativeTitles;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public String getByline() {
@@ -185,7 +192,7 @@ public class Content {
         return storyPackage;
     }
 
-    public ContentPackage getContentPackage() {
+    public String getContentPackage() {
         return contentPackage;
     }
 
@@ -233,6 +240,7 @@ public class Content {
                 .add("uuid", uuid)
                 .add("title", title)
                 .add("alternativeTitles", alternativeTitles)
+                .add("type", type)
                 .add("byline", byline)
                 .add("brands", brands)
                 .add("identifiers", identifiers)
@@ -270,6 +278,7 @@ public class Content {
         return Objects.equals(this.uuid, that.uuid)
                 && Objects.equals(this.title, that.title)
                 && Objects.equals(this.alternativeTitles, that.alternativeTitles)
+                && Objects.equals(this.type, that.type)
                 && Objects.equals(this.byline, that.byline)
                 && Objects.equals(this.brands, that.brands)
                 && Objects.equals(this.identifiers, that.identifiers)
@@ -301,6 +310,7 @@ public class Content {
     public int hashCode() {
         return Objects.hash(title,
                 alternativeTitles,
+                type,
                 byline,
                 brands,
                 identifiers,
@@ -332,6 +342,7 @@ public class Content {
         private UUID uuid;
         private String title;
         private AlternativeTitles alternativeTitles;
+        private String type;
         private String byline;
         private SortedSet<Brand> brands;
         private Date publishedDate;
@@ -347,7 +358,7 @@ public class Content {
         private SortedSet<Member> members;
         private String mainImage;
         private String storyPackage;
-        private ContentPackage contentPackage;
+        private String contentPackage;
         private Comments comments;
         private Standout standout;
         private Copyright copyright;
@@ -370,6 +381,11 @@ public class Content {
 
         public Builder withAlternativeTitles(AlternativeTitles titles) {
             this.alternativeTitles = titles;
+            return this;
+        }
+
+        public Builder withType(String type) {
+            this.type = type;
             return this;
         }
 
@@ -448,7 +464,7 @@ public class Content {
             return this;
         }
 
-        public Builder withContentPackage(ContentPackage contentPackage) {
+        public Builder withContentPackage(String contentPackage) {
             this.contentPackage = contentPackage;
             return this;
         }
@@ -501,6 +517,7 @@ public class Content {
         public Builder withValuesFrom(Content content) {
             return withTitle(content.getTitle())
                     .withAlternativeTitles(content.getAlternativeTitles())
+                    .withType(content.getType())
                     .withByline(content.getByline())
                     .withStandfirst(content.getStandfirst())
                     .withBrands(content.getBrands())
@@ -536,7 +553,7 @@ public class Content {
 
             return new Content(uuid,
                     title, AlternativeTitles.builder().withValuesFrom(alternativeTitles).build(),
-                    byline, brands, identifiers, publishedDate,
+                    type, byline, brands, identifiers, publishedDate,
                     standfirst, body, description,
                     mediaType,
                     pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl,
