@@ -47,6 +47,7 @@ public class Content {
     private final Syndication canBeSyndicated;
     private final Date firstPublishedDate;
     private final AccessLevel accessLevel;
+    private final Distribution canBeDistributed;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -76,7 +77,8 @@ public class Content {
                    @JsonProperty("lastModified") Date lastModified,
                    @JsonProperty("canBeSyndicated") Syndication canBeSyndicated,
                    @JsonProperty("firstPublishedDate") Date firstPublishedDate,
-                   @JsonProperty("accessLevel") AccessLevel accessLevel) {
+                   @JsonProperty("accessLevel") AccessLevel accessLevel,
+                   @JsonProperty("canBeDistributed") Distribution canBeDistributed) {
         this.identifiers = identifiers;
         this.body = body;
         this.standout = standout;
@@ -106,6 +108,7 @@ public class Content {
         this.canBeSyndicated = canBeSyndicated;
         this.firstPublishedDate = firstPublishedDate;
         this.accessLevel = accessLevel;
+        this.canBeDistributed = canBeDistributed;
     }
 
     public static Builder builder() {
@@ -234,6 +237,10 @@ public class Content {
         return accessLevel;
     }
 
+    public Distribution getCanBeDistributed() {
+        return canBeDistributed;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this.getClass())
@@ -265,6 +272,7 @@ public class Content {
                 .add("canBeSyndicated", canBeSyndicated)
                 .add("firstPublishedDate", firstPublishedDate)
                 .add("accessLevel", accessLevel)
+                .add("canBeDistributed", canBeDistributed)
                 .toString();
     }
 
@@ -303,7 +311,8 @@ public class Content {
                 && Objects.equals(this.webUrl, that.webUrl)
                 && Objects.equals(this.canBeSyndicated, that.canBeSyndicated)
                 && Objects.equals(this.firstPublishedDate, that.firstPublishedDate)
-                && Objects.equals(this.accessLevel, that.accessLevel);
+                && Objects.equals(this.accessLevel, that.accessLevel)
+                && Objects.equals(this.canBeDistributed, that.canBeDistributed);
     }
 
     @Override
@@ -334,7 +343,8 @@ public class Content {
                 lastModified,
                 canBeSyndicated,
                 firstPublishedDate,
-                accessLevel);
+                accessLevel,
+                canBeDistributed);
     }
 
     public static class Builder {
@@ -368,6 +378,7 @@ public class Content {
         private Syndication canBeSyndicated;
         private Date firstPublishedDate;
         private AccessLevel accessLevel;
+        private Distribution canBeDistributed;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -514,6 +525,11 @@ public class Content {
             return this;
         }
 
+        public Builder withCanBeDistributed(Distribution canBeDistributed) {
+            this.canBeDistributed = canBeDistributed;
+            return this;
+        }
+
         public Builder withValuesFrom(Content content) {
             return withTitle(content.getTitle())
                     .withAlternativeTitles(content.getAlternativeTitles())
@@ -543,7 +559,8 @@ public class Content {
                     .withLastModified(content.getLastModified())
                     .withCanBeSyndicated(content.getCanBeSyndicated())
                     .withFirstPublishedDate(content.getFirstPublishedDate())
-                    .withAccessLevel(content.getAccessLevel());
+                    .withAccessLevel(content.getAccessLevel())
+                    .withCanBeDistributed(content.getCanBeDistributed());
         }
 
         public Content build() {
@@ -559,7 +576,7 @@ public class Content {
                     pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl,
                     members, mainImage, storyPackage, contentPackage,
                     standout, comments, copyright, webUrl, transactionId, lastModified, canBeSyndicated,
-                    firstPublishedDate, accessLevel);
+                    firstPublishedDate, accessLevel, canBeDistributed);
         }
     }
 }
