@@ -46,6 +46,7 @@ public class ContentTest {
                 .withCanBeSyndicated(Syndication.YES)
                 .withFirstPublishedDate(new Date(280L))
                 .withAccessLevel(AccessLevel.SUBSCRIBED)
+                .withCanBeDistributed(Distribution.YES)
                 .build();
     }
 
@@ -280,6 +281,16 @@ public class ContentTest {
                 .build();
 
         assertThat(content, is(not(equalTo(premiumContent))));
+    }
+
+    @Test
+    public void contentsWithDifferentCanBeDistributedAreNotEqual() {
+        final Content otherContent = Content.builder().
+                withValuesFrom(content)
+                .withCanBeDistributed(Distribution.NO)
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
     }
 
     @Test
