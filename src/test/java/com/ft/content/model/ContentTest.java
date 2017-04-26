@@ -333,10 +333,13 @@ public class ContentTest {
     public void thatAlternativeTitlesIsStored() {
         assertThat(content.getAlternativeTitles(), is(not(nullValue())));
         assertThat(content.getAlternativeTitles().getPromotionalTitle(), is(nullValue()));
+        assertThat(content.getAlternativeTitles().getContentPackageTitle(), is(nullValue()));
 
-        String promoTitle = "Promotional Title";
+        final String promoTitle = "Promotional Title";
+        final String contentPackageTitle = "Content Package Title";
         AlternativeTitles titles = AlternativeTitles.builder()
                 .withPromotionalTitle(promoTitle)
+                .withContentPackageTitle(contentPackageTitle)
                 .build();
 
         Content contentWithAltTitles = Content.builder().withValuesFrom(content)
@@ -345,6 +348,8 @@ public class ContentTest {
 
         AlternativeTitles actual = contentWithAltTitles.getAlternativeTitles();
         assertThat(actual.getPromotionalTitle(), is(equalTo(promoTitle)));
+        assertThat(actual.getContentPackageTitle(), is(equalTo(contentPackageTitle)));
+
         assertThat(actual, is(equalTo(titles)));
         assertThat(actual, is(not(sameInstance(titles))));
     }
