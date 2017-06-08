@@ -47,6 +47,8 @@ public class ContentTest {
                 .withFirstPublishedDate(new Date(280L))
                 .withAccessLevel(AccessLevel.SUBSCRIBED)
                 .withCanBeDistributed(Distribution.YES)
+                .withRightsGroup("rights-group")
+                .withMasterSource(new Identifier("source-authority", "id-on-source"))
                 .build();
     }
 
@@ -288,6 +290,26 @@ public class ContentTest {
         final Content otherContent = Content.builder().
                 withValuesFrom(content)
                 .withCanBeDistributed(Distribution.NO)
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
+    public void contentsWithDifferentRightsGroupAreNotEqual() {
+        final Content otherContent = Content.builder().
+                withValuesFrom(content)
+                .withRightsGroup("rights-group-other")
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
+    public void contentsWithDifferentMasterSourceAreNotEqual() {
+        final Content otherContent = Content.builder().
+                withValuesFrom(content)
+                .withMasterSource(new Identifier("source-authority-other", "id-on-source"))
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
