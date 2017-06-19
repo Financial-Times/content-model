@@ -29,7 +29,7 @@ public enum Syndication {
         return canBeSyndicated;
     }
     
-	public static Syndication fromString(String value) {
-		return syndicationMap.get(value.toLowerCase());
-	}
+    public static Syndication fromString(String value) {
+	return syndicationMap.get(value.toLowerCase());
+    }
 }

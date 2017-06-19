@@ -28,8 +28,8 @@ public enum Distribution {
     public String getDistributionStatus() {
         return distributionStatus;
     }
-    
-	public static Distribution fromString(String value) {
-		return distributionMap.get(value.toLowerCase());
-	}
+
+    public static Distribution fromString(String value) {
+	return distributionMap.get(value.toLowerCase());
+    }
 }
