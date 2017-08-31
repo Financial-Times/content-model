@@ -50,8 +50,8 @@ public class AlternativeStandfirsts {
         private String promotionalStandfirst;
 
 
-        public AlternativeStandfirsts.Builder withPromotionalStandfirst(String title) {
-            this.promotionalStandfirst = title;
+        public AlternativeStandfirsts.Builder withPromotionalStandfirst(String promotionalStandfirst) {
+            this.promotionalStandfirst = promotionalStandfirst;
             return this;
         }
 
