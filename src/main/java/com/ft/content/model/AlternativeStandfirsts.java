@@ -13,8 +13,8 @@ public class AlternativeStandfirsts {
         return new AlternativeStandfirsts.Builder();
     }
 
-    public AlternativeStandfirsts(@JsonProperty("promotionalStandfirst") String promotionalStandfirsts) {
-        this.promotionalStandfirst = promotionalStandfirsts;
+    public AlternativeStandfirsts(@JsonProperty("promotionalStandfirst") String promotionalStandfirst) {
+        this.promotionalStandfirst = promotionalStandfirst;
     }
 
 
