@@ -1,7 +1,6 @@
 package com.ft.content.model;
 
 import com.google.common.collect.ImmutableSortedSet;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,6 +48,7 @@ public class ContentTest {
                 .withCanBeDistributed(Distribution.YES)
                 .withRightsGroup("rights-group")
                 .withMasterSource(new Identifier("source-authority", "id-on-source"))
+                .withAlternativeStandfirsts(new AlternativeStandfirsts("promotionalStandfirst"))
                 .build();
     }
 
@@ -313,6 +313,15 @@ public class ContentTest {
                 .build();
 
         assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
+    public void contentsWithDifferentAlternativeStandfirstsAreNotEqual() {
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withAlternativeStandfirsts(new AlternativeStandfirsts("otherPromotionalStandfirst"))
+                .build();
+        assertThat(content, is(not(otherContent)));
     }
 
     @Test
