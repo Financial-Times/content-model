@@ -8,12 +8,13 @@ import com.google.common.collect.Maps;
 public enum Syndication {
     YES("yes"),
     NO("no"),
-    VERIFY("verify");
+    VERIFY("verify"),
+    WITH_CONTRIBUTOR_PAYMENT("withContributorPayment");
 
 	private static Map<String, Syndication> syndicationMap = Maps.newHashMap();
 
 	private String canBeSyndicated;
-    
+
 	static {
 		for (Syndication s : values()) {
 			syndicationMap.put(s.getCanBeSyndicated(), s);
@@ -28,8 +29,8 @@ public enum Syndication {
     public String getCanBeSyndicated() {
         return canBeSyndicated;
     }
-    
+
     public static Syndication fromString(String value) {
-	return syndicationMap.get(value.toLowerCase());
+        return syndicationMap.get(value.toLowerCase());
     }
 }
