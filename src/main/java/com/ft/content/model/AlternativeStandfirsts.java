@@ -31,7 +31,7 @@ public class AlternativeStandfirsts {
 
     @Override
     public boolean equals(Object o) {
-        if ((o == null) || (o.getClass() != AlternativeTitles.class)) {
+        if ((o == null) || (o.getClass() != AlternativeStandfirsts.class)) {
             return false;
         }
 
@@ -55,8 +55,8 @@ public class AlternativeStandfirsts {
             return this;
         }
 
-        public AlternativeStandfirsts.Builder withValuesFrom(AlternativeStandfirsts titles) {
-            return withPromotionalStandfirst(titles.getPromotionalStandfirst());
+        public AlternativeStandfirsts.Builder withValuesFrom(AlternativeStandfirsts alternativeStandfirsts) {
+            return withPromotionalStandfirst(alternativeStandfirsts.getPromotionalStandfirst());
         }
 
         public AlternativeStandfirsts build() {
