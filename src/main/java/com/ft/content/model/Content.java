@@ -1,21 +1,17 @@
 package com.ft.content.model;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.internal.util.IdentitySet;
 
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.Date;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.UUID;
-
-import javax.validation.constraints.NotNull;
 
 public class Content {
 
@@ -51,6 +47,7 @@ public class Content {
     private final Distribution canBeDistributed;
     private final String rightsGroup;
     private final Identifier masterSource;
+    private final AlternativeStandfirsts alternativeStandfirsts;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -83,7 +80,8 @@ public class Content {
                    @JsonProperty("accessLevel") AccessLevel accessLevel,
                    @JsonProperty("canBeDistributed") Distribution canBeDistributed,
                    @JsonProperty("rightsGroup") String rightsGroup,
-                   @JsonProperty("masterSource") Identifier masterSource) {
+                   @JsonProperty("masterSource") Identifier masterSource,
+                   @JsonProperty("alternativeStandfirsts") AlternativeStandfirsts alternativeStandfirsts) {
         this.identifiers = identifiers;
         this.body = body;
         this.standout = standout;
@@ -116,6 +114,8 @@ public class Content {
         this.canBeDistributed = canBeDistributed;
         this.rightsGroup = rightsGroup;
         this.masterSource = masterSource;
+        this.alternativeStandfirsts = alternativeStandfirsts;
+
     }
 
     public static Builder builder() {
@@ -256,6 +256,10 @@ public class Content {
         return masterSource;
     }
 
+    public AlternativeStandfirsts getAlternativeStandfirsts(){
+        return alternativeStandfirsts;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this.getClass())
@@ -290,6 +294,7 @@ public class Content {
                 .add("canBeDistributed", canBeDistributed)
                 .add("rightsGroup", rightsGroup)
                 .add("masterSource", masterSource)
+                .add("alternativeStandfirsts", alternativeStandfirsts)
                 .toString();
     }
 
@@ -331,7 +336,8 @@ public class Content {
                 && Objects.equals(this.accessLevel, that.accessLevel)
                 && Objects.equals(this.canBeDistributed, that.canBeDistributed)
                 && Objects.equals(this.rightsGroup, that.rightsGroup)
-                && Objects.equals(this.masterSource, that.masterSource);
+                && Objects.equals(this.masterSource, that.masterSource)
+                && Objects.equals(this.alternativeStandfirsts, that.alternativeStandfirsts);
     }
 
     @Override
@@ -365,7 +371,8 @@ public class Content {
                 accessLevel,
                 canBeDistributed,
                 rightsGroup,
-                masterSource);
+                masterSource,
+                alternativeStandfirsts);
     }
 
     public static class Builder {
@@ -402,6 +409,7 @@ public class Content {
         private Distribution canBeDistributed;
         private String rightsGroup;
         private Identifier masterSource;
+        private AlternativeStandfirsts alternativeStandfirsts;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -563,6 +571,11 @@ public class Content {
             return this;
         }
 
+        public Builder withAlternativeStandfirsts (AlternativeStandfirsts alternativeStandfirsts){
+            this.alternativeStandfirsts = alternativeStandfirsts;
+            return this;
+        }
+
         public Builder withValuesFrom(Content content) {
             return withTitle(content.getTitle())
                     .withAlternativeTitles(content.getAlternativeTitles())
@@ -595,7 +608,8 @@ public class Content {
                     .withAccessLevel(content.getAccessLevel())
                     .withCanBeDistributed(content.getCanBeDistributed())
                     .withRightsGroup(content.getRightsGroup())
-                    .withMasterSource(content.getMasterSource());
+                    .withMasterSource(content.getMasterSource())
+                    .withAlternativeStandfirsts(content.getAlternativeStandfirsts());
         }
 
         public Content build() {
@@ -611,7 +625,7 @@ public class Content {
                     pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl,
                     members, mainImage, storyPackage, contentPackage,
                     standout, comments, copyright, webUrl, transactionId, lastModified, canBeSyndicated,
-                    firstPublishedDate, accessLevel, canBeDistributed, rightsGroup, masterSource);
+                    firstPublishedDate, accessLevel, canBeDistributed, rightsGroup, masterSource, alternativeStandfirsts);
         }
     }
 }
