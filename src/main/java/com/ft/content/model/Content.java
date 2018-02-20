@@ -1,6 +1,8 @@
 package com.ft.content.model;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
@@ -9,12 +11,17 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Content {
-
+    private static final String PUBLISH_REF = "publishReference";
+    
     private final String uuid;
     private final String title;
     private final AlternativeTitles alternativeTitles;
@@ -39,7 +46,7 @@ public class Content {
     private final Comments comments;
     private final Copyright copyright;
     private final URI webUrl;
-    private final String publishReference;
+    private final Map<String,String> transactionId = new LinkedHashMap<>();
     private final Date lastModified;
     private final Syndication canBeSyndicated;
     private final Date firstPublishedDate;
@@ -73,7 +80,7 @@ public class Content {
                    @JsonProperty("comments") Comments comments,
                    @JsonProperty("copyright") Copyright copyright,
                    @JsonProperty("webUrl") URI webUrl,
-                   @JsonProperty("publishReference") String publishReference,
+                   Map<String,String> transactionId,
                    @JsonProperty("lastModified") Date lastModified,
                    @JsonProperty("canBeSyndicated") Syndication canBeSyndicated,
                    @JsonProperty("firstPublishedDate") Date firstPublishedDate,
@@ -106,7 +113,7 @@ public class Content {
         this.contentPackage = contentPackage;
         this.copyright = copyright;
         this.webUrl = webUrl;
-        this.publishReference = publishReference;
+        this.transactionId.putAll(transactionId);
         this.lastModified = lastModified;
         this.canBeSyndicated = canBeSyndicated;
         this.firstPublishedDate = firstPublishedDate;
@@ -221,9 +228,17 @@ public class Content {
     public URI getWebUrl() {
         return webUrl;
     }
-
+    
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public String getPublishReference() {
-        return publishReference;
+        return transactionId.get(PUBLISH_REF);
+    }
+
+    @JsonAnyGetter
+    public Map<String,String> getAdditionalProperties() {
+        return transactionId.keySet().stream()
+                .filter(k -> !Strings.isNullOrEmpty(transactionId.get(k)))
+                .collect(Collectors.toMap(Function.identity(), k -> transactionId.get(k)));
     }
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
@@ -262,7 +277,7 @@ public class Content {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this.getClass())
+        MoreObjects.ToStringHelper h = MoreObjects.toStringHelper(this.getClass())
                 .add("uuid", uuid)
                 .add("title", title)
                 .add("alternativeTitles", alternativeTitles)
@@ -286,8 +301,6 @@ public class Content {
                 .add("comments", comments)
                 .add("standout", standout)
                 .add("webUrl", webUrl)
-                .add("publishReference", publishReference)
-                .add("lastModified", lastModified)
                 .add("canBeSyndicated", canBeSyndicated)
                 .add("firstPublishedDate", firstPublishedDate)
                 .add("accessLevel", accessLevel)
@@ -295,7 +308,13 @@ public class Content {
                 .add("rightsGroup", rightsGroup)
                 .add("masterSource", masterSource)
                 .add("alternativeStandfirsts", alternativeStandfirsts)
-                .toString();
+                .add("lastModified", lastModified);
+        
+        for (Map.Entry<String,String> en : transactionId.entrySet()) {
+            h = h.add(en.getKey(), en.getValue());
+        }
+        
+        return h.toString();
     }
 
     @Override
@@ -328,7 +347,7 @@ public class Content {
                 && Objects.equals(this.comments, that.comments)
                 && Objects.equals(this.standout, that.standout)
                 && Objects.equals(this.copyright, that.copyright)
-                && Objects.equals(this.publishReference, that.publishReference)
+                && Objects.equals(this.transactionId, that.transactionId)
                 && Objects.equals(this.lastModified, that.lastModified)
                 && Objects.equals(this.webUrl, that.webUrl)
                 && Objects.equals(this.canBeSyndicated, that.canBeSyndicated)
@@ -364,7 +383,7 @@ public class Content {
                 contentPackage,
                 comments,
                 standout,
-                publishReference,
+                transactionId,
                 lastModified,
                 canBeSyndicated,
                 firstPublishedDate,
@@ -401,7 +420,7 @@ public class Content {
         private Standout standout;
         private Copyright copyright;
         private URI webUrl;
-        private String transactionId;
+        private Map<String,String> transactionId = new LinkedHashMap<>();
         private Date lastModified;
         private Syndication canBeSyndicated;
         private Date firstPublishedDate;
@@ -527,7 +546,12 @@ public class Content {
         }
 
         public Builder withPublishReference(String transactionId) {
-            this.transactionId = transactionId;
+            return withTransactionId(PUBLISH_REF, transactionId);
+        }
+
+        public Builder withTransactionId(String propertyName, String transactionId) {
+            this.transactionId.clear();
+            this.transactionId.put(propertyName, transactionId);
             return this;
         }
 
@@ -577,7 +601,7 @@ public class Content {
         }
 
         public Builder withValuesFrom(Content content) {
-            return withTitle(content.getTitle())
+            Builder b = withTitle(content.getTitle())
                     .withAlternativeTitles(content.getAlternativeTitles())
                     .withType(content.getType())
                     .withByline(content.getByline())
@@ -601,7 +625,6 @@ public class Content {
                     .withStandout(content.getStandout())
                     .withCopyright(content.getCopyright())
                     .withWebUrl(content.getWebUrl())
-                    .withPublishReference(content.getPublishReference())
                     .withLastModified(content.getLastModified())
                     .withCanBeSyndicated(content.getCanBeSyndicated())
                     .withFirstPublishedDate(content.getFirstPublishedDate())
@@ -610,6 +633,12 @@ public class Content {
                     .withRightsGroup(content.getRightsGroup())
                     .withMasterSource(content.getMasterSource())
                     .withAlternativeStandfirsts(content.getAlternativeStandfirsts());
+            
+            for (Map.Entry<String,String> en : content.getAdditionalProperties().entrySet()) {
+                b = b.withTransactionId(en.getKey(), en.getValue());
+            }
+            
+            return b;
         }
 
         public Content build() {

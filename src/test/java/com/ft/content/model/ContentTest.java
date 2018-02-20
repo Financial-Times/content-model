@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.Date;
 import java.util.SortedSet;
 import java.util.UUID;
@@ -20,12 +21,14 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class ContentTest {
-
-    private Content content;
+    private static final String PUBLISH_REF = "publishReference";
+    private static final String DRAFT_REF = "draftReference";
+    
+    private Content.Builder builder;
 
     @Before
     public void setUp() throws Exception {
-        content = Content.builder()
+        builder = Content.builder()
                 .withTitle("a headline")
                 .withByline("By someone")
                 .withBrands(ImmutableSortedSet.of(new Brand("Brand1"), new Brand("Brand2")))
@@ -48,27 +51,30 @@ public class ContentTest {
                 .withCanBeDistributed(Distribution.YES)
                 .withRightsGroup("rights-group")
                 .withMasterSource(new Identifier("source-authority", "id-on-source"))
-                .withAlternativeStandfirsts(new AlternativeStandfirsts("promotionalStandfirst"))
-                .build();
+                .withAlternativeStandfirsts(new AlternativeStandfirsts("promotionalStandfirst"));
     }
 
     @Test
     public void cannotEqualNull() {
+        Content content = builder.build();
         assertFalse("an object should not equal null", content.equals(null));
     }
 
     @Test
     public void cannotEqualOtherClass() {
+        Content content = builder.build();
         assertFalse("an instance of Content should not be equal to an instance of Object", content.equals(new Object()));
     }
 
     @Test
     public void equalsIsReflexive() {
+        Content content = builder.build();
         assertTrue("equals must be reflexive", content.equals(content));
     }
 
     @Test
     public void contentWithDifferentUuidsAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withUuid(UUID.randomUUID())
@@ -79,6 +85,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentTitlesAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withTitle("headline 2")
@@ -89,6 +96,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentBylinesAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withByline("By someone else")
@@ -99,6 +107,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentBrandsAreNotEqual() {
+        Content content = builder.build();
         SortedSet<Brand> brands = ImmutableSortedSet.of(new Brand("Different Brand"));
 
         final Content otherContent = Content.builder()
@@ -111,6 +120,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentIdentifierAuthoritiesAreNotEqual() {
+        Content content = builder.build();
         SortedSet<Identifier> identifiers = ImmutableSortedSet.of(new Identifier("Different authority", "IdentifierValue1"), new Identifier("IdentifierAuthority2", "IdentifierValue2"));
 
         final Content otherContent = Content.builder()
@@ -123,6 +133,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentIdentifierValuesAreNotEqual() {
+        Content content = builder.build();
         SortedSet<Identifier> identifiers = ImmutableSortedSet.of(new Identifier("IdentifierAuthority1", "Different id"), new Identifier("IdentifierAuthority2", "IdentifierValue2"));
 
         final Content otherContent = Content.builder()
@@ -135,6 +146,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentPublishDatesAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withPublishedDate(new Date(content.getPublishedDate().getTime() + 100))
                 .build();
@@ -144,6 +156,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentLastModifiedDatesAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withLastModified(new Date(content.getPublishedDate().getTime() + 100))
                 .build();
@@ -153,6 +166,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentBodiesAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withXmlBody("a different body")
@@ -163,6 +177,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentInternalBinaryUrlsAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withInternalBinaryUrl("api.ft.com/thing/etc")
@@ -173,6 +188,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentExternalBinaryUrlsAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withExternalBinaryUrl("someExternalBinaryUrl")
@@ -183,6 +199,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentMembersAreNotEqual() {
+        Content content = builder.build();
         SortedSet<Member> members = ImmutableSortedSet.of(new Member("Different member"));
 
         final Content otherContent = Content.builder()
@@ -195,6 +212,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentMainImageAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withMainImage(UUID.randomUUID().toString())
@@ -205,6 +223,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentStoryPackagesAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withStoryPackage(UUID.randomUUID().toString())
@@ -215,6 +234,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentContentPackagesAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withType("contentPackage")
@@ -227,6 +247,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentCommentsAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withComments(new Comments(false))
@@ -237,6 +258,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentCopyrightsAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withCopyright(Copyright.noticeOnly("Simon"))
@@ -247,6 +269,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentWebUrlAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withWebUrl(URI.create("http://www.ft.com/another-url"))
@@ -257,6 +280,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentCanBeSyndicatedAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withCanBeSyndicated(Syndication.NO)
@@ -267,6 +291,7 @@ public class ContentTest {
 
     @Test
     public void contentWithDifferentFirstPublishDateAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withFirstPublishedDate(new Date(content.getFirstPublishedDate().getTime() + 100))
@@ -277,6 +302,7 @@ public class ContentTest {
 
     @Test
     public void contentsWithDifferentAccessLevelAreNotEqual() {
+        Content content = builder.build();
         final Content premiumContent = Content.builder().
                 withValuesFrom(content)
                 .withAccessLevel(AccessLevel.PREMIUM)
@@ -287,6 +313,7 @@ public class ContentTest {
 
     @Test
     public void contentsWithDifferentCanBeDistributedAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder().
                 withValuesFrom(content)
                 .withCanBeDistributed(Distribution.NO)
@@ -297,6 +324,7 @@ public class ContentTest {
 
     @Test
     public void contentsWithDifferentRightsGroupAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder().
                 withValuesFrom(content)
                 .withRightsGroup("rights-group-other")
@@ -307,6 +335,7 @@ public class ContentTest {
 
     @Test
     public void contentsWithDifferentMasterSourceAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder().
                 withValuesFrom(content)
                 .withMasterSource(new Identifier("source-authority-other", "id-on-source"))
@@ -317,6 +346,7 @@ public class ContentTest {
 
     @Test
     public void contentsWithDifferentAlternativeStandfirstsAreNotEqual() {
+        Content content = builder.build();
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
                 .withAlternativeStandfirsts(new AlternativeStandfirsts("otherPromotionalStandfirst"))
@@ -326,6 +356,7 @@ public class ContentTest {
 
     @Test
     public void contentWithSameFieldsAreEqual() {
+        Content content = builder.build();
 
         final Content otherContent = Content.builder()
                 .withValuesFrom(content)
@@ -336,11 +367,20 @@ public class ContentTest {
 
     @Test
     public void shouldStorePublishReference() {
+        Content content = builder.build();
         assertThat(content.getPublishReference(), is("test"));
     }
 
     @Test
+    public void shouldStorePublishReferenceFromTransactionId() {
+        String publishRef = "tid_publish";
+        Content content = builder.withTransactionId(PUBLISH_REF, publishRef).build();
+        assertThat(content.getPublishReference(), is(publishRef));
+    }
+
+    @Test
     public void shouldDifferentiateBasedOnPublishReference() {
+        Content content = builder.build();
 
         Content clone = Content.builder().withValuesFrom(content).withPublishReference("test2").build();
 
@@ -350,18 +390,45 @@ public class ContentTest {
     }
 
     @Test
+    public void thatPublishReferenceAndDraftReferenceAreUnequal() {
+        Content content = builder.build();
+
+        Content clone = Content.builder().withValuesFrom(content).withTransactionId("draftReference", content.getPublishReference()).build();
+
+        assertNotEquals(content, clone);
+        assertNotEquals(content.hashCode(), clone.hashCode());
+        assertNotEquals(content.toString(), clone.toString());
+    }
+
+    @Test
+    public void shouldStoreDraftReference() {
+        String draftRef = "tid_draft";
+        Content content = builder.withTransactionId(DRAFT_REF, draftRef).build();
+        assertThat(content.getAdditionalProperties(), is(Collections.singletonMap(DRAFT_REF, draftRef)));
+    }
+
+    @Test
+    public void shouldSkipNullReference() {
+        Content content = builder.withTransactionId(DRAFT_REF, null).build();
+        assertThat(content.getAdditionalProperties(), is(Collections.emptyMap()));
+    }
+
+    @Test
     public void shouldClonePublishReference() {
+        Content content = builder.build();
         Content clone = Content.builder().withValuesFrom(content).build();
         assertThat(clone.getPublishReference(), is("test"));
     }
 
     @Test
     public void shouldStoreStandoutSection() {
+        Content content = builder.build();
         assertThat(content.getStandout(), is(new Standout(true, true, true)));
     }
 
     @Test
     public void thatAlternativeTitlesIsStored() {
+        Content content = builder.build();
         assertThat(content.getAlternativeTitles(), is(not(nullValue())));
         assertThat(content.getAlternativeTitles().getPromotionalTitle(), is(nullValue()));
         assertThat(content.getAlternativeTitles().getContentPackageTitle(), is(nullValue()));
@@ -387,6 +454,7 @@ public class ContentTest {
 
     @Test
     public void thatStandfirstIsStored() {
+        Content content = builder.build();
         assertThat(content.getStandfirst(), is(nullValue()));
 
         String standfirst = "Standfirst";
@@ -400,6 +468,7 @@ public class ContentTest {
 
     @Test
     public void thatEmptyStandfirstIsTreatedAsNull() {
+        Content content = builder.build();
         String standfirst = "";
         Content contentWithEmptyStandfirst = Content.builder().withValuesFrom(content)
                 .withStandfirst(standfirst)
