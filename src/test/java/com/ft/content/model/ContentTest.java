@@ -487,4 +487,14 @@ public class ContentTest {
 
         assertThat(contentWithEmptyStandfirst.getStandfirst(), is(nullValue()));
     }
+    @Test
+    public void thatEditorialDeskIsStored() {
+        String editorialDeskFTWorld = "/FT/World";
+        Content contentWithEditorialDesk = Content.builder()
+            .withEditorialDesk(editorialDeskFTWorld)
+            .build();
+
+      String actual = contentWithEditorialDesk.getEditorialDesk();
+      assertThat(actual, is(equalTo(editorialDeskFTWorld)));
+  }
 }
