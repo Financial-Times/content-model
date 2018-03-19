@@ -487,6 +487,7 @@ public class ContentTest {
 
         assertThat(contentWithEmptyStandfirst.getStandfirst(), is(nullValue()));
     }
+
     @Test
     public void thatEditorialDeskIsStored() {
         String editorialDeskFTWorld = "/FT/World";
