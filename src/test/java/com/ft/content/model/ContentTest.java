@@ -51,7 +51,8 @@ public class ContentTest {
                 .withCanBeDistributed(Distribution.YES)
                 .withRightsGroup("rights-group")
                 .withMasterSource(new Identifier("source-authority", "id-on-source"))
-                .withAlternativeStandfirsts(new AlternativeStandfirsts("promotionalStandfirst"));
+                .withAlternativeStandfirsts(new AlternativeStandfirsts("promotionalStandfirst"))
+                .withEditorialDesk("/FT/AnEditorialDesk");
     }
 
     @Test
@@ -351,6 +352,16 @@ public class ContentTest {
                 .withValuesFrom(content)
                 .withAlternativeStandfirsts(new AlternativeStandfirsts("otherPromotionalStandfirst"))
                 .build();
+        assertThat(content, is(not(otherContent)));
+    }
+
+    @Test
+    public void contentsWithDifferentEditorialDeskAreNotEqual(){
+        Content content = builder.build();
+        final Content otherContent = Content.builder()
+            .withValuesFrom(content)
+            .withEditorialDesk("/FT/AnotherEditorialDesk")
+            .build();
         assertThat(content, is(not(otherContent)));
     }
 
