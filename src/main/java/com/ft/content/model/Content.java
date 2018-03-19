@@ -55,6 +55,7 @@ public class Content {
     private final String rightsGroup;
     private final Identifier masterSource;
     private final AlternativeStandfirsts alternativeStandfirsts;
+    private final String editorialDesk;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -88,7 +89,8 @@ public class Content {
                    @JsonProperty("canBeDistributed") Distribution canBeDistributed,
                    @JsonProperty("rightsGroup") String rightsGroup,
                    @JsonProperty("masterSource") Identifier masterSource,
-                   @JsonProperty("alternativeStandfirsts") AlternativeStandfirsts alternativeStandfirsts) {
+                   @JsonProperty("alternativeStandfirsts") AlternativeStandfirsts alternativeStandfirsts,
+                   @JsonProperty("editorialDesk") String editorialDesk) {
         this.identifiers = identifiers;
         this.body = body;
         this.standout = standout;
@@ -122,7 +124,7 @@ public class Content {
         this.rightsGroup = rightsGroup;
         this.masterSource = masterSource;
         this.alternativeStandfirsts = alternativeStandfirsts;
-
+        this.editorialDesk = editorialDesk;
     }
 
     public static Builder builder() {
@@ -275,6 +277,10 @@ public class Content {
         return alternativeStandfirsts;
     }
 
+    public String getEditorialDesk() {
+        return editorialDesk;
+    }
+
     @Override
     public String toString() {
         MoreObjects.ToStringHelper h = MoreObjects.toStringHelper(this.getClass())
@@ -356,7 +362,8 @@ public class Content {
                 && Objects.equals(this.canBeDistributed, that.canBeDistributed)
                 && Objects.equals(this.rightsGroup, that.rightsGroup)
                 && Objects.equals(this.masterSource, that.masterSource)
-                && Objects.equals(this.alternativeStandfirsts, that.alternativeStandfirsts);
+                && Objects.equals(this.alternativeStandfirsts, that.alternativeStandfirsts)
+                && Objects.equals(this.editorialDesk, that.editorialDesk);
     }
 
     @Override
@@ -391,7 +398,8 @@ public class Content {
                 canBeDistributed,
                 rightsGroup,
                 masterSource,
-                alternativeStandfirsts);
+                alternativeStandfirsts,
+                editorialDesk);
     }
 
     public static class Builder {
@@ -429,6 +437,7 @@ public class Content {
         private String rightsGroup;
         private Identifier masterSource;
         private AlternativeStandfirsts alternativeStandfirsts;
+        private String editorialDesk;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -600,6 +609,11 @@ public class Content {
             return this;
         }
 
+        public Builder withEditorialDesk(String editorialDesk){
+            this.editorialDesk = editorialDesk;
+            return this;
+        }
+
         public Builder withValuesFrom(Content content) {
             Builder b = withTitle(content.getTitle())
                     .withAlternativeTitles(content.getAlternativeTitles())
@@ -632,7 +646,8 @@ public class Content {
                     .withCanBeDistributed(content.getCanBeDistributed())
                     .withRightsGroup(content.getRightsGroup())
                     .withMasterSource(content.getMasterSource())
-                    .withAlternativeStandfirsts(content.getAlternativeStandfirsts());
+                    .withAlternativeStandfirsts(content.getAlternativeStandfirsts())
+                    .withEditorialDesk(content.getEditorialDesk());
             
             for (Map.Entry<String,String> en : content.getAdditionalProperties().entrySet()) {
                 b = b.withTransactionId(en.getKey(), en.getValue());
@@ -654,7 +669,8 @@ public class Content {
                     pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl,
                     members, mainImage, storyPackage, contentPackage,
                     standout, comments, copyright, webUrl, transactionId, lastModified, canBeSyndicated,
-                    firstPublishedDate, accessLevel, canBeDistributed, rightsGroup, masterSource, alternativeStandfirsts);
+                    firstPublishedDate, accessLevel, canBeDistributed, rightsGroup, masterSource,
+                    alternativeStandfirsts, editorialDesk);
         }
     }
 }

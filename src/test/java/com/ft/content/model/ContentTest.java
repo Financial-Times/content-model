@@ -51,7 +51,8 @@ public class ContentTest {
                 .withCanBeDistributed(Distribution.YES)
                 .withRightsGroup("rights-group")
                 .withMasterSource(new Identifier("source-authority", "id-on-source"))
-                .withAlternativeStandfirsts(new AlternativeStandfirsts("promotionalStandfirst"));
+                .withAlternativeStandfirsts(new AlternativeStandfirsts("promotionalStandfirst"))
+                .withEditorialDesk("/FT/AnEditorialDesk");
     }
 
     @Test
@@ -355,6 +356,16 @@ public class ContentTest {
     }
 
     @Test
+    public void contentsWithDifferentEditorialDeskAreNotEqual(){
+        Content content = builder.build();
+        final Content otherContent = Content.builder()
+            .withValuesFrom(content)
+            .withEditorialDesk("/FT/AnotherEditorialDesk")
+            .build();
+        assertThat(content, is(not(otherContent)));
+    }
+
+    @Test
     public void contentWithSameFieldsAreEqual() {
         Content content = builder.build();
 
@@ -476,4 +487,15 @@ public class ContentTest {
 
         assertThat(contentWithEmptyStandfirst.getStandfirst(), is(nullValue()));
     }
+
+    @Test
+    public void thatEditorialDeskIsStored() {
+        String editorialDeskFTWorld = "/FT/World";
+        Content contentWithEditorialDesk = Content.builder()
+            .withEditorialDesk(editorialDeskFTWorld)
+            .build();
+
+      String actual = contentWithEditorialDesk.getEditorialDesk();
+      assertThat(actual, is(equalTo(editorialDeskFTWorld)));
+  }
 }
