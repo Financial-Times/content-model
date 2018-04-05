@@ -46,6 +46,7 @@ public class Content {
     private final Comments comments;
     private final Copyright copyright;
     private final URI webUrl;
+    private final URI canonicalWebUrl;
     private final Map<String,String> transactionId = new LinkedHashMap<>();
     private final Date lastModified;
     private final Syndication canBeSyndicated;
@@ -81,6 +82,7 @@ public class Content {
                    @JsonProperty("comments") Comments comments,
                    @JsonProperty("copyright") Copyright copyright,
                    @JsonProperty("webUrl") URI webUrl,
+                   @JsonProperty("canonicalWebUrl") URI canonicalWebUrl,
                    Map<String,String> transactionId,
                    @JsonProperty("lastModified") Date lastModified,
                    @JsonProperty("canBeSyndicated") Syndication canBeSyndicated,
@@ -115,6 +117,7 @@ public class Content {
         this.contentPackage = contentPackage;
         this.copyright = copyright;
         this.webUrl = webUrl;
+        this.canonicalWebUrl = canonicalWebUrl;
         this.transactionId.putAll(transactionId);
         this.lastModified = lastModified;
         this.canBeSyndicated = canBeSyndicated;
@@ -230,7 +233,11 @@ public class Content {
     public URI getWebUrl() {
         return webUrl;
     }
-    
+
+    public URI getCanonicalWebUrl() {
+        return canonicalWebUrl;
+    }
+
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public String getPublishReference() {
         return transactionId.get(PUBLISH_REF);
@@ -307,6 +314,7 @@ public class Content {
                 .add("comments", comments)
                 .add("standout", standout)
                 .add("webUrl", webUrl)
+                .add("canonicalWebUrl", canonicalWebUrl)
                 .add("canBeSyndicated", canBeSyndicated)
                 .add("firstPublishedDate", firstPublishedDate)
                 .add("accessLevel", accessLevel)
@@ -356,6 +364,7 @@ public class Content {
                 && Objects.equals(this.transactionId, that.transactionId)
                 && Objects.equals(this.lastModified, that.lastModified)
                 && Objects.equals(this.webUrl, that.webUrl)
+                && Objects.equals(this.canonicalWebUrl, that.canonicalWebUrl)
                 && Objects.equals(this.canBeSyndicated, that.canBeSyndicated)
                 && Objects.equals(this.firstPublishedDate, that.firstPublishedDate)
                 && Objects.equals(this.accessLevel, that.accessLevel)
@@ -392,6 +401,8 @@ public class Content {
                 standout,
                 transactionId,
                 lastModified,
+                webUrl,
+                canonicalWebUrl,
                 canBeSyndicated,
                 firstPublishedDate,
                 accessLevel,
@@ -428,6 +439,7 @@ public class Content {
         private Standout standout;
         private Copyright copyright;
         private URI webUrl;
+        private URI canonicalWebUrl;
         private Map<String,String> transactionId = new LinkedHashMap<>();
         private Date lastModified;
         private Syndication canBeSyndicated;
@@ -569,6 +581,11 @@ public class Content {
             return this;
         }
 
+        public Builder withCanonicalWebUrl(URI canonicalWebUrl) {
+            this.canonicalWebUrl = canonicalWebUrl;
+            return this;
+        }
+
         public Builder withLastModified(Date lastModified) {
             this.lastModified = lastModified;
             return this;
@@ -639,6 +656,7 @@ public class Content {
                     .withStandout(content.getStandout())
                     .withCopyright(content.getCopyright())
                     .withWebUrl(content.getWebUrl())
+                    .withCanonicalWebUrl(content.getCanonicalWebUrl())
                     .withLastModified(content.getLastModified())
                     .withCanBeSyndicated(content.getCanBeSyndicated())
                     .withFirstPublishedDate(content.getFirstPublishedDate())
@@ -668,7 +686,7 @@ public class Content {
                     mediaType,
                     pixelWidth, pixelHeight, internalBinaryUrl, externalBinaryUrl,
                     members, mainImage, storyPackage, contentPackage,
-                    standout, comments, copyright, webUrl, transactionId, lastModified, canBeSyndicated,
+                    standout, comments, copyright, webUrl, canonicalWebUrl, transactionId, lastModified, canBeSyndicated,
                     firstPublishedDate, accessLevel, canBeDistributed, rightsGroup, masterSource,
                     alternativeStandfirsts, editorialDesk);
         }
