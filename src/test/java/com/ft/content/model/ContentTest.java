@@ -42,6 +42,7 @@ public class ContentTest {
                 .withComments(new Comments(true))
                 .withStandout(new Standout(true, true, true))
                 .withWebUrl(URI.create("http://www.ft.com/a-url"))
+                .withCanonicalWebUrl(URI.create("https://www.ft.com/content/12a9a540-8124-11e4-896c-00144feabdc0"))
                 .withPublishReference("test")
                 .withLastModified(new Date(290L))
                 .withExternalBinaryUrl("http://com.ft.imagepublish.prod.s3.amazonaws.com/12a9a540-8124-11e4-896c-00144feabdc0")
@@ -280,6 +281,17 @@ public class ContentTest {
     }
 
     @Test
+    public void contentWithDifferentCanonicalWebUrlAreNotEqual() {
+        Content content = builder.build();
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withCanonicalWebUrl(URI.create("https://www.ft.com/content/uuid"))
+                .build();
+
+        assertThat(content, is(not(equalTo(otherContent))));
+    }
+
+    @Test
     public void contentWithDifferentCanBeSyndicatedAreNotEqual() {
         Content content = builder.build();
         final Content otherContent = Content.builder()
@@ -429,6 +441,13 @@ public class ContentTest {
         Content content = builder.build();
         Content clone = Content.builder().withValuesFrom(content).build();
         assertThat(clone.getPublishReference(), is("test"));
+    }
+
+    @Test
+    public void shouldCloneCanonicalWebUrl() {
+        Content content = builder.build();
+        Content clone = Content.builder().withValuesFrom(content).build();
+        assertThat(clone.getCanonicalWebUrl(), is(URI.create("https://www.ft.com/content/12a9a540-8124-11e4-896c-00144feabdc0")));
     }
 
     @Test
