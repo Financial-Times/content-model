@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.SortedSet;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class Content {
     private static final String PUBLISH_REF = "publishReference";
-
+    
     private final String uuid;
     private final String title;
     private final AlternativeTitles alternativeTitles;
@@ -48,7 +47,7 @@ public class Content {
     private final Copyright copyright;
     private final URI webUrl;
     private final URI canonicalWebUrl;
-    private final Map<String, String> transactionId = new LinkedHashMap<>();
+    private final Map<String,String> transactionId = new LinkedHashMap<>();
     private final Date lastModified;
     private final Syndication canBeSyndicated;
     private final Date firstPublishedDate;
@@ -58,7 +57,6 @@ public class Content {
     private final Identifier masterSource;
     private final AlternativeStandfirsts alternativeStandfirsts;
     private final String editorialDesk;
-    private final List<Block> blocks;
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -85,7 +83,7 @@ public class Content {
                    @JsonProperty("copyright") Copyright copyright,
                    @JsonProperty("webUrl") URI webUrl,
                    @JsonProperty("canonicalWebUrl") URI canonicalWebUrl,
-                   Map<String, String> transactionId,
+                   Map<String,String> transactionId,
                    @JsonProperty("lastModified") Date lastModified,
                    @JsonProperty("canBeSyndicated") Syndication canBeSyndicated,
                    @JsonProperty("firstPublishedDate") Date firstPublishedDate,
@@ -94,8 +92,7 @@ public class Content {
                    @JsonProperty("rightsGroup") String rightsGroup,
                    @JsonProperty("masterSource") Identifier masterSource,
                    @JsonProperty("alternativeStandfirsts") AlternativeStandfirsts alternativeStandfirsts,
-                   @JsonProperty("editorialDesk") String editorialDesk,
-                   @JsonProperty("blocks") List<Block> blocks) {
+                   @JsonProperty("editorialDesk") String editorialDesk) {
         this.identifiers = identifiers;
         this.body = body;
         this.standout = standout;
@@ -131,7 +128,6 @@ public class Content {
         this.masterSource = masterSource;
         this.alternativeStandfirsts = alternativeStandfirsts;
         this.editorialDesk = editorialDesk;
-        this.blocks = blocks;
     }
 
     public static Builder builder() {
@@ -248,7 +244,7 @@ public class Content {
     }
 
     @JsonAnyGetter
-    public Map<String, String> getAdditionalProperties() {
+    public Map<String,String> getAdditionalProperties() {
         return transactionId.keySet().stream()
                 .filter(k -> !Strings.isNullOrEmpty(transactionId.get(k)))
                 .collect(Collectors.toMap(Function.identity(), k -> transactionId.get(k)));
@@ -284,16 +280,12 @@ public class Content {
         return masterSource;
     }
 
-    public AlternativeStandfirsts getAlternativeStandfirsts() {
+    public AlternativeStandfirsts getAlternativeStandfirsts(){
         return alternativeStandfirsts;
     }
 
     public String getEditorialDesk() {
         return editorialDesk;
-    }
-
-    public List<Block> getBlocks() {
-        return blocks;
     }
 
     @Override
@@ -330,13 +322,12 @@ public class Content {
                 .add("rightsGroup", rightsGroup)
                 .add("masterSource", masterSource)
                 .add("alternativeStandfirsts", alternativeStandfirsts)
-                .add("lastModified", lastModified)
-                .add("blocks", blocks);
-
-        for (Map.Entry<String, String> en : transactionId.entrySet()) {
+                .add("lastModified", lastModified);
+        
+        for (Map.Entry<String,String> en : transactionId.entrySet()) {
             h = h.add(en.getKey(), en.getValue());
         }
-
+        
         return h.toString();
     }
 
@@ -381,8 +372,7 @@ public class Content {
                 && Objects.equals(this.rightsGroup, that.rightsGroup)
                 && Objects.equals(this.masterSource, that.masterSource)
                 && Objects.equals(this.alternativeStandfirsts, that.alternativeStandfirsts)
-                && Objects.equals(this.editorialDesk, that.editorialDesk)
-                && Objects.equals(this.blocks, that.blocks);
+                && Objects.equals(this.editorialDesk, that.editorialDesk);
     }
 
     @Override
@@ -420,8 +410,7 @@ public class Content {
                 rightsGroup,
                 masterSource,
                 alternativeStandfirsts,
-                editorialDesk,
-                blocks);
+                editorialDesk);
     }
 
     public static class Builder {
@@ -451,7 +440,7 @@ public class Content {
         private Copyright copyright;
         private URI webUrl;
         private URI canonicalWebUrl;
-        private Map<String, String> transactionId = new LinkedHashMap<>();
+        private Map<String,String> transactionId = new LinkedHashMap<>();
         private Date lastModified;
         private Syndication canBeSyndicated;
         private Date firstPublishedDate;
@@ -461,7 +450,6 @@ public class Content {
         private Identifier masterSource;
         private AlternativeStandfirsts alternativeStandfirsts;
         private String editorialDesk;
-        private List<Block> blocks;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -633,18 +621,13 @@ public class Content {
             return this;
         }
 
-        public Builder withAlternativeStandfirsts(AlternativeStandfirsts alternativeStandfirsts) {
+        public Builder withAlternativeStandfirsts (AlternativeStandfirsts alternativeStandfirsts){
             this.alternativeStandfirsts = alternativeStandfirsts;
             return this;
         }
 
-        public Builder withEditorialDesk(String editorialDesk) {
+        public Builder withEditorialDesk(String editorialDesk){
             this.editorialDesk = editorialDesk;
-            return this;
-        }
-
-        public Builder withBlocks(List<Block> blocks) {
-            this.blocks = blocks;
             return this;
         }
 
@@ -682,13 +665,12 @@ public class Content {
                     .withRightsGroup(content.getRightsGroup())
                     .withMasterSource(content.getMasterSource())
                     .withAlternativeStandfirsts(content.getAlternativeStandfirsts())
-                    .withEditorialDesk(content.getEditorialDesk())
-                    .withBlocks(content.getBlocks());
-
-            for (Map.Entry<String, String> en : content.getAdditionalProperties().entrySet()) {
+                    .withEditorialDesk(content.getEditorialDesk());
+            
+            for (Map.Entry<String,String> en : content.getAdditionalProperties().entrySet()) {
                 b = b.withTransactionId(en.getKey(), en.getValue());
             }
-
+            
             return b;
         }
 
@@ -706,7 +688,7 @@ public class Content {
                     members, mainImage, storyPackage, contentPackage,
                     standout, comments, copyright, webUrl, canonicalWebUrl, transactionId, lastModified, canBeSyndicated,
                     firstPublishedDate, accessLevel, canBeDistributed, rightsGroup, masterSource,
-                    alternativeStandfirsts, editorialDesk, blocks);
+                    alternativeStandfirsts, editorialDesk);
         }
     }
 }
