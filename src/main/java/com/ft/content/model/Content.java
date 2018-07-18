@@ -57,6 +57,8 @@ public class Content {
     private final Identifier masterSource;
     private final AlternativeStandfirsts alternativeStandfirsts;
     private final String editorialDesk;
+    private final String internalAnalyticsTags;
+
 
     public Content(@JsonProperty("uuid") UUID uuid,
                    @JsonProperty("title") String title,
@@ -92,7 +94,8 @@ public class Content {
                    @JsonProperty("rightsGroup") String rightsGroup,
                    @JsonProperty("masterSource") Identifier masterSource,
                    @JsonProperty("alternativeStandfirsts") AlternativeStandfirsts alternativeStandfirsts,
-                   @JsonProperty("editorialDesk") String editorialDesk) {
+                   @JsonProperty("editorialDesk") String editorialDesk,
+                   @JsonProperty("internalAnalyticsTags") String internalAnalyticsTags) {
         this.identifiers = identifiers;
         this.body = body;
         this.standout = standout;
@@ -128,6 +131,7 @@ public class Content {
         this.masterSource = masterSource;
         this.alternativeStandfirsts = alternativeStandfirsts;
         this.editorialDesk = editorialDesk;
+        this.internalAnalyticsTags = internalAnalyticsTags;
     }
 
     public static Builder builder() {
@@ -288,6 +292,9 @@ public class Content {
         return editorialDesk;
     }
 
+
+    public String getInternalAnalyticsTags() { return internalAnalyticsTags; }
+
     @Override
     public String toString() {
         MoreObjects.ToStringHelper h = MoreObjects.toStringHelper(this.getClass())
@@ -322,8 +329,10 @@ public class Content {
                 .add("rightsGroup", rightsGroup)
                 .add("masterSource", masterSource)
                 .add("alternativeStandfirsts", alternativeStandfirsts)
-                .add("lastModified", lastModified);
-        
+                .add("lastModified", lastModified)
+                .add("editorialDesk", editorialDesk)
+                .add("internalAnalyticsTags", internalAnalyticsTags);
+
         for (Map.Entry<String,String> en : transactionId.entrySet()) {
             h = h.add(en.getKey(), en.getValue());
         }
@@ -372,7 +381,8 @@ public class Content {
                 && Objects.equals(this.rightsGroup, that.rightsGroup)
                 && Objects.equals(this.masterSource, that.masterSource)
                 && Objects.equals(this.alternativeStandfirsts, that.alternativeStandfirsts)
-                && Objects.equals(this.editorialDesk, that.editorialDesk);
+                && Objects.equals(this.editorialDesk, that.editorialDesk)
+                && Objects.equals(this.internalAnalyticsTags, that.internalAnalyticsTags);
     }
 
     @Override
@@ -410,7 +420,8 @@ public class Content {
                 rightsGroup,
                 masterSource,
                 alternativeStandfirsts,
-                editorialDesk);
+                editorialDesk,
+                internalAnalyticsTags);
     }
 
     public static class Builder {
@@ -450,6 +461,7 @@ public class Content {
         private Identifier masterSource;
         private AlternativeStandfirsts alternativeStandfirsts;
         private String editorialDesk;
+        private String internalAnalyticsTags;
 
         public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
@@ -631,6 +643,11 @@ public class Content {
             return this;
         }
 
+        public Builder withInternalAnalyticsTags(String internalAnalyticsTags){
+            this.internalAnalyticsTags = internalAnalyticsTags;
+            return this;
+        }
+
         public Builder withValuesFrom(Content content) {
             Builder b = withTitle(content.getTitle())
                     .withAlternativeTitles(content.getAlternativeTitles())
@@ -665,8 +682,9 @@ public class Content {
                     .withRightsGroup(content.getRightsGroup())
                     .withMasterSource(content.getMasterSource())
                     .withAlternativeStandfirsts(content.getAlternativeStandfirsts())
-                    .withEditorialDesk(content.getEditorialDesk());
-            
+                    .withEditorialDesk(content.getEditorialDesk())
+                    .withInternalAnalyticsTags(content.getInternalAnalyticsTags());
+
             for (Map.Entry<String,String> en : content.getAdditionalProperties().entrySet()) {
                 b = b.withTransactionId(en.getKey(), en.getValue());
             }
@@ -688,7 +706,7 @@ public class Content {
                     members, mainImage, storyPackage, contentPackage,
                     standout, comments, copyright, webUrl, canonicalWebUrl, transactionId, lastModified, canBeSyndicated,
                     firstPublishedDate, accessLevel, canBeDistributed, rightsGroup, masterSource,
-                    alternativeStandfirsts, editorialDesk);
+                    alternativeStandfirsts, editorialDesk, internalAnalyticsTags);
         }
     }
 }
