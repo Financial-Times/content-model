@@ -53,7 +53,8 @@ public class ContentTest {
                 .withRightsGroup("rights-group")
                 .withMasterSource(new Identifier("source-authority", "id-on-source"))
                 .withAlternativeStandfirsts(new AlternativeStandfirsts("promotionalStandfirst"))
-                .withEditorialDesk("/FT/AnEditorialDesk");
+                .withEditorialDesk("/FT/AnEditorialDesk")
+                .withInternalAnalyticsTags("Some tag with spaces");
     }
 
     @Test
@@ -378,6 +379,16 @@ public class ContentTest {
     }
 
     @Test
+    public void contentsWithDifferentInternalAnalyticsTags(){
+        Content content = builder.build();
+        final Content otherContent = Content.builder()
+                .withValuesFrom(content)
+                .withInternalAnalyticsTags("Something else")
+                .build();
+        assertThat(content, is(not(otherContent)));
+    }
+
+    @Test
     public void contentWithSameFieldsAreEqual() {
         Content content = builder.build();
 
@@ -517,4 +528,15 @@ public class ContentTest {
       String actual = contentWithEditorialDesk.getEditorialDesk();
       assertThat(actual, is(equalTo(editorialDeskFTWorld)));
   }
+
+    @Test
+    public void thatInternalAnalyticsTagsAreStored() {
+        String internalAnalyticsTag = "SomeTag";
+        Content contentWithInternalAnalyticsTag = Content.builder()
+                .withInternalAnalyticsTags(internalAnalyticsTag)
+                .build();
+
+        String actual = contentWithInternalAnalyticsTag.getInternalAnalyticsTags();
+        assertThat(actual, is(equalTo(internalAnalyticsTag)));
+    }
 }
