@@ -160,6 +160,7 @@ public class Content {
         return byline;
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public SortedSet<Brand> getBrands() {
         return brands;
     }
